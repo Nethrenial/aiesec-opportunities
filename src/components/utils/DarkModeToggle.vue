@@ -1,0 +1,37 @@
+<script setup lang="ts">
+import { isDark, toggleDark } from '~/composables'
+</script>
+
+<template>
+  <div class="toggle" :class="isDark ? 'dark' : ''" @click="toggleDark()">
+    <div class="toggle-nob grid-centered" :class="isDark ? 'dark' : ''">
+      <i-emojione-crescent-moon v-if="isDark" />
+      <i-twemoji-sun v-else />
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.toggle {
+  width: 60px;
+  height: 30px;
+  border-radius: 100px;
+  position: relative;
+  padding: .2rem;
+  background-color: var(--clr-foreground);
+  cursor: pointer;
+
+  &-nob {
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    transition: all 0.3s ease-in-out;
+    transform-origin: center;
+    background-color: var(--clr-background);
+
+    &.dark {
+      transform: translateX(30px);
+    }
+  }
+}
+</style>

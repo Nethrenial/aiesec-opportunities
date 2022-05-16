@@ -1,0 +1,49 @@
+{
+  "cSpell.words": [
+    "AIESE",
+    "aiesec",
+    "akar",
+    "antfu",
+    "appspot",
+    "Aquatica",
+    "Attributify",
+    "composables",
+    "demi",
+    "Equify",
+    "firebaseapp",
+    "firestore",
+    "iconify",
+    "intlify",
+    "Kpgtt",
+    "nprogress",
+    "Parens",
+    "pinia",
+    "pnpm",
+    "timeslot",
+    "timeslots",
+    "toastification",
+    "twemoji",
+    "typecheck",
+    "Tysr",
+    "unocss",
+    "unplugin",
+    "Vite",
+    "vitejs",
+    "Vitesse",
+    "vitest",
+    "vueuse",
+    "Webfont"
+  ],
+  "i18n-ally.sourceLanguage": "en",
+  "i18n-ally.keystyle": "nested",
+  "i18n-ally.localesPaths": "locales",
+  "i18n-ally.sortKeys": true,
+  "prettier.enable": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "files.associations": {
+    "*.css": "postcss"
+  },
+  "editor.formatOnSave": false
+}

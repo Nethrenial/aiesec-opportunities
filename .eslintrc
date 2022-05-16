@@ -1,0 +1,10 @@
+{
+  "extends": "@antfu",
+  "rules": {
+    "vue/singleline-html-element-content-newline": "off",
+    "vue/html-self-closing": "off",
+    "@typescript-eslint/brace-style": "off",
+    "vue/html-indent": "off",
+    "arrow-parens": "off"
+  }
+}

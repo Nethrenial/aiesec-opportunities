@@ -1,0 +1,352 @@
+<script setup lang="ts">
+// #region Importing library code
+import { useToast } from 'vue-toastification'
+// #endregion
+// #region Importing custom code
+import { createOpportunity } from '~/api'
+import { seedInFirebase } from '~/api/seed.api'
+import type TimeSlotInputGroup from '~/components/page/dashboard/TimeSlotInputGroup.vue'
+import type BaseImageInput from '~/components/utils/BaseImageInput.vue'
+import type { OGVCategory, OGXFunction, Timeslot } from '~/types'
+import { categoryOptions, functionOptions } from '~/utils'
+// #endregion
+
+// #region Refs to hold form data
+const title = ref('')
+const description = ref('')
+const country = ref('')
+const salary = ref()
+const currency = ref('')
+const selectedFunction = ref<OGXFunction>(functionOptions[0])
+const selectedCategory = ref<OGVCategory>(categoryOptions[0])
+const opportunityLink = ref('')
+// #endregion
+
+// Refs to get selected image and selected timeslots
+const timeslotInputGroup = ref<InstanceType<typeof TimeSlotInputGroup>>()
+const baseImageInput = ref<InstanceType<typeof BaseImageInput>>()
+
+// function set selected Category
+function onSelect(payload: OGVCategory | string) {
+  selectedCategory.value = payload as OGVCategory
+}
+
+// Ref to show the spinner in button when form is submitting
+const loading = ref(false)
+// toast component
+const toast = useToast()
+
+// Function to submit the form
+async function onSubmit() {
+  const posterImageFile = baseImageInput.value?.selectedImageFile
+  const timeslots = timeslotInputGroup.value?.timeslots
+  if (
+    !title.value
+    || title.value.trim() === ''
+    || !description.value
+    || description.value.trim() === ''
+    || !country.value
+    || country.value.trim() === ''
+    || !opportunityLink.value
+    || opportunityLink.value.trim() === ''
+    || !posterImageFile
+    || !timeslots
+  ) {
+    toast.error('Please input all the details correctly')
+    return
+  }
+  if (
+    selectedFunction.value === 'OGT'
+    && (!salary.value
+      || isNaN(salary.value)
+      || !currency.value
+      || currency.value.trim() === '')
+  ) {
+    toast.error('Please input all the details correctly')
+    return
+  }
+  try {
+    loading.value = true
+    if (selectedFunction.value === 'OGT') {
+      await createOpportunity({
+        country: country.value,
+        description: description.value,
+        function: 'OGT',
+        poster: baseImageInput.value?.selectedImageFile as File,
+        title: title.value,
+        timeslots: timeslotInputGroup.value?.timeslots as Timeslot[],
+        currency: currency.value,
+        salary: salary.value,
+        opportunityLink: opportunityLink.value,
+      })
+    } else if (selectedFunction.value === 'OGV') {
+      await createOpportunity({
+        country: country.value,
+        description: description.value,
+        function: 'OGV',
+        poster: baseImageInput.value?.selectedImageFile as File,
+        title: title.value,
+        timeslots: timeslotInputGroup.value?.timeslots as Timeslot[],
+        category: selectedCategory.value,
+        opportunityLink: opportunityLink.value,
+      })
+    }
+    toast.success('Successfully added')
+  } catch (error) {
+    toast.error((error as Error).message, {})
+  } finally {
+    loading.value = false
+  }
+}
+
+async function seedData() {
+  loading.value = true
+  try {
+    await seedInFirebase(100)
+  } catch (error) {
+    toast.error((error as Error).message)
+  } finally {
+    loading.value = false
+  }
+}
+</script>
+
+<template>
+  <h1 class="text-xl my-4">Add a new Opportunity</h1>
+  <form
+    class="add-new-form"
+    :class="selectedFunction"
+    @submit.prevent="onSubmit"
+  >
+    <BaseInput
+      id="title"
+      v-model="title"
+      type="text"
+      label="Title"
+      label-for="title"
+      required
+    >
+      <template #icon>
+        <i-twemoji-office-worker />
+      </template>
+    </BaseInput>
+    <BaseInput
+      id="country"
+      v-model="country"
+      type="text"
+      label="Country"
+      label-for="country"
+      required
+    >
+      <template #icon>
+        <i-twemoji-world-map />
+      </template>
+    </BaseInput>
+    <BaseInput
+      id="link"
+      v-model="opportunityLink"
+      type="text"
+      label="Link"
+      label-for="link"
+      required
+    >
+      <template #icon>
+        <i-flat-color-icons-link />
+      </template>
+    </BaseInput>
+    <BaseRadioInputGroup
+      v-model="selectedFunction"
+      :options="functionOptions"
+      name="function"
+    />
+    <BaseTextarea
+      id="description"
+      v-model="description"
+      type="text"
+      label="Description"
+      label-for="description"
+      :textarea="true"
+      required
+      rows="5"
+    >
+      <template #icon>
+        <i-twemoji-bookmark-tabs />
+      </template>
+    </BaseTextarea>
+    <BaseImageInput ref="baseImageInput" label="Poster" label-for="poster">
+      <template #icon>
+        <i-flat-color-icons-camera />
+      </template>
+    </BaseImageInput>
+    <BaseInput
+      v-if="selectedFunction === 'OGT'"
+      id="salary"
+      v-model="salary"
+      type="number"
+      label="Salary"
+      label-for="salary"
+      required
+    >
+      <template #icon>
+        <i-emojione-money-bag />
+      </template>
+    </BaseInput>
+    <BaseInput
+      v-if="selectedFunction === 'OGT'"
+      id="currency"
+      v-model="currency"
+      type="text"
+      label="Currency"
+      label-for="currency"
+      required
+    >
+      <template #icon>
+        <i-emojione-dollar-banknote />
+      </template>
+    </BaseInput>
+    <BaseSelectInput
+      v-if="selectedFunction === 'OGV'"
+      :value="selectedCategory"
+      :options="categoryOptions"
+      @option-select="onSelect"
+    />
+    <TimeSlotInputGroup ref="timeslotInputGroup" />
+    <BaseActionButton :loading="loading">
+      {{ loading ? 'Creating' : 'Create' }}
+    </BaseActionButton>
+    <BaseActionButton :loading="loading" type="button" @click="seedData">
+      {{ loading ? 'Seeding' : 'seed' }}
+    </BaseActionButton>
+  </form>
+</template>
+
+<style lang="scss" scoped>
+.add-new-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+
+  @include mq(lg) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  div {
+    &:first-child {
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+
+      @include mq(lg) {
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+      }
+    }
+    &:nth-child(2) {
+      grid-column: 1 / 2;
+      grid-row: 2 / 3;
+
+      @include mq(lg) {
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+      }
+    }
+
+    &:nth-child(3) {
+      grid-column: 1 / 2;
+      grid-row: 3 / 4;
+
+      @include mq(lg) {
+        grid-column: 1 / 2;
+        grid-row: 2 / 3;
+      }
+    }
+    &:nth-child(4) {
+      grid-column: 1 / 2;
+      grid-row: 4 / 5;
+
+      @include mq(lg) {
+        grid-column: 2 / 3;
+        grid-row: 2 / 3;
+      }
+    }
+    &:nth-child(5) {
+      grid-column: 1 / 2;
+      grid-row: 5 / 6;
+
+      @include mq(lg) {
+        grid-column: 1 / 3;
+        grid-row: 3 / 4;
+      }
+    }
+    &:nth-child(6) {
+      grid-column: 1 / 2;
+      grid-row: 6 / 7;
+
+      @include mq(lg) {
+        grid-column: 1 / 3;
+        grid-row: 4 / 5;
+      }
+    }
+  }
+
+  &.OGV {
+    & div {
+      &:nth-child(7) {
+        grid-column: 1 / 2;
+        grid-row: 7 / 8;
+
+        @include mq(lg) {
+          grid-column: 1 / 3;
+          grid-row: 5 / 6;
+        }
+      }
+      &:nth-child(8) {
+        grid-column: 1 / 2;
+        grid-row: 8 / 9;
+
+        @include mq(lg) {
+          grid-column: 1 / 3;
+          grid-row: 6 / 7;
+        }
+      }
+    }
+  }
+
+  &.OGT {
+    & > div {
+      &:nth-child(7) {
+        grid-column: 1 / 2;
+        grid-row: 7 / 8;
+
+        @include mq(lg) {
+          grid-column: 1 / 2;
+          grid-row: 5 / 6;
+        }
+      }
+      &:nth-child(8) {
+        grid-column: 1 / 2;
+        grid-row: 8 / 9;
+
+        @include mq(lg) {
+          grid-column: 2 / 3;
+          grid-row: 5 / 6;
+        }
+      }
+      &:nth-child(9) {
+        grid-column: 1 / 2;
+        grid-row: 9 / 10;
+
+        @include mq(lg) {
+          grid-column: 1 / 3;
+          grid-row: 6 / 7;
+        }
+      }
+    }
+  }
+}
+</style>
+
+<route lang="yaml">
+meta:
+  layout: admin
+</route>
