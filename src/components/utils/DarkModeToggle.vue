@@ -18,7 +18,7 @@ import { isDark, toggleDark } from '~/composables'
   border-radius: 100px;
   position: relative;
   padding: .2rem;
-  background-color: var(--clr-foreground);
+  background-color: var(--clr-background);
   cursor: pointer;
 
   &-nob {
@@ -27,7 +27,7 @@ import { isDark, toggleDark } from '~/composables'
     border-radius: 50%;
     transition: all 0.3s ease-in-out;
     transform-origin: center;
-    background-color: var(--clr-background);
+    background-color: var(--clr-foreground);
 
     &.dark {
       transform: translateX(30px);

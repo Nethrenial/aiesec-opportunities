@@ -1,5 +1,5 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { getOpportunities } from '~/api'
+import { getOpportunities, getOpportunityById } from '~/api'
 import type { Opportunity } from '~/types'
 
 interface OpportunitiesState {
@@ -15,10 +15,21 @@ export const useOpportunitiesStore = defineStore('opportunities', {
 
   actions: {
     async getOpportunities() {
-      this.opportunities = await getOpportunities()
+      const result = await getOpportunities()
+      this.opportunities = [...this.opportunities, ...result]
+    },
+
+    async getOpportunityById(id: string) {
+      if (this.opportunities.length === 0)
+        await this.getOpportunities()
+
+      return this.opportunities.find(o => o.id === id)
     },
   },
 })
 
-if (import.meta.hot)
-  import.meta.hot.accept(acceptHMRUpdate(useOpportunitiesStore, import.meta.hot))
+if (import.meta.hot) {
+  import.meta.hot.accept(
+    acceptHMRUpdate(useOpportunitiesStore, import.meta.hot),
+  )
+}

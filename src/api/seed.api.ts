@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { addDoc, collection } from 'firebase/firestore'
-import { categoryOptions, functionOptions } from '../utils/constants.utils'
+import { CATEGORY_OPTIONS, FUNCTION_OPTIONS } from '../utils/constants.utils'
 import {
   COUNTRIES,
   DESCRIPTION,
@@ -29,9 +29,9 @@ export async function seedInFirebase(count: number) {
   const arr = new Array(count).fill(0)
   arr.forEach(async _ => {
     const ogxFunction
-      = functionOptions[Math.floor(Math.random() * functionOptions.length)]
+      = FUNCTION_OPTIONS[Math.floor(Math.random() * FUNCTION_OPTIONS.length)]
     const category
-      = categoryOptions[Math.floor(Math.random() * categoryOptions.length)]
+      = CATEGORY_OPTIONS[Math.floor(Math.random() * CATEGORY_OPTIONS.length)]
     const title = JOB_TITLES[Math.floor(Math.random() * JOB_TITLES.length)]
     const description = DESCRIPTION
     const country = COUNTRIES[Math.floor(Math.random() * COUNTRIES.length)]

@@ -12,16 +12,23 @@ const emit = defineEmits<{
 }>()
 
 const { label, labelFor, modelValue } = toRefs(props)
+
+const input = ref<HTMLInputElement>()
+
+function onClickLabel(event: MouseEvent) {
+  input.value?.focus()
+}
 </script>
 
 <template>
   <div class="base-textarea">
     <textarea
-      :value="modelValue"
       v-bind="$attrs"
+      ref="input"
+      :value="modelValue"
       @change="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
     />
-    <label :for="labelFor" :class="modelValue !== '' ? 'focused' : ''">{{
+    <label :for="labelFor" :class="modelValue !== '' ? 'focused' : ''" @click="onClickLabel">{{
       label
     }}</label>
     <div class="icon">

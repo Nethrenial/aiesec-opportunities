@@ -11,6 +11,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Inspect from 'vite-plugin-inspect'
 import Unocss from 'unocss/vite'
 import { ViteWebfontDownload } from 'vite-plugin-webfont-dl'
+import compress from 'vite-plugin-compression'
 
 export default defineConfig({
   resolve: {
@@ -68,6 +69,7 @@ export default defineConfig({
     // https://github.com/antfu/vite-plugin-inspect
     // Visit http://localhost:3333/__inspect/ to see the inspector
     Inspect(),
+    compress(),
   ],
 
   // https://github.com/antfu/vite-ssg

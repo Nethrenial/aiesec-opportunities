@@ -13,18 +13,25 @@ const emit = defineEmits<{
 }>()
 
 const { label, labelFor, modelValue } = toRefs(props)
+const input = ref<HTMLInputElement>()
+
+function onClickLabel(event: MouseEvent) {
+  input.value?.focus()
+}
 </script>
 
 <template>
   <div class="base-input">
     <input
-      :value="modelValue"
       v-bind="$attrs"
+      ref="input"
+      :value="modelValue"
       @change="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
     />
     <label
       :for="labelFor"
       :class="modelValue !== '' || fixedLabel ? 'focused' : ''"
+      @click="onClickLabel"
     >
       {{ label }}
     </label>
@@ -81,6 +88,25 @@ const { label, labelFor, modelValue } = toRefs(props)
     &:focus {
       outline: 2px solid var(--clr-primary);
       border: 1px solid transparent;
+
+      & + label {
+        top: 0;
+        padding-inline: 0.2rem;
+        font-size: 0.8rem;
+        color: var(--clr-primary);
+      }
+    }
+
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      transition: background-color 5000s ease-in-out 0s;
+      -webkit-box-shadow: 0 0 0px 1000px var(--clr-background) inset;
+      box-shadow: 0 0 0px 1000px var(--clr-background) inset;
+      outline: 2px solid var(--clr-primary);
+      border: 1px solid transparent;
+      font-size: 1.2rem;
 
       & + label {
         top: 0;

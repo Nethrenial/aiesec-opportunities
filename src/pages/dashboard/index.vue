@@ -8,28 +8,24 @@ import { seedInFirebase } from '~/api/seed.api'
 import type TimeSlotInputGroup from '~/components/page/dashboard/TimeSlotInputGroup.vue'
 import type BaseImageInput from '~/components/utils/BaseImageInput.vue'
 import type { OGVCategory, OGXFunction, Timeslot } from '~/types'
-import { categoryOptions, functionOptions } from '~/utils'
+import { CATEGORY_OPTIONS, COUNTRIES, FUNCTION_OPTIONS } from '~/utils'
+
 // #endregion
 
 // #region Refs to hold form data
 const title = ref('')
 const description = ref('')
 const country = ref('')
-const salary = ref()
+const salary = ref('')
 const currency = ref('')
-const selectedFunction = ref<OGXFunction>(functionOptions[0])
-const selectedCategory = ref<OGVCategory>(categoryOptions[0])
+const selectedFunction = ref<OGXFunction>(FUNCTION_OPTIONS[0])
+const selectedCategory = ref<OGVCategory>(CATEGORY_OPTIONS[0])
 const opportunityLink = ref('')
 // #endregion
 
 // Refs to get selected image and selected timeslots
 const timeslotInputGroup = ref<InstanceType<typeof TimeSlotInputGroup>>()
 const baseImageInput = ref<InstanceType<typeof BaseImageInput>>()
-
-// function set selected Category
-function onSelect(payload: OGVCategory | string) {
-  selectedCategory.value = payload as OGVCategory
-}
 
 // Ref to show the spinner in button when form is submitting
 const loading = ref(false)
@@ -113,62 +109,28 @@ async function seedData() {
 
 <template>
   <h1 class="text-xl my-4">Add a new Opportunity</h1>
-  <form
-    class="add-new-form"
-    :class="selectedFunction"
-    @submit.prevent="onSubmit"
-  >
-    <BaseInput
-      id="title"
-      v-model="title"
-      type="text"
-      label="Title"
-      label-for="title"
-      required
-    >
+  <form class="add-new-form" :class="selectedFunction" @submit.prevent="onSubmit">
+    <BaseInput id="title" v-model="title" type="text" label="Title" label-for="title" required>
       <template #icon>
         <i-twemoji-office-worker />
       </template>
     </BaseInput>
-    <BaseInput
-      id="country"
-      v-model="country"
-      type="text"
-      label="Country"
-      label-for="country"
-      required
-    >
+
+    <BaseSearchAndSelectInput id="country" v-model="country" :options="COUNTRIES" label="Country" label-for="country">
       <template #icon>
-        <i-twemoji-world-map />
+        <i-twemoji-world-map class="pointer-events-none" />
       </template>
-    </BaseInput>
-    <BaseInput
-      id="link"
-      v-model="opportunityLink"
-      type="text"
-      label="Link"
-      label-for="link"
-      required
-    >
+    </BaseSearchAndSelectInput>
+    <BaseInput id="link" v-model="opportunityLink" type="text" label="Link" label-for="link" required>
       <template #icon>
         <i-flat-color-icons-link />
       </template>
     </BaseInput>
-    <BaseRadioInputGroup
-      v-model="selectedFunction"
-      :options="functionOptions"
-      name="function"
-    />
+    <BaseRadioInputGroup v-model="selectedFunction" :options="FUNCTION_OPTIONS" name="function" />
     <BaseTextarea
-      id="description"
-      v-model="description"
-      type="text"
-      label="Description"
-      label-for="description"
-      :textarea="true"
-      required
-      rows="5"
-    >
+id="description" v-model="description" type="text" label="Description" label-for="description"
+      :textarea="true" required rows="5"
+>
       <template #icon>
         <i-twemoji-bookmark-tabs />
       </template>
@@ -179,37 +141,26 @@ async function seedData() {
       </template>
     </BaseImageInput>
     <BaseInput
-      v-if="selectedFunction === 'OGT'"
-      id="salary"
-      v-model="salary"
-      type="number"
-      label="Salary"
-      label-for="salary"
-      required
-    >
+v-if="selectedFunction === 'OGT'" id="salary" v-model="salary" type="number" label="Salary"
+      label-for="salary" required
+>
       <template #icon>
         <i-emojione-money-bag />
       </template>
     </BaseInput>
     <BaseInput
-      v-if="selectedFunction === 'OGT'"
-      id="currency"
-      v-model="currency"
-      type="text"
-      label="Currency"
-      label-for="currency"
-      required
-    >
+v-if="selectedFunction === 'OGT'" id="currency" v-model="currency" type="text" label="Currency"
+      label-for="currency" required
+>
       <template #icon>
         <i-emojione-dollar-banknote />
       </template>
     </BaseInput>
-    <BaseSelectInput
-      v-if="selectedFunction === 'OGV'"
-      :value="selectedCategory"
-      :options="categoryOptions"
-      @option-select="onSelect"
-    />
+    <BaseSearchAndSelectInput
+v-if="selectedFunction === 'OGV'" id="category" v-model="selectedCategory"
+      :options="CATEGORY_OPTIONS" label="Category" label-for="category" :is-default-icon="true"
+>
+    </BaseSearchAndSelectInput>
     <TimeSlotInputGroup ref="timeslotInputGroup" />
     <BaseActionButton :loading="loading">
       {{ loading ? 'Creating' : 'Create' }}
@@ -241,6 +192,7 @@ async function seedData() {
         grid-row: 1 / 2;
       }
     }
+
     &:nth-child(2) {
       grid-column: 1 / 2;
       grid-row: 2 / 3;
@@ -260,6 +212,7 @@ async function seedData() {
         grid-row: 2 / 3;
       }
     }
+
     &:nth-child(4) {
       grid-column: 1 / 2;
       grid-row: 4 / 5;
@@ -269,6 +222,7 @@ async function seedData() {
         grid-row: 2 / 3;
       }
     }
+
     &:nth-child(5) {
       grid-column: 1 / 2;
       grid-row: 5 / 6;
@@ -278,6 +232,7 @@ async function seedData() {
         grid-row: 3 / 4;
       }
     }
+
     &:nth-child(6) {
       grid-column: 1 / 2;
       grid-row: 6 / 7;
@@ -300,6 +255,7 @@ async function seedData() {
           grid-row: 5 / 6;
         }
       }
+
       &:nth-child(8) {
         grid-column: 1 / 2;
         grid-row: 8 / 9;
@@ -313,7 +269,7 @@ async function seedData() {
   }
 
   &.OGT {
-    & > div {
+    &>div {
       &:nth-child(7) {
         grid-column: 1 / 2;
         grid-row: 7 / 8;
@@ -323,6 +279,7 @@ async function seedData() {
           grid-row: 5 / 6;
         }
       }
+
       &:nth-child(8) {
         grid-column: 1 / 2;
         grid-row: 8 / 9;
@@ -332,6 +289,7 @@ async function seedData() {
           grid-row: 5 / 6;
         }
       }
+
       &:nth-child(9) {
         grid-column: 1 / 2;
         grid-row: 9 / 10;

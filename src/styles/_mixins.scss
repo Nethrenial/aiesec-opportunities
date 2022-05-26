@@ -1,44 +1,49 @@
-@use "sass:map";
+@use 'sass:map';
 
 $screen-sizes: (
-    xs: 384px,
-    sm: 576px,
-    md: 768px,
-    lg: 992px,
-    xl: 1200px,
-    xxl: 1400px
+  xs: 384px,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px,
 );
 
-
-
 @mixin mq($size) {
-    @media screen and (min-width: map.get($screen-sizes, $size)) {
-        @content;
-    }
+  @media screen and (min-width: map.get($screen-sizes, $size)) {
+    @content;
+  }
 }
 
 @mixin container {
-    width: 100%;
-    margin: 0 auto;
+  width: 100%;
+  margin: 0 auto;
 
-    @include mq(sm) {
-        max-width: 540px;
-    }
+  @include mq(sm) {
+    max-width: 540px;
+  }
 
-    @include mq(md) {
-        max-width: 720px;
-    }
+  @include mq(md) {
+    max-width: 720px;
+  }
 
-    @include mq(lg) {
-        max-width: 960px;
-    }
+  @include mq(lg) {
+    max-width: 960px;
+  }
+}
 
-    // @include mq(xl) {
-    //     max-width: 1140px;
-    // }
+@mixin container-level2 {
+  @include container;
 
-    // @include mq(xxl) {
-    //     max-width: 1392px;
-    // }
+  @include mq(xl) {
+    max-width: 1140px;
+  }
+}
 
+@mixin container-level3 {
+  @include container-level2;
+
+  @include mq(xxl) {
+    max-width: 1392px;
+  }
 }

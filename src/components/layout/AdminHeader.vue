@@ -31,7 +31,7 @@ html.dark .admin-header {
 
 .admin-header {
   height: 50px;
-  background-color: var(--clr-background);
+  background-color: var(--clr-foreground);
   position: fixed;
   top: 0;
   left: 0;
