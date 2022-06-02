@@ -1,17 +1,8 @@
 <script setup lang="ts">
-// https://github.com/vueuse/head
-// you can use this to manipulate the document head in any components,
-// they will be rendered correctly in the html results with vite-ssg
-import { isDark } from '~/composables'
-
 useHead({
-  title: 'Opportunity Portal | AIESEC',
+  title: 'Colombo Central | AIESEC',
   meta: [
-    { name: 'description', content: 'Opinionated Vite Starter Template' },
-    {
-      name: 'theme-color',
-      content: computed(() => isDark.value ? '#121212' : '#ffffff'),
-    },
+    { name: 'description', content: 'AIESEC Entity for the University of Colombo' },
   ],
 })
 </script>

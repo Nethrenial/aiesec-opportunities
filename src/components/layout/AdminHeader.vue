@@ -13,7 +13,7 @@ async function logout() {
 <template>
   <header class="admin-header flex items-center justify-between">
     <RouterLink to="/dashboard/manage">
-      <img src="../../assets/Logo-Dark.svg" />
+      <img src="../../assets/Logo-Dark.svg" alt="AIESEC Logo" />
     </RouterLink>
     <div class="flex items-center justify-between gap-4">
       <DarkModeToggle />
@@ -65,6 +65,6 @@ html.dark .admin-header {
 
 img {
   height: 40px;
-  // flex: 1;
+  width: 100%;
 }
 </style>

@@ -1,6 +1,7 @@
 @import "utilities";
 
 
+
 :root {
   color-scheme: light dark;
 }
@@ -11,7 +12,7 @@ html {
   --clr-text-primary: rgba(0, 0, 0, 0.87);
   --clr-text-secondary: rgba(0, 0, 0, 0.6);
   --clr-text-disabled: rgba(0, 0, 0, 0.38);
-  --clr-primary: rgba(0, 89, 255);
+  --clr-primary: #0059ff;
   --clr-primary-opaque: rgba(0, 89, 255, 0.3);
   --clr-info: rgba(3, 126, 244);
   --clr-info-opaque: rgba(3, 126, 244, 0.3);
@@ -25,6 +26,10 @@ html {
   --clr-light-opaque: rgba(243, 244, 247, 0.3);
   --clr-accent: rgb(117, 82, 204);
   --clr-accent-opaque: rgba(117, 82, 204, 0.3);
+  --clr-skeleton-1: rgba(0, 0, 0, 0.1);
+  --clr-skeleton-2: rgba(0, 0 , 0, 0.3);
+  --clr-skeleton-3: rgba(0, 0, 0, 0.2);
+  --clr-skeleton-4: rgba(0, 0 , 0, 0.4);
 }
 
 
@@ -49,9 +54,16 @@ html.dark {
   --clr-light-opaque: rgba(243, 244, 247, 0.3);
   --clr-accent: rgb(117, 82, 204);
   --clr-accent-opaque: rgba(117, 82, 204, 0.3);
+  --clr-skeleton-1: rgba(255, 255, 255, 0.2);
+  --clr-skeleton-2: rgba(255, 255 , 255, 0.4);
+  --clr-skeleton-3: rgba(255, 255, 255, 0.1);
+  --clr-skeleton-4: rgba(255, 255 , 255, 0.3);
 }
 
-
+*,*::after, *::before {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
 
 
 html,

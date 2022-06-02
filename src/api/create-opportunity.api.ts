@@ -4,7 +4,6 @@ import { uploadPoster } from './poster-upload.api'
 import { firestore } from '~/firebase.config'
 import type {
   CreateOpportunityDTO,
-  Opportunity,
   OpportunityOptional,
 } from '~/types'
 
@@ -42,7 +41,7 @@ export async function createOpportunity(opportunityData: CreateOpportunityDTO) {
           currency,
           salary,
           opportunityLink,
-        } as Opportunity,
+        } as OpportunityOptional,
       )
       const url = await uploadPoster(opportunityDocRef.id, poster)
       await updateDoc(opportunityDocRef, {
@@ -61,7 +60,7 @@ export async function createOpportunity(opportunityData: CreateOpportunityDTO) {
           poster: '',
           category,
           opportunityLink,
-        } as Opportunity,
+        } as OpportunityOptional,
       )
       const url = await uploadPoster(opportunityDocRef.id, poster)
       await updateDoc(opportunityDocRef, {

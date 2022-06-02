@@ -54,7 +54,7 @@ async function onSubmit() {
   if (
     selectedFunction.value === 'OGT'
     && (!salary.value
-      || isNaN(salary.value)
+      || isNaN(parseFloat(salary.value))
       || !currency.value
       || currency.value.trim() === '')
   ) {
@@ -72,7 +72,7 @@ async function onSubmit() {
         title: title.value,
         timeslots: timeslotInputGroup.value?.timeslots as Timeslot[],
         currency: currency.value,
-        salary: salary.value,
+        salary: parseFloat(salary.value),
         opportunityLink: opportunityLink.value,
       })
     } else if (selectedFunction.value === 'OGV') {

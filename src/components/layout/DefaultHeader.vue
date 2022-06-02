@@ -2,8 +2,8 @@
 
 <template>
   <header class="admin-header flex items-center justify-between">
-    <RouterLink to="/dashboard/manage">
-      <img src="../../assets/Logo-Dark.svg" />
+    <RouterLink to="/">
+      <img src="../../assets/Logo-Dark.svg" alt="AIESEC Logo" />
     </RouterLink>
     <OpportunitySearch />
     <div class="flex items-center justify-between gap-4">
@@ -52,6 +52,6 @@
 
 img {
   height: 40px;
-  // flex: 1;
+  width: 100%;
 }
 </style>

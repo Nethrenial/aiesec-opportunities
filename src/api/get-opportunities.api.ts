@@ -1,22 +1,20 @@
-import type { Query, QueryDocumentSnapshot } from 'firebase/firestore'
-import { getDocs, limit, query, startAfter, where } from 'firebase/firestore'
-
-import type { OpportunityResponse } from '../types/opportunities.types'
+import { doc, getDoc, getDocs, query, where } from 'firebase/firestore'
 import type { Opportunity } from '~/types'
 import { opportunityCollection } from '~/firebase.config'
 
-let lastSnapshot: QueryDocumentSnapshot<OpportunityResponse> | undefined
-
-export async function getOpportunities() {
-  const opportunities: Opportunity[] = []
-  let q: Query<OpportunityResponse> | undefined
-  if (!lastSnapshot)
-    q = query(opportunityCollection, limit(25))
+export async function getOpportunityById(id: string) {
+  const opportunityRef = doc(opportunityCollection, id)
+  const opportunity = await getDoc(opportunityRef)
+  if (opportunity.exists())
+    return { ...opportunity.data(), id: opportunity.id }
   else
-    q = query(opportunityCollection, startAfter(lastSnapshot), limit(25))
+    return undefined
+}
 
+export async function getAllOpportunities() {
+  const opportunities: Opportunity[] = []
+  const q = query(opportunityCollection)
   const querySnapshot = await getDocs(q)
-  lastSnapshot = querySnapshot.docs[querySnapshot.docs.length - 1]
   querySnapshot.docs.forEach(doc => {
     const id = doc.id
     const data = doc.data()
@@ -29,14 +27,34 @@ export async function getOpportunities() {
   return opportunities
 }
 
-export async function getOpportunityById(id: string) {
-  const q = query(opportunityCollection, where('id', '==', id))
+export async function getAllOGTOpportunities() {
+  const opportunities: Opportunity[] = []
+  const q = query(opportunityCollection, where('function', '==', 'OGT'))
   const querySnapshot = await getDocs(q)
-  if ((querySnapshot).docs.length === 0)
-  { return undefined }
+  querySnapshot.docs.forEach(doc => {
+    const id = doc.id
+    const data = doc.data()
+    opportunities.push({
+      ...data,
+      id,
+    })
+  })
 
-  else {
-    const doc = querySnapshot.docs[0].data()
-    return { ...doc, id } as Opportunity
-  }
+  return opportunities
+}
+
+export async function getAllOGVOpportunities() {
+  const opportunities: Opportunity[] = []
+  const q = query(opportunityCollection, where('function', '==', 'OGV'))
+  const querySnapshot = await getDocs(q)
+  querySnapshot.docs.forEach(doc => {
+    const id = doc.id
+    const data = doc.data()
+    opportunities.push({
+      ...data,
+      id,
+    })
+  })
+
+  return opportunities
 }

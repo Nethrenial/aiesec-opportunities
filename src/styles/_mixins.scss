@@ -16,7 +16,7 @@ $screen-sizes: (
 }
 
 @mixin container {
-  width: 100%;
+  width: 98%;
   margin: 0 auto;
 
   @include mq(sm) {

@@ -1,3 +1,5 @@
+import type { Timestamp } from 'firebase/firestore'
+
 export interface CreateOpportunityDTO {
   title: string
   description: string
@@ -43,23 +45,29 @@ export interface OpportunityResponse {
   title: string
   description: string
   country: string
-  timeslots: Array<Timeslot>
+  timeslots: Array<TimeslotResponse>
   function: OGXFunction
   opportunityLink: string
   category?: OGVCategory
   salary?: number
   currency?: string
   poster: string
-  createdAt: Date
+  createdAt: Timestamp
 }
 
 export interface Opportunity extends OpportunityResponse {
   id: string
+
 }
 
 export interface Timeslot {
   begin: Date
   end: Date
+}
+
+export interface TimeslotResponse {
+  begin: Timestamp
+  end: Timestamp
 }
 
 export type OGXFunction = 'OGV' | 'OGT'
