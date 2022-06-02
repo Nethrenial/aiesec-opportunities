@@ -1,19 +1,13 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { COUNTRIES } from '~/utils'
+
+const selectedCountry = ref(COUNTRIES[0])
+</script>
 
 <template>
   <aside class="default-side-panel">
-    <ul>
-      <li>1</li>
-      <li>2</li>
-      <li>3</li>
-      <li>4</li>
-      <li>5</li>
-      <li>6</li>
-      <li>7</li>
-      <li>8</li>
-      <li>9</li>
-      <li>10</li>
-    </ul>
+    <h3 class="mb-4 text-center text-[var(--clr-text-secondary)]">Filter opportunities</h3>
+    <BaseSearchAndSelectInput id="country" v-model="selectedCountry" :options="COUNTRIES" label="Select country to filter" label-for="country" />
   </aside>
 </template>
 

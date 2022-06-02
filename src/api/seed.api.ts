@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { addDoc, collection } from 'firebase/firestore'
 import { CATEGORY_OPTIONS, FUNCTION_OPTIONS } from '../utils/constants.utils'
+import type { OpportunityResponse } from '../types/opportunities.types'
 import {
   COUNTRIES,
   DESCRIPTION,
