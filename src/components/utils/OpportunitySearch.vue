@@ -54,6 +54,10 @@ const searchText = ref('')
       // width: 300px;
       outline: none;
     }
+
+    &::placeholder {
+      color: var(--clr-text-primary);
+    }
   }
 
   svg.search-icon {

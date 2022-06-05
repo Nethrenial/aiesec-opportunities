@@ -2,12 +2,9 @@ import type { AddPrefixToKeys } from 'firebase/firestore'
 import { addDoc, collection, updateDoc } from 'firebase/firestore'
 import { uploadPoster } from './poster-upload.api'
 import { firestore } from '~/firebase.config'
-import type {
-  CreateOpportunityDTO,
-  OpportunityOptional,
-} from '~/types'
+import type { CreateOpportunityDTO, OpportunityOptional } from '~/types'
 
-type UpdateInterface<T> = T & AddPrefixToKeys<string, any>
+type UpdateInterface<T> = T & AddPrefixToKeys<string, Record<string, unknown>>
 
 /**
  *  Create a new opportunity in the firestore database
@@ -67,5 +64,7 @@ export async function createOpportunity(opportunityData: CreateOpportunityDTO) {
         poster: url,
       } as UpdateInterface<OpportunityOptional>)
     }
-  } catch (err) {}
+  } catch (err) {
+    console.log(err)
+  }
 }

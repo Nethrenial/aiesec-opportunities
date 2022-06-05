@@ -22,5 +22,7 @@ export async function updateOpportunity(opportunityData: UpdateOpportunityDTO) {
     await updateDoc(docRef, {
       ...opportunityData,
     })
-  } catch (err) {}
+  } catch (err) {
+    console.log(err)
+  }
 }

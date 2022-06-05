@@ -9,6 +9,7 @@
 html {
   --clr-background: rgba(240, 240, 240);
   --clr-foreground: rgba(255, 255, 255);
+  --clr-foreground-dark: rgba(200, 200, 200);
   --clr-text-primary: rgba(0, 0, 0, 0.87);
   --clr-text-secondary: rgba(0, 0, 0, 0.6);
   --clr-text-disabled: rgba(0, 0, 0, 0.38);
@@ -37,6 +38,7 @@ html {
 html.dark {
   --clr-background: #151515;
   --clr-foreground: #252525;
+  --clr-foreground-dark: #121212;
   --clr-text-primary: #fff;
   --clr-text-secondary: rgba(255, 255, 255, 0.7);
   --clr-text-disabled: rgba(255, 255, 255, 0.5);

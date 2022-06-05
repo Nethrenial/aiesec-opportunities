@@ -5,10 +5,8 @@ import { opportunityCollection } from '~/firebase.config'
 export async function getOpportunityById(id: string) {
   const opportunityRef = doc(opportunityCollection, id)
   const opportunity = await getDoc(opportunityRef)
-  if (opportunity.exists())
-    return { ...opportunity.data(), id: opportunity.id }
-  else
-    return undefined
+  if (opportunity.exists()) return { ...opportunity.data(), id: opportunity.id }
+  else return undefined
 }
 
 export async function getAllOpportunities() {
@@ -30,6 +28,7 @@ export async function getAllOpportunities() {
 export async function getAllOGTOpportunities() {
   const opportunities: Opportunity[] = []
   const q = query(opportunityCollection, where('function', '==', 'OGT'))
+
   const querySnapshot = await getDocs(q)
   querySnapshot.docs.forEach(doc => {
     const id = doc.id

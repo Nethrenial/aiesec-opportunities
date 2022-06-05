@@ -1,5 +1,10 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { getAllOGTOpportunities, getAllOGVOpportunities, getAllOpportunities, getOpportunityById } from '~/api'
+import {
+  getAllOGTOpportunities,
+  getAllOGVOpportunities,
+  getAllOpportunities,
+  getOpportunityById,
+} from '~/api'
 import type { Opportunity } from '~/types'
 
 interface OpportunitiesState {
@@ -18,9 +23,12 @@ export const useOpportunitiesStore = defineStore('opportunities', {
   },
 
   actions: {
-
     async getOpportunityById(id: string) {
-      let result = [...this.ogtOpportunities, ...this.ogvOpportunities, ...this.opportunities].find(o => o.id === id)
+      let result = [
+        ...this.ogtOpportunities,
+        ...this.ogvOpportunities,
+        ...this.opportunities,
+      ].find(o => o.id === id)
       if (!result) {
         result = await getOpportunityById(id)
         return result

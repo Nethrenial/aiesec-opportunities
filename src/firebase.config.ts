@@ -34,4 +34,5 @@ const createCollection = <T = DocumentData>(collectionName: string) => {
   return collection(firestore, collectionName) as CollectionReference<T>
 }
 
-export const opportunityCollection = createCollection<OpportunityResponse>('opportunities')
+export const opportunityCollection =
+  createCollection<OpportunityResponse>('opportunities')

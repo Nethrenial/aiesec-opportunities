@@ -14,7 +14,6 @@ const selectedCountry = ref(COUNTRIES[0])
 <style lang="scss" scoped>
 .default-side-panel {
   display: none;
-
   background-color: var(--clr-foreground);
   padding: 1rem;
   @include mq(md) {

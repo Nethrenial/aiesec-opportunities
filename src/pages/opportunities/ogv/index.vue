@@ -127,3 +127,8 @@ useHead({
   }
 }
 </style>
+
+<route lang="yaml">
+meta:
+  layout: ogv
+</route>

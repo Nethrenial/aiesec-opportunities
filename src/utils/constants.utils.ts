@@ -131,12 +131,12 @@ export const COUNTRIES = [
   'Kazakhstan',
   'Kenya',
   'Kiribati',
-  'Korea, Democratic People\'s Republic of',
+  "Korea, Democratic People's Republic of",
   'Korea, Republic of',
   'Kosovo',
   'Kuwait',
   'Kyrgyzstan',
-  'Lao People\'s Democratic Republic',
+  "Lao People's Democratic Republic",
   'Latvia',
   'Lebanon',
   'Lesotho',
@@ -260,4 +260,4 @@ export const COUNTRIES = [
   'Zaire',
   'Zambia',
   'Zimbabwe',
-]
+] as const

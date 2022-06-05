@@ -50,7 +50,7 @@ export const JOB_TITLES = [
   'Charities fundraiser',
   'Chemical (process) engineer',
   'Child psychotherapist',
-  'Children\'s nurse',
+  "Children's nurse",
   'Chiropractor',
   'Civil engineer',
   'Civil Service administrator',
@@ -462,12 +462,12 @@ export const COUNTRIES = [
   'Kazakhstan',
   'Kenya',
   'Kiribati',
-  'Korea, Democratic People\'s Republic of',
+  "Korea, Democratic People's Republic of",
   'Korea, Republic of',
   'Kosovo',
   'Kuwait',
   'Kyrgyzstan',
-  'Lao People\'s Democratic Republic',
+  "Lao People's Democratic Republic",
   'Latvia',
   'Lebanon',
   'Lesotho',
@@ -599,4 +599,5 @@ y of ethics, very popular during the Renaissance. The first line of Lorem Ipsum,
 m dolor sit amet..", comes from a line in section 1.10.32.
 The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.`
 
-export const RANDOM_POSTER_LINK = 'https://api.lorem.space/image/movie?w=680&h=680'
+export const RANDOM_POSTER_LINK =
+  'https://api.lorem.space/image/movie?w=680&h=680'

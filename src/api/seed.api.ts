@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import { addDoc, collection } from 'firebase/firestore'
 import { CATEGORY_OPTIONS, FUNCTION_OPTIONS } from '../utils/constants.utils'
-import type { OpportunityResponse } from '../types/opportunities.types'
 import {
   COUNTRIES,
   DESCRIPTION,
@@ -15,8 +14,12 @@ function getRandomTimeslotArray() {
   const count = Math.floor(Math.random() * 10)
   const arr: Timeslot[] = []
   for (let index = 0; index < count; index++) {
-    const begin = new Date(Date.now() + 1000 * 60 * 60 * 24 * Math.floor(Math.random() * 100))
-    const end = new Date(Date.now() + 1000 * 60 * 60 * 24 * Math.floor(Math.random() * 1000))
+    const begin = new Date(
+      Date.now() + 1000 * 60 * 60 * 24 * Math.floor(Math.random() * 100),
+    )
+    const end = new Date(
+      Date.now() + 1000 * 60 * 60 * 24 * Math.floor(Math.random() * 1000),
+    )
     const timeslot: Timeslot = {
       begin,
       end,
@@ -28,11 +31,11 @@ function getRandomTimeslotArray() {
 
 export async function seedInFirebase(count: number) {
   const arr = new Array(count).fill(0)
-  arr.forEach(async _ => {
-    const ogxFunction
-      = FUNCTION_OPTIONS[Math.floor(Math.random() * FUNCTION_OPTIONS.length)]
-    const category
-      = CATEGORY_OPTIONS[Math.floor(Math.random() * CATEGORY_OPTIONS.length)]
+  arr.forEach(async () => {
+    const ogxFunction =
+      FUNCTION_OPTIONS[Math.floor(Math.random() * FUNCTION_OPTIONS.length)]
+    const category =
+      CATEGORY_OPTIONS[Math.floor(Math.random() * CATEGORY_OPTIONS.length)]
     const title = JOB_TITLES[Math.floor(Math.random() * JOB_TITLES.length)]
     const description = DESCRIPTION
     const country = COUNTRIES[Math.floor(Math.random() * COUNTRIES.length)]
@@ -52,7 +55,7 @@ export async function seedInFirebase(count: number) {
         currency: '$',
         salary,
         opportunityLink,
-      } as Opportunity)
+      } as unknown as Opportunity)
       console.log('created', docRef.id)
     } else if (ogxFunction === 'OGV') {
       const docRef = await addDoc(collection(firestore, 'opportunities'), {
@@ -65,7 +68,7 @@ export async function seedInFirebase(count: number) {
         poster: RANDOM_POSTER_LINK,
         category,
         opportunityLink,
-      } as Opportunity)
+      } as unknown as Opportunity)
       console.log('created', docRef.id)
     }
   })

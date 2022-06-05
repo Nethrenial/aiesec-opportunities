@@ -1,4 +1,5 @@
 import type { Timestamp } from 'firebase/firestore'
+import type { CATEGORY_OPTIONS, COUNTRIES, FUNCTION_OPTIONS } from '~/utils'
 
 export interface CreateOpportunityDTO {
   title: string
@@ -57,7 +58,6 @@ export interface OpportunityResponse {
 
 export interface Opportunity extends OpportunityResponse {
   id: string
-
 }
 
 export interface Timeslot {
@@ -86,3 +86,13 @@ export type OGVCategory =
   | 'Skill Up!'
   | 'Fingerprint'
   | 'Eat 4 Change'
+
+export interface QueryOptions {
+  function: typeof FUNCTION_OPTIONS[number] | typeof FUNCTION_OPTIONS
+  country?: typeof COUNTRIES[number]
+  timePeriod?: {
+    begin: Date
+    end: Date
+  }
+  ogvCategory?: typeof CATEGORY_OPTIONS[number]
+}
