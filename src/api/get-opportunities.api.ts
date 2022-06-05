@@ -1,14 +1,21 @@
 import {
   doc,
   getDoc,
-  getDocs,
   query,
+  onSnapshot,
+  QueryConstraint,
   QuerySnapshot,
   where,
+  getDocsFromCache,
+  getDocsFromServer,
 } from "firebase/firestore";
-import type { Opportunity, OpportunityResponse } from "@/types";
+import type {
+  OGXFunction,
+  Opportunity,
+  OpportunityResponse,
+  OpportunityFilters,
+} from "@/types";
 import { opportunityCollection } from "@/firebase.config";
-import type { COUNTRIES } from "@/utils";
 
 export async function getOpportunityById(id: string) {
   const opportunityRef = doc(opportunityCollection, id);
@@ -16,55 +23,6 @@ export async function getOpportunityById(id: string) {
   if (opportunity.exists())
     return { ...opportunity.data(), id: opportunity.id };
   else return undefined;
-}
-
-export async function getAllOpportunities() {
-  const opportunities: Opportunity[] = [];
-  const q = query(opportunityCollection);
-  const querySnapshot = await getDocs(q);
-  querySnapshot.docs.forEach((doc) => {
-    const id = doc.id;
-    const data = doc.data();
-    opportunities.push({
-      ...data,
-      id,
-    });
-  });
-
-  return opportunities;
-}
-
-export async function getAllOGTOpportunities() {
-  const opportunities: Opportunity[] = [];
-  const q = query(opportunityCollection, where("function", "==", "OGT"));
-
-  const querySnapshot = await getDocs(q);
-  querySnapshot.docs.forEach((doc) => {
-    const id = doc.id;
-    const data = doc.data();
-    opportunities.push({
-      ...data,
-      id,
-    });
-  });
-
-  return opportunities;
-}
-
-export async function getAllOGVOpportunities() {
-  const opportunities: Opportunity[] = [];
-  const q = query(opportunityCollection, where("function", "==", "OGV"));
-  const querySnapshot = await getDocs(q);
-  querySnapshot.docs.forEach((doc) => {
-    const id = doc.id;
-    const data = doc.data();
-    opportunities.push({
-      ...data,
-      id,
-    });
-  });
-
-  return opportunities;
 }
 
 async function filterByTimeslots(
@@ -92,151 +50,194 @@ async function filterByTimeslots(
   return opportunities;
 }
 
-export async function getFilteredOGTOpportunities(filters: {
-  country?: typeof COUNTRIES[number];
-  period?: {
-    begin: Date;
-    end: Date;
-  };
-}) {
-  let opportunities: Opportunity[] = [];
-  let q = query(opportunityCollection, where("function", "==", "OGT"));
+let dbUpdated = true;
 
-  if (filters.country && !filters.period) {
-    q = query(
-      opportunityCollection,
-      where("function", "==", "OGT"),
-      where("country", "==", filters.country)
-    );
-    const querySnapshot = await getDocs(q);
+export async function getOpportunities(
+  ogxFunction: OGXFunction | "all",
+  filters?: OpportunityFilters
+) {
+  const opportunities: Opportunity[] = [];
+  let snapshot: QuerySnapshot<OpportunityResponse>;
+  if (ogxFunction === "all") {
+    if (filters) {
+      const conditions: QueryConstraint[] = [];
+      if (filters.country) {
+        conditions.push(where("country", "==", filters.country));
+      }
+      if (filters.category) {
+        conditions.push(where("category", "==", filters.category));
+      }
+      const q = query(opportunityCollection, ...conditions);
+      if (!dbUpdated) {
+        try {
+          snapshot = await getDocsFromCache(q);
+          console.log("Got from cache");
+        } catch {
+          snapshot = await getDocsFromServer(q);
+          console.log("Got from server");
+        }
+      } else {
+        snapshot = await getDocsFromServer(q);
+        console.log("Got from server");
+      }
 
-    querySnapshot.docs.forEach((doc) => {
-      const id = doc.id;
-      const data = doc.data();
-      opportunities.push({
-        ...data,
-        id,
+      if (!filters.period) {
+        snapshot.docs.forEach((doc) => {
+          const id = doc.id;
+          const data = doc.data();
+          opportunities.push({
+            ...data,
+            id,
+          });
+        });
+      } else {
+        opportunities.push(
+          ...(await filterByTimeslots(snapshot, filters.period))
+        );
+      }
+    } else if (!filters) {
+      const q = query(opportunityCollection);
+      if (!dbUpdated) {
+        try {
+          snapshot = await getDocsFromCache(q);
+          console.log("Got from cache");
+        } catch {
+          snapshot = await getDocsFromServer(q);
+          console.log("Got from server");
+        }
+      } else {
+        snapshot = await getDocsFromServer(q);
+        console.log("Got from server");
+      }
+      snapshot.docs.forEach((doc) => {
+        const id = doc.id;
+        const data = doc.data();
+        opportunities.push({
+          ...data,
+          id,
+        });
       });
-    });
-  } else if (filters.period && !filters.country) {
-    q = query(opportunityCollection, where("function", "==", "OGT"));
-    const querySnapshot = await getDocs(q);
-
-    opportunities = await filterByTimeslots(querySnapshot, {
-      begin: filters.period.begin,
-      end: filters.period.end,
-    });
-  } else if (filters.period && filters.country) {
-    q = query(
-      opportunityCollection,
-      where("function", "==", "OGT"),
-      where("country", "==", filters.country)
-    );
-    const querySnapshot = await getDocs(q);
-
-    opportunities = await filterByTimeslots(querySnapshot, {
-      begin: filters.period.begin,
-      end: filters.period.end,
-    });
+    }
+  } else if (ogxFunction === "OGT") {
+    if (filters) {
+      const conditions: QueryConstraint[] = [where("function", "==", "OGT")];
+      if (filters.country) {
+        conditions.push(where("country", "==", filters.country));
+      }
+      const q = query(opportunityCollection, ...conditions);
+      if (!dbUpdated) {
+        try {
+          snapshot = await getDocsFromCache(q);
+          console.log("Got from cache");
+        } catch {
+          snapshot = await getDocsFromServer(q);
+          console.log("Got from server");
+        }
+      } else {
+        snapshot = await getDocsFromServer(q);
+        console.log("Got from server");
+      }
+      if (!filters.period) {
+        snapshot.docs.forEach((doc) => {
+          const id = doc.id;
+          const data = doc.data();
+          opportunities.push({
+            ...data,
+            id,
+          });
+        });
+      } else {
+        opportunities.push(
+          ...(await filterByTimeslots(snapshot, filters.period))
+        );
+      }
+    } else if (!filters) {
+      const q = query(opportunityCollection, where("function", "==", "OGT"));
+      if (!dbUpdated) {
+        try {
+          snapshot = await getDocsFromCache(q);
+          console.log("Got from cache");
+        } catch {
+          snapshot = await getDocsFromServer(q);
+          console.log("Got from server");
+        }
+      } else {
+        snapshot = await getDocsFromServer(q);
+        console.log("Got from server");
+      }
+      snapshot.docs.forEach((doc) => {
+        const id = doc.id;
+        const data = doc.data();
+        opportunities.push({
+          ...data,
+          id,
+        });
+      });
+    }
+  } else if (ogxFunction === "OGV") {
+    if (filters) {
+      const conditions: QueryConstraint[] = [where("function", "==", "OGV")];
+      if (filters.country) {
+        conditions.push(where("country", "==", filters.country));
+      }
+      if (filters.category) {
+        conditions.push(where("category", "==", filters.category));
+      }
+      const q = query(opportunityCollection, ...conditions);
+      if (!dbUpdated) {
+        try {
+          snapshot = await getDocsFromCache(q);
+          console.log("Got from cache");
+        } catch {
+          snapshot = await getDocsFromServer(q);
+          console.log("Got from server");
+        }
+      } else {
+        snapshot = await getDocsFromServer(q);
+        console.log("Got from server");
+      }
+      if (!filters.period) {
+        snapshot.docs.forEach((doc) => {
+          const id = doc.id;
+          const data = doc.data();
+          opportunities.push({
+            ...data,
+            id,
+          });
+        });
+      } else {
+        opportunities.push(
+          ...(await filterByTimeslots(snapshot, filters.period))
+        );
+      }
+    } else if (!filters) {
+      const q = query(opportunityCollection, where("function", "==", "OGV"));
+      if (!dbUpdated) {
+        try {
+          snapshot = await getDocsFromCache(q);
+          console.log("Got from cache");
+        } catch {
+          snapshot = await getDocsFromServer(q);
+          console.log("Got from server");
+        }
+      } else {
+        snapshot = await getDocsFromServer(q);
+        console.log("Got from server");
+      }
+      snapshot.docs.forEach((doc) => {
+        const id = doc.id;
+        const data = doc.data();
+        opportunities.push({
+          ...data,
+          id,
+        });
+      });
+    }
   }
-
+  dbUpdated = false;
   return opportunities;
 }
 
-export async function getFilteredOGVOpportunities(filters: {
-  country?: typeof COUNTRIES[number];
-  period?: {
-    begin: Date;
-    end: Date;
-  };
-}) {
-  let opportunities: Opportunity[] = [];
-  let q = query(opportunityCollection, where("function", "==", "OGV"));
-
-  if (filters.country && !filters.period) {
-    q = query(
-      opportunityCollection,
-      where("function", "==", "OGV"),
-      where("country", "==", filters.country)
-    );
-    const querySnapshot = await getDocs(q);
-
-    querySnapshot.docs.forEach((doc) => {
-      const id = doc.id;
-      const data = doc.data();
-      opportunities.push({
-        ...data,
-        id,
-      });
-    });
-  } else if (filters.period && !filters.country) {
-    q = query(opportunityCollection, where("function", "==", "OGV"));
-    const querySnapshot = await getDocs(q);
-
-    opportunities = await filterByTimeslots(querySnapshot, {
-      begin: filters.period.begin,
-      end: filters.period.end,
-    });
-  } else if (filters.period && filters.country) {
-    q = query(
-      opportunityCollection,
-      where("function", "==", "OGV"),
-      where("country", "==", filters.country)
-    );
-    const querySnapshot = await getDocs(q);
-
-    opportunities = await filterByTimeslots(querySnapshot, {
-      begin: filters.period.begin,
-      end: filters.period.end,
-    });
-  }
-
-  return opportunities;
-}
-
-export async function getFilteredOpportunities(filters: {
-  country?: typeof COUNTRIES[number];
-  period?: {
-    begin: Date;
-    end: Date;
-  };
-}) {
-  let opportunities: Opportunity[] = [];
-  let q = query(opportunityCollection);
-
-  if (filters.country && !filters.period) {
-    q = query(
-      opportunityCollection,
-
-      where("country", "==", filters.country)
-    );
-    const querySnapshot = await getDocs(q);
-
-    querySnapshot.docs.forEach((doc) => {
-      const id = doc.id;
-      const data = doc.data();
-      opportunities.push({
-        ...data,
-        id,
-      });
-    });
-  } else if (filters.period && !filters.country) {
-    q = query(opportunityCollection);
-    const querySnapshot = await getDocs(q);
-
-    opportunities = await filterByTimeslots(querySnapshot, {
-      begin: filters.period.begin,
-      end: filters.period.end,
-    });
-  } else if (filters.period && filters.country) {
-    q = query(opportunityCollection, where("country", "==", filters.country));
-    const querySnapshot = await getDocs(q);
-
-    opportunities = await filterByTimeslots(querySnapshot, {
-      begin: filters.period.begin,
-      end: filters.period.end,
-    });
-  }
-
-  return opportunities;
-}
+onSnapshot(opportunityCollection, () => {
+  dbUpdated = true;
+});

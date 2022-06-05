@@ -3,16 +3,14 @@ import { storeToRefs } from "pinia";
 import { useOpportunitiesStore } from "@/stores/opportunities.store";
 
 const opportunityStore = useOpportunitiesStore();
-const { ogtOpportunities } = storeToRefs(opportunityStore);
+const { opportunities } = storeToRefs(opportunityStore);
 
 let isLoading = $ref(false);
 
 onMounted(async () => {
-  if (ogtOpportunities.value.length === 0) {
-    isLoading = true;
-    await opportunityStore.getOGTOpportunities();
-    isLoading = false;
-  }
+  isLoading = true;
+  await opportunityStore.getOpportunities("OGT");
+  isLoading = false;
 });
 
 useHead({
@@ -36,7 +34,7 @@ useHead({
     </h2>
     <div v-if="!isLoading" class="job-cards">
       <OpportunityCard
-        v-for="o in ogtOpportunities"
+        v-for="o in opportunities"
         :key="o.id"
         :opportunity="o"
       />

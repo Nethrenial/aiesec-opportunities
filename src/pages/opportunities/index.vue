@@ -8,11 +8,9 @@ const { opportunities } = storeToRefs(opportunityStore);
 let isLoading = $ref(false);
 
 onMounted(async () => {
-  if (opportunities.value.length === 0) {
-    isLoading = true;
-    await opportunityStore.getOpportunities();
-    isLoading = false;
-  }
+  isLoading = true;
+  await opportunityStore.getOpportunities("all");
+  isLoading = false;
 });
 </script>
 

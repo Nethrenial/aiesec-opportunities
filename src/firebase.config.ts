@@ -4,6 +4,7 @@ import { getAnalytics } from "firebase/analytics";
 import { getStorage } from "firebase/storage";
 import {
   enableMultiTabIndexedDbPersistence,
+  clearIndexedDbPersistence,
   type CollectionReference,
   type DocumentData,
 } from "firebase/firestore";
@@ -34,6 +35,7 @@ export const analytics = getAnalytics(app);
 export const firestore = getFirestore(app);
 export const storage = getStorage(app);
 
+clearIndexedDbPersistence(firestore);
 enableMultiTabIndexedDbPersistence(firestore);
 
 const createCollection = <T = DocumentData>(collectionName: string) => {

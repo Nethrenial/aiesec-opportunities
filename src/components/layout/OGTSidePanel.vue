@@ -11,11 +11,11 @@ const opportunityStore = useOpportunitiesStore();
 watch(queryData, async (val) => {
   console.log(val);
   if (COUNTRIES.includes(val.country as typeof COUNTRIES[number])) {
-    await opportunityStore.getOGTOpportunitiesFiltered({
+    await opportunityStore.getOpportunities("OGT", {
       country: val.country as typeof COUNTRIES[number],
     });
   } else if (val.country === "") {
-    await opportunityStore.getOGTOpportunities();
+    await opportunityStore.getOpportunities("OGT");
   }
 });
 </script>

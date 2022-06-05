@@ -72,6 +72,8 @@ export interface TimeslotResponse {
 
 export type OGXFunction = "OGV" | "OGT";
 
+export type OGXFunctionOrMultiple = "all" | "OGV" | "OGT";
+
 export type OGVCategory =
   | "Youth 4 Impact"
   | "Green Leaders"
@@ -95,4 +97,15 @@ export interface QueryOptions {
     end: Date;
   };
   ogvCategory?: typeof CATEGORY_OPTIONS[number];
+}
+
+export interface OpportunityFilters {
+  country?: typeof COUNTRIES[number] | "";
+  period?:
+    | {
+        begin: Date;
+        end: Date;
+      }
+    | undefined;
+  category?: OGVCategory;
 }
