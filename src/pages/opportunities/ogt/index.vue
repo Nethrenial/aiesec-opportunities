@@ -1,26 +1,29 @@
 <script lang="ts" setup>
-import { storeToRefs } from 'pinia'
-import { useOpportunitiesStore } from '~/stores/opportunities.store'
+import { storeToRefs } from "pinia";
+import { useOpportunitiesStore } from "@/stores/opportunities.store";
 
-const opportunityStore = useOpportunitiesStore()
-const { ogtOpportunities } = storeToRefs(opportunityStore)
+const opportunityStore = useOpportunitiesStore();
+const { ogtOpportunities } = storeToRefs(opportunityStore);
 
-let isLoading = $ref(false)
+let isLoading = $ref(false);
 
 onMounted(async () => {
   if (ogtOpportunities.value.length === 0) {
-    isLoading = true
-    await opportunityStore.getOGTOpportunities()
-    isLoading = false
+    isLoading = true;
+    await opportunityStore.getOGTOpportunities();
+    isLoading = false;
   }
-})
+});
 
 useHead({
-  title: 'Internship opportunities | AIESEC',
+  title: "Internship opportunities | AIESEC",
   meta: [
-    { name: 'description', content: 'Currently available internship opportunities in AIESEC CC' },
+    {
+      name: "description",
+      content: "Currently available internship opportunities in AIESEC CC",
+    },
   ],
-})
+});
 </script>
 
 <template>

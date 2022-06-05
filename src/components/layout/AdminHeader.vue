@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { useAdminStore } from '~/stores/admin.store'
+import { useAdminStore } from "@/stores/admin.store";
 
-const adminStore = useAdminStore()
-const router = useRouter()
+const adminStore = useAdminStore();
+const router = useRouter();
 
 async function logout() {
-  await adminStore.logout()
-  await router.push('/login')
+  await adminStore.logout();
+  await router.push("/login");
 }
 </script>
 

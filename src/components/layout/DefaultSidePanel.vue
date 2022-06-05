@@ -1,13 +1,21 @@
 <script lang="ts" setup>
-import { COUNTRIES } from '~/utils'
+import { COUNTRIES } from "@/utils";
 
-const selectedCountry = ref(COUNTRIES[0])
+const selectedCountry = ref(COUNTRIES[0]);
 </script>
 
 <template>
   <aside class="default-side-panel">
-    <h3 class="mb-4 text-center text-[var(--clr-text-secondary)]">Filter opportunities</h3>
-    <BaseSearchAndSelectInput id="country" v-model="selectedCountry" :options="COUNTRIES" label="Select country to filter" label-for="country" />
+    <h3 class="mb-4 text-center text-[var(--clr-text-secondary)]">
+      Filter opportunities
+    </h3>
+    <BaseSearchAndSelectInput
+      id="country"
+      v-model="selectedCountry"
+      :options="COUNTRIES"
+      label="Select country to filter"
+      label-for="country"
+    />
   </aside>
 </template>
 

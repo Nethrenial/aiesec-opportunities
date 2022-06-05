@@ -1,19 +1,19 @@
 <script lang="ts" setup>
-import { storeToRefs } from 'pinia'
-import { useOpportunitiesStore } from '~/stores/opportunities.store'
+import { storeToRefs } from "pinia";
+import { useOpportunitiesStore } from "@/stores/opportunities.store";
 
-const opportunityStore = useOpportunitiesStore()
-const { opportunities } = storeToRefs(opportunityStore)
+const opportunityStore = useOpportunitiesStore();
+const { opportunities } = storeToRefs(opportunityStore);
 
-let isLoading = $ref(false)
+let isLoading = $ref(false);
 
 onMounted(async () => {
   if (opportunities.value.length === 0) {
-    isLoading = true
-    await opportunityStore.getOpportunities()
-    isLoading = false
+    isLoading = true;
+    await opportunityStore.getOpportunities();
+    isLoading = false;
   }
-})
+});
 </script>
 
 <template>

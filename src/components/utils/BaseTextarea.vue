@@ -1,22 +1,22 @@
 <script setup lang="ts">
 // Props
 const props = defineProps<{
-  modelValue: string | number
-  label: string
-  labelFor: string
-}>()
+  modelValue: string | number;
+  label: string;
+  labelFor: string;
+}>();
 
 //  Emits
 const emit = defineEmits<{
-  (event: 'update:modelValue', payload: string | number): void
-}>()
+  (event: "update:modelValue", payload: string | number): void;
+}>();
 
-const { label, labelFor, modelValue } = toRefs(props)
+const { label, labelFor, modelValue } = toRefs(props);
 
-const input = ref<HTMLInputElement>()
+const input = ref<HTMLInputElement>();
 
 function onClickLabel(event: MouseEvent) {
-  input.value?.focus()
+  input.value?.focus();
 }
 </script>
 
@@ -28,9 +28,12 @@ function onClickLabel(event: MouseEvent) {
       :value="modelValue"
       @change="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
     />
-    <label :for="labelFor" :class="modelValue !== '' ? 'focused' : ''" @click="onClickLabel">{{
-      label
-    }}</label>
+    <label
+      :for="labelFor"
+      :class="modelValue !== '' ? 'focused' : ''"
+      @click="onClickLabel"
+      >{{ label }}</label
+    >
     <div class="icon">
       <slot name="icon" />
     </div>

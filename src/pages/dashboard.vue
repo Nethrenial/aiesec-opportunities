@@ -1,19 +1,19 @@
 <script lang="ts" setup>
-import { storeToRefs } from 'pinia'
-import { useAdminStore } from '~/stores/admin.store'
+import { storeToRefs } from "pinia";
+import { useAdminStore } from "@/stores/admin.store";
 
-const { admin } = storeToRefs(useAdminStore())
+const { admin } = storeToRefs(useAdminStore());
 
 onMounted(async () => {
   if (!admin.value) {
-    const router = useRouter()
-    await router.push('/login')
+    const router = useRouter();
+    await router.push("/login");
   }
-})
+});
 
 useHead({
-  title: 'Dashboard | AIESEC Opportunity Portal',
-})
+  title: "Dashboard | AIESEC Opportunity Portal",
+});
 </script>
 
 <template>
@@ -72,7 +72,7 @@ useHead({
     position: relative;
 
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       width: 0%;
       height: 2px;

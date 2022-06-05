@@ -1,46 +1,45 @@
 <script setup lang="ts">
-import type { COUNTRIES } from '~/utils'
+import type { COUNTRIES } from "@/utils";
 
 const props = defineProps<{
-  countries: typeof COUNTRIES
-  tabindex?: number
-  label: string
-  labelFor: string
-  modelValue: string
-  isDefaultIcon?: boolean
-}>()
+  countries: typeof COUNTRIES;
+  tabindex?: number;
+  label: string;
+  labelFor: string;
+  modelValue: string;
+  isDefaultIcon?: boolean;
+}>();
 
 const emit = defineEmits<{
-  (event: 'update:modelValue', payload: string): void
-}>()
+  (event: "update:modelValue", payload: string): void;
+}>();
 
 const filteredCountries = computed(() => {
-  return props.countries.filter(val => {
-    return val.toLowerCase().includes(props.modelValue.toLocaleLowerCase())
-  })
-})
+  return props.countries.filter((val) => {
+    return val.toLowerCase().includes(props.modelValue.toLocaleLowerCase());
+  });
+});
 
-let open = $ref(false)
-const items = ref<HTMLDivElement>()
-const input = ref<HTMLInputElement>()
+let open = $ref(false);
+const items = ref<HTMLDivElement>();
+const input = ref<HTMLInputElement>();
 
 onClickOutside(items, (e: PointerEvent) => {
-  const eventTarget = e.target as HTMLElement
-  if (eventTarget !== input.value)
-    open = false
-})
+  const eventTarget = e.target as HTMLElement;
+  if (eventTarget !== input.value) open = false;
+});
 
 function onInput(value: string) {
-  emit('update:modelValue', value)
+  emit("update:modelValue", value);
 }
 
 function onClick(value: string) {
-  open = false
-  emit('update:modelValue', value)
+  open = false;
+  emit("update:modelValue", value);
 }
 
-function onClickLabel(event: MouseEvent) {
-  input.value?.focus()
+function onClickLabel() {
+  input.value?.focus();
 }
 </script>
 
@@ -86,7 +85,7 @@ function onClickLabel(event: MouseEvent) {
           class="item"
           @click="
             () => {
-              onClick(option)
+              onClick(option);
             }
           "
         >

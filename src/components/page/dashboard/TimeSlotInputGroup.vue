@@ -1,39 +1,39 @@
 <script setup lang="ts">
-import { format } from 'date-fns'
+import { format } from "date-fns";
 
-const timeslots = ref<Array<{ begin: Date; end: Date }>>([])
+const timeslots = ref<Array<{ begin: Date; end: Date }>>([]);
 
-const isEnteringNewSlot = ref(false)
-const beginTime = ref('')
-const endTime = ref('')
+const isEnteringNewSlot = ref(false);
+const beginTime = ref("");
+const endTime = ref("");
 
 defineExpose({
   timeslots,
-})
+});
 
 function deleteTimeSlot(index: number) {
-  timeslots.value.splice(index, 1)
+  timeslots.value.splice(index, 1);
 }
 
 function onSubmit() {
-  if (beginTime.value !== '' && endTime.value !== '') {
-    const begin = new Date(beginTime.value)
-    const end = new Date(endTime.value)
+  if (beginTime.value !== "" && endTime.value !== "") {
+    const begin = new Date(beginTime.value);
+    const end = new Date(endTime.value);
     const timeSlot = {
       begin,
       end,
-    }
-    timeslots.value.push(timeSlot)
-    cancelForm()
+    };
+    timeslots.value.push(timeSlot);
+    cancelForm();
   }
 }
 
 function cancelAndCloseForm() {
-  isEnteringNewSlot.value = false
+  isEnteringNewSlot.value = false;
 }
 function cancelForm() {
-  beginTime.value = ''
-  endTime.value = ''
+  beginTime.value = "";
+  endTime.value = "";
 }
 </script>
 
@@ -48,11 +48,11 @@ function cancelForm() {
       >
         <p>
           <span class="begin">
-            {{ format(timeslot.begin, 'yyyy MMM') }}
+            {{ format(timeslot.begin, "yyyy MMM") }}
           </span>
           <span> - </span>
           <span class="end">
-            {{ format(timeslot.end, 'yyyy MMM') }}
+            {{ format(timeslot.end, "yyyy MMM") }}
           </span>
         </p>
 

@@ -23,7 +23,7 @@
   left: 0;
   right: 0;
   z-index: 1;
-    // border: 1px solid rgba($color: #000, $alpha: 0.2);
+  // border: 1px solid rgba($color: #000, $alpha: 0.2);
   // box-shadow: 2px 2px 10px 2px rgba($color: #000, $alpha: 0.1);
   padding-left: 1rem;
   padding-right: 1rem;

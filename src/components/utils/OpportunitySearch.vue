@@ -1,10 +1,10 @@
 <script setup lang="ts">
 const focusSearch = () => {
-  const search = document.querySelector('.search-input') as HTMLInputElement
-  search.focus()
-}
+  const search = document.querySelector(".search-input") as HTMLInputElement;
+  search.focus();
+};
 
-const searchText = ref('')
+const searchText = ref("");
 </script>
 
 <template>

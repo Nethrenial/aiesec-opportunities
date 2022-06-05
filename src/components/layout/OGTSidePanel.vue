@@ -1,23 +1,29 @@
 <script lang="ts" setup>
-import { storeToRefs } from 'pinia'
-import { useOpportunitiesStore } from '~/stores/opportunities.store'
-import { COUNTRIES } from '~/utils'
+import { useOpportunitiesStore } from "@/stores/opportunities.store";
+import { COUNTRIES } from "@/utils";
 
 const queryData = reactive({
-  country: '',
-})
+  country: "",
+});
 
-const opportunityStore = useOpportunitiesStore()
-const { ogtQuery } = storeToRefs(opportunityStore)
+const opportunityStore = useOpportunitiesStore();
 
-watch(queryData, (val) => {
-  if (COUNTRIES.includes(val.country as typeof COUNTRIES[number]))
-    ogtQuery.value.country = val.country as typeof COUNTRIES[number]
-})
+watch(queryData, async (val) => {
+  console.log(val);
+  if (COUNTRIES.includes(val.country as typeof COUNTRIES[number])) {
+    await opportunityStore.getOGTOpportunitiesFiltered({
+      country: val.country as typeof COUNTRIES[number],
+    });
+  } else if (val.country === "") {
+    await opportunityStore.getOGTOpportunities();
+  }
+});
 </script>
 
 <template>
-  <aside class="default-side-panel shadow-light-900 dark:shadow-dark-900  shadow-md ">
+  <aside
+    class="default-side-panel shadow-light-900 dark:shadow-dark-900 shadow-md"
+  >
     <CountryFilter
       id="country"
       v-model="queryData.country"

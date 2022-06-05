@@ -1,136 +1,170 @@
 <script setup lang="ts">
 // #region Importing library code
-import { useToast } from 'vue-toastification'
+import { useToast } from "vue-toastification";
 // #endregion
 // #region Importing custom code
-import { createOpportunity } from '~/api'
-import { seedInFirebase } from '~/api/seed.api'
-import type TimeSlotInputGroup from '~/components/page/dashboard/TimeSlotInputGroup.vue'
-import type BaseImageInput from '~/components/utils/BaseImageInput.vue'
-import type { OGVCategory, OGXFunction, Timeslot } from '~/types'
-import { CATEGORY_OPTIONS, COUNTRIES, FUNCTION_OPTIONS } from '~/utils'
+import { createOpportunity } from "@/api";
+import { seedInFirebase } from "@/api/seed.api";
+import type TimeSlotInputGroup from "@/components/page/dashboard/TimeSlotInputGroup.vue";
+import type BaseImageInput from "@/components/utils/BaseImageInput.vue";
+import type { OGVCategory, OGXFunction, Timeslot } from "@/types";
+import { CATEGORY_OPTIONS, COUNTRIES, FUNCTION_OPTIONS } from "@/utils";
 
 // #endregion
 
 // #region Refs to hold form data
-const title = ref('')
-const description = ref('')
-const country = ref('')
-const salary = ref('')
-const currency = ref('')
-const selectedFunction = ref<OGXFunction>(FUNCTION_OPTIONS[0])
-const selectedCategory = ref<OGVCategory>(CATEGORY_OPTIONS[0])
-const opportunityLink = ref('')
+const title = ref("");
+const description = ref("");
+const country = ref("");
+const salary = ref("");
+const currency = ref("");
+const selectedFunction = ref<OGXFunction>(FUNCTION_OPTIONS[0]);
+const selectedCategory = ref<OGVCategory>(CATEGORY_OPTIONS[0]);
+const opportunityLink = ref("");
 // #endregion
 
 // Refs to get selected image and selected timeslots
-const timeslotInputGroup = ref<InstanceType<typeof TimeSlotInputGroup>>()
-const baseImageInput = ref<InstanceType<typeof BaseImageInput>>()
+const timeslotInputGroup = ref<InstanceType<typeof TimeSlotInputGroup>>();
+const baseImageInput = ref<InstanceType<typeof BaseImageInput>>();
 
 // Ref to show the spinner in button when form is submitting
-const loading = ref(false)
+const loading = ref(false);
 // toast component
-const toast = useToast()
+const toast = useToast();
 
 // Function to submit the form
 async function onSubmit() {
-  const posterImageFile = baseImageInput.value?.selectedImageFile
-  const timeslots = timeslotInputGroup.value?.timeslots
+  const posterImageFile = baseImageInput.value?.selectedImageFile;
+  const timeslots = timeslotInputGroup.value?.timeslots;
   if (
-    !title.value
-    || title.value.trim() === ''
-    || !description.value
-    || description.value.trim() === ''
-    || !country.value
-    || country.value.trim() === ''
-    || !opportunityLink.value
-    || opportunityLink.value.trim() === ''
-    || !posterImageFile
-    || !timeslots
+    !title.value ||
+    title.value.trim() === "" ||
+    !description.value ||
+    description.value.trim() === "" ||
+    !country.value ||
+    country.value.trim() === "" ||
+    !opportunityLink.value ||
+    opportunityLink.value.trim() === "" ||
+    !posterImageFile ||
+    !timeslots
   ) {
-    toast.error('Please input all the details correctly')
-    return
+    toast.error("Please input all the details correctly");
+    return;
   }
   if (
-    selectedFunction.value === 'OGT'
-    && (!salary.value
-      || isNaN(parseFloat(salary.value))
-      || !currency.value
-      || currency.value.trim() === '')
+    selectedFunction.value === "OGT" &&
+    (!salary.value ||
+      isNaN(parseFloat(salary.value)) ||
+      !currency.value ||
+      currency.value.trim() === "")
   ) {
-    toast.error('Please input all the details correctly')
-    return
+    toast.error("Please input all the details correctly");
+    return;
   }
   try {
-    loading.value = true
-    if (selectedFunction.value === 'OGT') {
+    loading.value = true;
+    if (selectedFunction.value === "OGT") {
       await createOpportunity({
         country: country.value,
         description: description.value,
-        function: 'OGT',
+        function: "OGT",
         poster: baseImageInput.value?.selectedImageFile as File,
         title: title.value,
         timeslots: timeslotInputGroup.value?.timeslots as Timeslot[],
         currency: currency.value,
         salary: parseFloat(salary.value),
         opportunityLink: opportunityLink.value,
-      })
-    } else if (selectedFunction.value === 'OGV') {
+      });
+    } else if (selectedFunction.value === "OGV") {
       await createOpportunity({
         country: country.value,
         description: description.value,
-        function: 'OGV',
+        function: "OGV",
         poster: baseImageInput.value?.selectedImageFile as File,
         title: title.value,
         timeslots: timeslotInputGroup.value?.timeslots as Timeslot[],
         category: selectedCategory.value,
         opportunityLink: opportunityLink.value,
-      })
+      });
     }
-    toast.success('Successfully added')
+    toast.success("Successfully added");
   } catch (error) {
-    toast.error((error as Error).message, {})
+    toast.error((error as Error).message, {});
   } finally {
-    loading.value = false
+    loading.value = false;
   }
 }
 
 async function seedData() {
-  loading.value = true
+  loading.value = true;
   try {
-    await seedInFirebase(100)
+    await seedInFirebase(100);
   } catch (error) {
-    toast.error((error as Error).message)
+    toast.error((error as Error).message);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
 }
 </script>
 
 <template>
   <h1 class="text-xl my-4">Add a new Opportunity</h1>
-  <form class="add-new-form" :class="selectedFunction" @submit.prevent="onSubmit">
-    <BaseInput id="title" v-model="title" type="text" label="Title" label-for="title" required>
+  <form
+    class="add-new-form"
+    :class="selectedFunction"
+    @submit.prevent="onSubmit"
+  >
+    <BaseInput
+      id="title"
+      v-model="title"
+      type="text"
+      label="Title"
+      label-for="title"
+      required
+    >
       <template #icon>
         <i-twemoji-office-worker />
       </template>
     </BaseInput>
 
-    <BaseSearchAndSelectInput id="country" v-model="country" :options="COUNTRIES" label="Country" label-for="country">
+    <BaseSearchAndSelectInput
+      id="country"
+      v-model="country"
+      :options="COUNTRIES"
+      label="Country"
+      label-for="country"
+    >
       <template #icon>
         <i-twemoji-world-map class="pointer-events-none" />
       </template>
     </BaseSearchAndSelectInput>
-    <BaseInput id="link" v-model="opportunityLink" type="text" label="Link" label-for="link" required>
+    <BaseInput
+      id="link"
+      v-model="opportunityLink"
+      type="text"
+      label="Link"
+      label-for="link"
+      required
+    >
       <template #icon>
         <i-flat-color-icons-link />
       </template>
     </BaseInput>
-    <BaseRadioInputGroup v-model="selectedFunction" :options="FUNCTION_OPTIONS" name="function" />
+    <BaseRadioInputGroup
+      v-model="selectedFunction"
+      :options="FUNCTION_OPTIONS"
+      name="function"
+    />
     <BaseTextarea
-id="description" v-model="description" type="text" label="Description" label-for="description"
-      :textarea="true" required rows="5"
->
+      id="description"
+      v-model="description"
+      type="text"
+      label="Description"
+      label-for="description"
+      :textarea="true"
+      required
+      rows="5"
+    >
       <template #icon>
         <i-twemoji-bookmark-tabs />
       </template>
@@ -141,32 +175,47 @@ id="description" v-model="description" type="text" label="Description" label-for
       </template>
     </BaseImageInput>
     <BaseInput
-v-if="selectedFunction === 'OGT'" id="salary" v-model="salary" type="number" label="Salary"
-      label-for="salary" required
->
+      v-if="selectedFunction === 'OGT'"
+      id="salary"
+      v-model="salary"
+      type="number"
+      label="Salary"
+      label-for="salary"
+      required
+    >
       <template #icon>
         <i-emojione-money-bag />
       </template>
     </BaseInput>
     <BaseInput
-v-if="selectedFunction === 'OGT'" id="currency" v-model="currency" type="text" label="Currency"
-      label-for="currency" required
->
+      v-if="selectedFunction === 'OGT'"
+      id="currency"
+      v-model="currency"
+      type="text"
+      label="Currency"
+      label-for="currency"
+      required
+    >
       <template #icon>
         <i-emojione-dollar-banknote />
       </template>
     </BaseInput>
     <BaseSearchAndSelectInput
-v-if="selectedFunction === 'OGV'" id="category" v-model="selectedCategory"
-      :options="CATEGORY_OPTIONS" label="Category" label-for="category" :is-default-icon="true"
->
+      v-if="selectedFunction === 'OGV'"
+      id="category"
+      v-model="selectedCategory"
+      :options="CATEGORY_OPTIONS"
+      label="Category"
+      label-for="category"
+      :is-default-icon="true"
+    >
     </BaseSearchAndSelectInput>
     <TimeSlotInputGroup ref="timeslotInputGroup" />
     <BaseActionButton :loading="loading">
-      {{ loading ? 'Creating' : 'Create' }}
+      {{ loading ? "Creating" : "Create" }}
     </BaseActionButton>
     <BaseActionButton :loading="loading" type="button" @click="seedData">
-      {{ loading ? 'Seeding' : 'seed' }}
+      {{ loading ? "Seeding" : "seed" }}
     </BaseActionButton>
   </form>
 </template>
@@ -269,7 +318,7 @@ v-if="selectedFunction === 'OGV'" id="category" v-model="selectedCategory"
   }
 
   &.OGT {
-    &>div {
+    & > div {
       &:nth-child(7) {
         grid-column: 1 / 2;
         grid-row: 7 / 8;

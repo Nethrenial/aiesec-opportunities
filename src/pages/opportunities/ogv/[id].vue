@@ -1,32 +1,32 @@
 <script lang="ts" setup>
-import { format } from 'date-fns'
-import { useOpportunitiesStore } from '~/stores/opportunities.store'
-import type { Opportunity } from '~/types'
+import { format } from "date-fns";
+import { useOpportunitiesStore } from "@/stores/opportunities.store";
+import type { Opportunity } from "@/types";
 const props = defineProps<{
-  id: string
-}>()
+  id: string;
+}>();
 
-const opportunityStore = useOpportunitiesStore()
-const opportunity = ref<Opportunity>()
+const opportunityStore = useOpportunitiesStore();
+const opportunity = ref<Opportunity>();
 
 // head management
 const head = reactive({
-  title: 'Opportunity | AIESEC',
-  meta: [{ name: 'description', content: 'Opportunity Description' }],
-})
+  title: "Opportunity | AIESEC",
+  meta: [{ name: "description", content: "Opportunity Description" }],
+});
 
-useHead(head)
+useHead(head);
 
 onMounted(async () => {
-  opportunity.value = await opportunityStore.getOpportunityById(props.id)
-  head.title = `${opportunity.value?.title} in ${opportunity.value?.country} | AIESEC`
+  opportunity.value = await opportunityStore.getOpportunityById(props.id);
+  head.title = `${opportunity.value?.title} in ${opportunity.value?.country} | AIESEC`;
   head.meta = [
     {
-      name: 'description',
+      name: "description",
       content: `${opportunity.value?.description}`,
     },
-  ]
-})
+  ];
+});
 </script>
 
 <template>
@@ -57,7 +57,7 @@ onMounted(async () => {
           </h1>
           <p class="my-2">
             Posted on
-            {{ format(opportunity.createdAt.toDate(), 'yyyy MMM dd') }}
+            {{ format(opportunity.createdAt.toDate(), "yyyy MMM dd") }}
           </p>
           <img
             :src="opportunity?.poster"
@@ -113,9 +113,9 @@ onMounted(async () => {
             >
               <i-flat-color-icons-calendar />
               <span>
-                {{ format(timeslot.begin.toDate(), 'yyyy MMM') }}
+                {{ format(timeslot.begin.toDate(), "yyyy MMM") }}
                 to
-                {{ format(timeslot.end.toDate(), 'yyyy MMM') }}
+                {{ format(timeslot.end.toDate(), "yyyy MMM") }}
               </span>
             </div>
           </div>

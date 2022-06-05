@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { isDark, toggleDark } from '~/composables'
+import { isDark, toggleDark } from "@/composables";
 </script>
 
 <template>
@@ -17,7 +17,7 @@ import { isDark, toggleDark } from '~/composables'
   height: 30px;
   border-radius: 100px;
   position: relative;
-  padding: .2rem;
+  padding: 0.2rem;
   background-color: var(--clr-background);
   cursor: pointer;
 

@@ -1,27 +1,27 @@
 <script lang="ts" setup>
-import { useToast } from 'vue-toastification'
-import { useAdminStore } from '~/stores/admin.store'
-const adminStore = useAdminStore()
-const router = useRouter()
-const isPasswordVisible = ref(false)
+import { useToast } from "vue-toastification";
+import { useAdminStore } from "@/stores/admin.store";
+const adminStore = useAdminStore();
+const router = useRouter();
+const isPasswordVisible = ref(false);
 
-const email = ref('')
-const password = ref('')
-const loading = ref(false)
+const email = ref("");
+const password = ref("");
+const loading = ref(false);
 
 async function onSubmit() {
-  loading.value = true
+  loading.value = true;
   try {
     await adminStore.login({
       email: email.value,
       password: password.value,
-    })
-    await router.push('/dashboard')
+    });
+    await router.push("/dashboard");
   } catch (error) {
-    const toast = useToast()
-    toast.error((error as Error).message)
+    const toast = useToast();
+    toast.error((error as Error).message);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
 }
 </script>
@@ -69,7 +69,7 @@ async function onSubmit() {
           </template>
         </BaseInput>
         <BaseActionButton type="submit" style="width: 100%" :loading="loading">
-          {{ loading ? 'Signing in' : 'Sign in' }}
+          {{ loading ? "Signing in" : "Sign in" }}
         </BaseActionButton>
       </form>
     </div>

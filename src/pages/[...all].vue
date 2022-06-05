@@ -1,7 +1,5 @@
 <template>
-  <div>
-    Not found
-  </div>
+  <div>Not found</div>
 </template>
 
 <route lang="yaml">

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { Opportunity } from '~/types'
+import type { Opportunity } from "@/types";
 const props = defineProps<{
-  opportunity: Opportunity
-}>()
+  opportunity: Opportunity;
+}>();
 </script>
 
 <template>
@@ -17,7 +17,15 @@ const props = defineProps<{
     </div>
     <span
       class="link-background"
-      @click="$router.push(`/opportunities/${props.opportunity.function === 'OGT' ? `ogt/${props.opportunity.id}` : `ogv/${props.opportunity.id}`}`)"
+      @click="
+        $router.push(
+          `/opportunities/${
+            props.opportunity.function === 'OGT'
+              ? `ogt/${props.opportunity.id}`
+              : `ogv/${props.opportunity.id}`
+          }`
+        )
+      "
     >
       <p>Learn More</p>
       <RouterLink :to="`/opportunities/${props.opportunity.id}`">

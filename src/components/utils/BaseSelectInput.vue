@@ -1,17 +1,17 @@
 <script setup lang="ts">
 const props = defineProps<{
-  options: string[]
-  value: string
-  tabindex?: number
-}>()
+  options: string[];
+  value: string;
+  tabindex?: number;
+}>();
 
 const emit = defineEmits<{
-  (event: 'optionSelect', payload: string): void
-}>()
+  (event: "optionSelect", payload: string): void;
+}>();
 
-const selected = ref(props.value)
+const selected = ref(props.value);
 
-const open = ref(false)
+const open = ref(false);
 </script>
 
 <template>
@@ -28,9 +28,9 @@ const open = ref(false)
           class="item"
           @click="
             () => {
-              selected = option
-              open = false
-              emit('optionSelect', option)
+              selected = option;
+              open = false;
+              emit('optionSelect', option);
             }
           "
         >
@@ -105,20 +105,22 @@ const open = ref(false)
   }
 
   // Animations
-  &-enter-from,&-leave-to {
+  &-enter-from,
+  &-leave-to {
     transform: translateY(-20px) scale(0.99);
     opacity: 0;
   }
 
-  &-enter-active,&-leave-active {
+  &-enter-active,
+  &-leave-active {
     transition: all 0.2s ease-in-out;
   }
 
-  &-enter-to,&-leave-from {
+  &-enter-to,
+  &-leave-from {
     transform: translateY(0px) scale(1);
     opacity: 1;
   }
-
 }
 .item {
   padding: 0.5rem 1rem;

@@ -1,26 +1,29 @@
 <script lang="ts" setup>
-import { storeToRefs } from 'pinia'
-import { useOpportunitiesStore } from '~/stores/opportunities.store'
+import { storeToRefs } from "pinia";
+import { useOpportunitiesStore } from "@/stores/opportunities.store";
 
-const opportunityStore = useOpportunitiesStore()
-const { ogvOpportunities } = storeToRefs(opportunityStore)
+const opportunityStore = useOpportunitiesStore();
+const { ogvOpportunities } = storeToRefs(opportunityStore);
 
-let isLoading = $ref(false)
+let isLoading = $ref(false);
 
 onMounted(async () => {
   if (ogvOpportunities.value.length === 0) {
-    isLoading = true
-    await opportunityStore.getOGVOpportunities()
-    isLoading = false
+    isLoading = true;
+    await opportunityStore.getOGVOpportunities();
+    isLoading = false;
   }
-})
+});
 
 useHead({
-  title: 'Volunteering opportunities | AIESEC',
+  title: "Volunteering opportunities | AIESEC",
   meta: [
-    { name: 'description', content: 'Currently available volunteering opportunities in AIESEC CC' },
+    {
+      name: "description",
+      content: "Currently available volunteering opportunities in AIESEC CC",
+    },
   ],
-})
+});
 </script>
 
 <template>

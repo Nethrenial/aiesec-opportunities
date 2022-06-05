@@ -1,33 +1,32 @@
 <script lang="ts" setup>
 const props = defineProps<{
-  options: string[]
-  modelValue: string
-  name: string
-}>()
+  options: string[];
+  modelValue: string;
+  name: string;
+}>();
 
 const emit = defineEmits<{
-  (event: 'update:modelValue', payload: string): void
-}>()
+  (event: "update:modelValue", payload: string): void;
+}>();
 </script>
 
 <template>
   <div class="radio-button-group">
     <label v-for="option in props.options" :key="option" :for="option">
       <input
-        :id="option" type="radio"
+        :id="option"
+        type="radio"
         :name="props.name"
         :value="option"
         :class="`${option === props.modelValue ? true : false}`"
         @change="emit('update:modelValue', option)"
-      >
+      />
       <div class="wrapper">
         <div class="ball" />
       </div>
       {{ option }}
     </label>
-    <span>
-      What is the function?
-    </span>
+    <span> What is the function? </span>
   </div>
 </template>
 
@@ -43,46 +42,46 @@ const emit = defineEmits<{
 }
 
 span {
-    position: absolute;
-    background-color: var(--clr-background);
-    top: -0.8em;
-    font-size: 0.8rem;
-    color: var(--clr-primary);
+  position: absolute;
+  background-color: var(--clr-background);
+  top: -0.8em;
+  font-size: 0.8rem;
+  color: var(--clr-primary);
 }
 
 label {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    gap: 1rem;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
 }
 
 input {
-    display: none;
+  display: none;
 
-    + .wrapper {
-        width: 1rem;
-        height: 1rem;
-        border-radius: 50%;
-        display: grid;
-        place-items: center;
-        border: 2px solid var(--clr-primary);
-        cursor: pointer;
+  + .wrapper {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    border: 2px solid var(--clr-primary);
+    cursor: pointer;
 
-        .ball {
-            background-color: var(--clr-background);
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            transition: all 0.2s ease-in-out;
-        }
+    .ball {
+      background-color: var(--clr-background);
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      transition: all 0.2s ease-in-out;
     }
-    &.true + .wrapper {
-        .ball {
-            background-color: var(--clr-primary);
-            width: 50%;
-            height: 50%;
-        }
+  }
+  &.true + .wrapper {
+    .ball {
+      background-color: var(--clr-primary);
+      width: 50%;
+      height: 50%;
     }
+  }
 }
 </style>

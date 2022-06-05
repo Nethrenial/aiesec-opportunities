@@ -1,22 +1,22 @@
 <script setup lang="ts">
 // Props
 const props = defineProps<{
-  modelValue: string | number
-  label: string
-  labelFor: string
-  fixedLabel?: boolean
-}>()
+  modelValue: string | number;
+  label: string;
+  labelFor: string;
+  fixedLabel?: boolean;
+}>();
 
 //  Emits
 const emit = defineEmits<{
-  (event: 'update:modelValue', payload: string | number): void
-}>()
+  (event: "update:modelValue", payload: string | number): void;
+}>();
 
-const { label, labelFor, modelValue } = toRefs(props)
-const input = ref<HTMLInputElement>()
+const { label, labelFor, modelValue } = toRefs(props);
+const input = ref<HTMLInputElement>();
 
 function onClickLabel(event: MouseEvent) {
-  input.value?.focus()
+  input.value?.focus();
 }
 </script>
 

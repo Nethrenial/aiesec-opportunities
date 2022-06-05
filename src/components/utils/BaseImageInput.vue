@@ -1,25 +1,25 @@
 <script setup lang="ts">
 // Props
 const props = defineProps<{
-  label: string
-  labelFor: string
-}>()
+  label: string;
+  labelFor: string;
+}>();
 
-const imageInput = ref<HTMLInputElement>()
+const imageInput = ref<HTMLInputElement>();
 
-const selectedImageFile = ref<File | null>(null)
-const selectedImageString = ref('')
+const selectedImageFile = ref<File | null>(null);
+const selectedImageString = ref("");
 
 defineExpose({
   selectedImageFile,
-})
+});
 
 function setImage($event: Event) {
-  const eventTarget = $event.target as HTMLInputElement
-  const files = eventTarget.files
+  const eventTarget = $event.target as HTMLInputElement;
+  const files = eventTarget.files;
   if (files) {
-    selectedImageFile.value = files[0]
-    selectedImageString.value = URL.createObjectURL(files[0])
+    selectedImageFile.value = files[0];
+    selectedImageString.value = URL.createObjectURL(files[0]);
   }
 }
 </script>
@@ -30,7 +30,7 @@ function setImage($event: Event) {
       class="input"
       @click="
         () => {
-          imageInput?.click()
+          imageInput?.click();
         }
       "
     >
