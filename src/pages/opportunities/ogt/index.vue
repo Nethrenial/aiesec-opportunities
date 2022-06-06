@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import { storeToRefs } from "pinia";
-import { useOpportunitiesStore } from "@/stores/opportunities.store";
+import { useOpportunitiesStore, useLoadingStore } from "@/stores";
 
 const opportunityStore = useOpportunitiesStore();
 const { opportunities } = storeToRefs(opportunityStore);
+const loadingStore = useLoadingStore();
+const { ogtFiltering } = storeToRefs(loadingStore);
 
 let isLoading = $ref(false);
 
@@ -27,12 +29,12 @@ useHead({
 <template>
   <div class="opportunity-portal-container">
     <h2
-      v-if="!isLoading"
+      v-if="!isLoading && !ogtFiltering"
       class="show-count text-sm mt-4 font-bold text-[var(--clr-text-secondary)]"
     >
       Showing Internship opportunities
     </h2>
-    <div v-if="!isLoading" class="job-cards">
+    <div v-if="!isLoading && !ogtFiltering" class="job-cards">
       <OpportunityCard
         v-for="o in opportunities"
         :key="o.id"
@@ -40,12 +42,12 @@ useHead({
       />
     </div>
     <h2
-      v-if="isLoading"
+      v-if="isLoading || ogtFiltering"
       class="show-count text-sm mt-4 font-bold text-[var(--clr-text-secondary)]"
     >
       Loading Internship opportunities
     </h2>
-    <div v-if="isLoading" class="job-cards">
+    <div v-if="isLoading || ogtFiltering" class="job-cards">
       <SkeletonOpportunityCard v-for="index in 20" :key="index" />
     </div>
   </div>

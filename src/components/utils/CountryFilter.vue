@@ -44,12 +44,12 @@ function onClickLabel() {
 </script>
 
 <template>
-  <div class="country-filter" :tabindex="tabindex" @blur="open = false">
+  <div class="country-filter mb-2" :tabindex="tabindex" @blur="open = false">
     <div class="input-wrapper">
       <label
         :id="`${props.labelFor}-label`"
         :for="props.labelFor"
-        class="ml-1 mb-1 bg-transparent text-[var(--clr-text-primary)] font-bold"
+        class="inline-block ml-1 mb-2 bg-transparent text-[var(--clr-text-primary)] font-bold"
         @click="onClickLabel"
       >
         {{ props.label }}
