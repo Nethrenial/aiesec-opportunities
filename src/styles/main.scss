@@ -1,5 +1,4 @@
 @import "utilities";
-@import '@vuepic/vue-datepicker/src/VueDatePicker/style/main.scss';
 
 
 :root {
@@ -31,6 +30,7 @@ html {
   --clr-skeleton-2: rgba(0, 0 , 0, 0.3);
   --clr-skeleton-3: rgba(0, 0, 0, 0.2);
   --clr-skeleton-4: rgba(0, 0 , 0, 0.4);
+
 }
 
 
@@ -60,6 +60,7 @@ html.dark {
   --clr-skeleton-2: rgba(255, 255 , 255, 0.4);
   --clr-skeleton-3: rgba(255, 255, 255, 0.1);
   --clr-skeleton-4: rgba(255, 255 , 255, 0.3);
+
 }
 
 *,*::after, *::before {
@@ -81,6 +82,13 @@ body {
   color: var(--clr-text-primary);
   font-family: 'Raleway', sans-serif;
 }
+
+
+$dp__font_family: 'Raleway', sans-serif !default;
+$dp__border_radius: 0.5rem !default; // Border radius everywhere
+@import '@vuepic/vue-datepicker/src/VueDatePicker/style/main.scss';
+
+
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -105,4 +113,40 @@ input:-webkit-autofill:active {
   left: 0;
   width: 100%;
   height: 2px;
+}
+
+
+
+.dp__theme_dark {
+  --dp-background-color: var(--clr-background);
+  --dp-text-color: var(--clr-text-primary);
+  --dp-hover-color: var(--clr-primary-opaque);
+  --dp-hover-text-color: var(--clr-primary);
+  --dp-hover-icon-color: var(--clr-primary);
+  --dp-primary-color: var(--clr-primary);
+  --dp-primary-text-color: #fff;
+  --dp-secondary-color: #a9a9a9;
+  --dp-border-color: transparent;
+  --dp-border-color-hover: var(--clr-primary);
+  --dp-success-color: var(--clr-success);
+  --dp-success-color-disabled: var(--clr-success-opaque);
+  --dp-icon-color: var(--clr-primary);
+  --dp-danger-color: var(--clr-error);
+}
+
+.dp__theme_light {
+  --dp-background-color: var(--clr-background);
+  --dp-text-color: var(--clr-text-primary);
+  --dp-hover-color: var(--clr-primary-opaque);
+  --dp-hover-text-color: var(--clr-primary);
+  --dp-hover-icon-color: var(--clr-primary);
+  --dp-primary-color: var(--clr-primary);
+  --dp-primary-text-color: #fff;
+  --dp-secondary-color: #a9a9a9;
+  --dp-border-color: transparent;
+  --dp-border-color-hover: var(--clr-primary);
+  --dp-success-color: var(--clr-success);
+  --dp-success-color-disabled: var(--clr-success-opaque);
+  --dp-icon-color: var(--clr-primary);
+  --dp-danger-color: var(--clr-error);
 }

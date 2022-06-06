@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useToast } from "vue-toastification";
+import { createToast } from "mosha-vue-toastify";
 import { useAdminStore } from "@/stores/admin.store";
 const adminStore = useAdminStore();
 const router = useRouter();
@@ -18,8 +18,9 @@ async function onSubmit() {
     });
     await router.push("/dashboard");
   } catch (error) {
-    const toast = useToast();
-    toast.error((error as Error).message);
+    createToast((error as Error).message, {
+      type: "danger",
+    });
   } finally {
     loading.value = false;
   }

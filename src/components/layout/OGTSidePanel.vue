@@ -2,6 +2,8 @@
 import DatePicker from "@vuepic/vue-datepicker";
 import { useOpportunitiesStore, useLoadingStore } from "@/stores";
 import { COUNTRIES } from "@/utils";
+import { isDark } from "@/composables";
+import { storeToRefs } from "pinia";
 
 const country = $ref("");
 const beginDate = ref<{ year: number; month: number }>();
@@ -9,6 +11,7 @@ const endDate = ref<{ year: number; month: number }>();
 
 const opportunityStore = useOpportunitiesStore();
 const loadingStore = useLoadingStore();
+const { ogtFiltering } = storeToRefs(loadingStore);
 
 async function filter() {
   loadingStore.$state.ogtFiltering = true;
@@ -58,14 +61,39 @@ async function filter() {
     >
       Select start month
     </label>
-    <DatePicker v-model="beginDate" month-picker mode-height="240" auto-apply />
+    <DatePicker
+      v-model="beginDate"
+      month-picker
+      mode-height="240"
+      auto-apply
+      placeholder="Select month"
+      :year-range="[new Date().getFullYear() - 1, new Date().getFullYear() + 5]"
+      alt-position
+      :dark="isDark"
+    />
     <label
       class="inline-block ml-1 mb-2 bg-transparent text-[var(--clr-text-primary)] font-bold"
     >
       Select end month
     </label>
-    <DatePicker v-model="endDate" month-picker mode-height="240" auto-apply />
-    <button @click="filter">Filter</button>
+    <DatePicker
+      v-model="endDate"
+      month-picker
+      mode-height="240"
+      auto-apply
+      placeholder="Select month"
+      :year-range="[new Date().getFullYear(), new Date().getFullYear() + 3]"
+      alt-position
+      :dark="isDark"
+    />
+
+    <BaseActionButton
+      class="w-full mt-auto"
+      :loading="ogtFiltering"
+      @click="filter"
+    >
+      {{ ogtFiltering ? "Filtering..." : "Filter" }}
+    </BaseActionButton>
   </aside>
 </template>
 
@@ -77,7 +105,8 @@ async function filter() {
   background-color: var(--clr-foreground);
   padding: 1rem;
   @include mq(md) {
-    display: block;
+    display: flex;
+    flex-direction: column;
     grid-column: 1 / 2;
     grid-row: 2 / 3;
   }

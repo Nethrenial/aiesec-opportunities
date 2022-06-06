@@ -156,7 +156,7 @@ function cancelForm() {
     gap: 1rem;
 
     @include mq(md) {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     & > div {

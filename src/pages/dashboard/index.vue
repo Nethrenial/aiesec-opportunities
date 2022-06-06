@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // #region Importing library code
-import { useToast } from "vue-toastification";
+import { createToast } from "mosha-vue-toastify";
 // #endregion
 // #region Importing custom code
 import { createOpportunity } from "@/api";
@@ -29,8 +29,6 @@ const baseImageInput = ref<InstanceType<typeof BaseImageInput>>();
 
 // Ref to show the spinner in button when form is submitting
 const loading = ref(false);
-// toast component
-const toast = useToast();
 
 // Function to submit the form
 async function onSubmit() {
@@ -48,7 +46,9 @@ async function onSubmit() {
     !posterImageFile ||
     !timeslots
   ) {
-    toast.error("Please input all the details correctly");
+    createToast("Please input all the details correctly", {
+      type: "danger",
+    });
     return;
   }
   if (
@@ -58,7 +58,9 @@ async function onSubmit() {
       !currency.value ||
       currency.value.trim() === "")
   ) {
-    toast.error("Please input all the details correctly");
+    createToast("Please input all the details correctly", {
+      type: "danger",
+    });
     return;
   }
   try {
@@ -87,9 +89,13 @@ async function onSubmit() {
         opportunityLink: opportunityLink.value,
       });
     }
-    toast.success("Successfully added");
+    createToast("Successfully added", {
+      type: "success",
+    });
   } catch (error) {
-    toast.error((error as Error).message, {});
+    createToast((error as Error).message, {
+      type: "danger",
+    });
   } finally {
     loading.value = false;
   }
@@ -99,8 +105,13 @@ async function seedData() {
   loading.value = true;
   try {
     await seedInFirebase(100);
+    createToast("Successfully seeded", {
+      type: "success",
+    });
   } catch (error) {
-    toast.error((error as Error).message);
+    createToast((error as Error).message, {
+      type: "danger",
+    });
   } finally {
     loading.value = false;
   }
@@ -130,7 +141,7 @@ async function seedData() {
     <BaseSearchAndSelectInput
       id="country"
       v-model="country"
-      :options="COUNTRIES"
+      :options="COUNTRIES as unknown as string[]"
       label="Country"
       label-for="country"
     >
@@ -228,7 +239,7 @@ async function seedData() {
   margin-bottom: 2rem;
 
   @include mq(lg) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   div {

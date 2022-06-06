@@ -83,21 +83,21 @@ useHead({
   gap: 1rem;
 
   @include mq(sm) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 2rem;
     padding: 1rem 2rem;
   }
   @include mq(md) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     padding: 1rem 3rem;
   }
   @include mq(lg) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1.5rem;
     padding: 1rem 4rem;
   }
   @include mq(xxl) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 1rem;
     padding: 1rem 5rem;
   }
