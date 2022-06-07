@@ -5414,6 +5414,11 @@ quick-lru@^4.0.1:
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-4.0.1.tgz#5b8878f113a58217848c6482026c73e1ba57727f"
   integrity sha512-ARhCpm70fzdcvNQfPoy49IaanKkTlRWF2JMzqhcJbhSFRZv7nPTvZJdcY7301IPmvW+/p0RgIWnQDLJxifsQ7g==
 
+ramda@>=0.28.0:
+  version "0.28.0"
+  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.28.0.tgz#acd785690100337e8b063cab3470019be427cc97"
+  integrity sha512-9QnLuG/kPVgWvMQ4aODhsBUFKOUmnbUnsSXACv+NCQZcHbeb+v8Lodp8OVxtRULN1/xOyYLLaL6npE6dMq5QTA==
+
 range-parser@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.1.tgz#3cf37023d199e1c24d1a55b84800c2f3e6468031"
@@ -6600,6 +6605,15 @@ vue-tsc@^0.35.2:
   integrity sha512-aqY16VlODHzqtKGUkqdumNpH+s5ABCkufRyvMKQlL/mua+N2DfSVnHufzSNNUMr7vmOO0YsNg27jsspBMq4iGA==
   dependencies:
     "@volar/vue-typescript" "0.35.2"
+
+vue-virtual-scroll-grid@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/vue-virtual-scroll-grid/-/vue-virtual-scroll-grid-1.7.0.tgz#5ff2c0e91165dcb62c2d779cd4f9915b6e27161c"
+  integrity sha512-DAXPfrh848fdy0HP8DalI3DcUcOzhfEUGooDUV2pRDdkrTnMd9hiyL4AjP6NO9TD2fF+OQdpKmVpxWVKWiQf2w==
+  dependencies:
+    "@vueuse/core" "^8.6.0"
+    ramda ">=0.28.0"
+    rxjs "^7.5.1"
 
 vue@^3.2.36:
   version "3.2.36"
