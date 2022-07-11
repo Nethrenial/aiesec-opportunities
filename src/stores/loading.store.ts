@@ -1,17 +1,13 @@
 import { acceptHMRUpdate, defineStore } from "pinia";
 
 interface LoadingState {
-  ogtFiltering: boolean;
-  ogvFiltering: boolean;
-  allFiltering: boolean;
+  filtering: boolean;
 }
 
 export const useLoadingStore = defineStore("loading", {
   state: (): LoadingState => {
     return {
-      allFiltering: false,
-      ogtFiltering: false,
-      ogvFiltering: false,
+      filtering: false,
     };
   },
 });

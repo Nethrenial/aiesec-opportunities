@@ -1,40 +1,81 @@
 <script lang="ts" setup>
 import { storeToRefs } from "pinia";
-import { useOpportunitiesStore, useFiltersStore } from "@/stores";
-import type { COUNTRIES } from "@/utils";
+import {
+  useOpportunitiesStore,
+  useFiltersStore,
+  useLoadingStore,
+} from "@/stores";
+import type { OGXFunctionOrMultiple, QueryCountry, QueryPeriod } from "@/types";
+import type { LocationQuery } from "vue-router";
+import { COUNTRIES } from "@/utils";
 
-const query = useRoute().query;
-const initialQuery = {
-  country: query.country || "",
-  begin: {
-    year: query.begin_year ? Number(query.begin_year) : undefined,
-    month: query.begin_month ? Number(query.begin_month) : undefined,
-  },
-  end: {
-    year: query.end_year ? Number(query.end_year) : undefined,
-    month: query.end_month ? Number(query.end_month) : undefined,
-  },
-};
-
+//setting up stores
 const filtersStore = useFiltersStore();
-filtersStore.allCountry = initialQuery.country as "" | typeof COUNTRIES[number];
-filtersStore.allBegin = {
-  year: initialQuery.begin.year,
-  month: initialQuery.begin.month,
-};
-filtersStore.allEnd = {
-  year: initialQuery.end.year,
-  month: initialQuery.end.month,
-};
-
 const opportunityStore = useOpportunitiesStore();
-const { opportunities } = storeToRefs(opportunityStore);
+const loadingStore = useLoadingStore();
 
+//methods
+function getQueryObjectFromParams(query: LocationQuery) {
+  const queryObject: {
+    type: OGXFunctionOrMultiple;
+    country: QueryCountry;
+    begin: QueryPeriod | undefined;
+    end: QueryPeriod | undefined;
+  } = {
+    type: (query.type as OGXFunctionOrMultiple) || "all",
+    country: (query.country as QueryCountry) || "",
+    begin: query.begin_year
+      ? {
+          year: Number(query.begin_year),
+          month: Number(query.begin_month),
+        }
+      : undefined,
+    end: query.end_year
+      ? {
+          year: Number(query.end_year),
+          month: Number(query.end_month),
+        }
+      : undefined,
+  };
+  return queryObject;
+}
+
+// handle initial parsing of url to generate query object
+const route = useRoute();
+const query = route.query;
+const initialQuery = getQueryObjectFromParams(query);
+filtersStore.$state = initialQuery;
+const router = useRouter();
+
+//subscribe to filter state to generate new url with appropriate query params
+filtersStore.$subscribe(async (mutation, state) => {
+  const { begin, country, end, type } = state;
+  let url = "/opportunities";
+  if (type) {
+    url += `?type=${type}`;
+  }
+  if (country) {
+    url += `&country=${country}`;
+  }
+  if (begin) {
+    url += `&begin_year=${begin.year}&begin_month=${begin.month}`;
+  }
+
+  if (end) {
+    url += `&end_year=${end.year}&end_month=${end.month}`;
+  }
+  console.log("Constructed url = ", url);
+  await router.push(url);
+});
+
+const { opportunities } = storeToRefs(opportunityStore);
+const { filtering } = storeToRefs(loadingStore);
 let isLoading = $ref(false);
 
+//handle initial data fetching
 onMounted(async () => {
   isLoading = true;
-  await opportunityStore.getOpportunities("all");
+  await opportunityStore.getOpportunities(initialQuery);
   isLoading = false;
 });
 </script>
@@ -42,12 +83,12 @@ onMounted(async () => {
 <template>
   <div class="opportunity-portal-container">
     <h2
-      v-if="!isLoading"
+      v-if="!isLoading && !filtering"
       class="show-count text-sm mt-4 font-bold text-[var(--clr-text-secondary)]"
     >
       Showing 20 out of 100 opportunities
     </h2>
-    <div v-if="!isLoading" class="job-cards">
+    <div v-if="!isLoading && !filtering" class="job-cards">
       <OpportunityCard
         v-for="o in opportunities"
         :key="o.id"
@@ -55,7 +96,7 @@ onMounted(async () => {
       />
     </div>
     <h2
-      v-if="isLoading"
+      v-if="isLoading || filtering"
       class="show-count text-sm mt-4 font-bold text-[var(--clr-text-secondary)]"
     >
       Loading 20 out of 100 opportunities

@@ -1,7 +1,7 @@
 <template>
   <main class="default">
     <DefaultHeader />
-    <DefaultSidePanel />
+    <SidePanel />
     <router-view v-slot="{ Component }">
       <keep-alive>
         <component :is="Component" />

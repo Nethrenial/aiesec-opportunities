@@ -1,47 +1,37 @@
 <script lang="ts" setup>
 import DatePicker from "@vuepic/vue-datepicker";
-import { useOpportunitiesStore, useLoadingStore } from "@/stores";
+import { useLoadingStore, useFiltersStore } from "@/stores";
+import type { QueryCountry } from "@/types";
 import { COUNTRIES } from "@/utils";
 import { isDark } from "@/composables";
 import { storeToRefs } from "pinia";
 
-const country = $ref("");
+const country = $ref<QueryCountry>("");
 const beginDate = ref<{ year: number; month: number }>();
 const endDate = ref<{ year: number; month: number }>();
 
-const opportunityStore = useOpportunitiesStore();
 const loadingStore = useLoadingStore();
-const { ogtFiltering } = storeToRefs(loadingStore);
+const { filtering } = storeToRefs(loadingStore);
+
+const filtersStore = useFiltersStore();
 
 async function filter() {
-  loadingStore.$state.ogtFiltering = true;
-  if (COUNTRIES.includes(country as typeof COUNTRIES[number])) {
-    if (beginDate.value && endDate.value) {
-      await opportunityStore.getOpportunities("OGT", {
-        country: country as typeof COUNTRIES[number],
-        period: {
-          begin: new Date(beginDate.value.year, beginDate.value.month),
-          end: new Date(endDate.value.year, endDate.value.month),
-        },
-      });
-    } else {
-      await opportunityStore.getOpportunities("OGT", {
-        country: country as typeof COUNTRIES[number],
-      });
-    }
-  } else if (country === "") {
-    if (beginDate.value && endDate.value) {
-      await opportunityStore.getOpportunities("OGT", {
-        period: {
-          begin: new Date(beginDate.value.year, beginDate.value.month),
-          end: new Date(endDate.value.year, endDate.value.month),
-        },
-      });
-    } else {
-      await opportunityStore.getOpportunities("OGT");
-    }
-  }
-  loadingStore.$state.ogtFiltering = false;
+  filtersStore.$state = {
+    type: filtersStore.$state.type,
+    country: country,
+    begin: beginDate.value
+      ? {
+          year: beginDate.value.year,
+          month: beginDate.value.month,
+        }
+      : undefined,
+    end: endDate.value
+      ? {
+          year: endDate.value.year,
+          month: endDate.value.month,
+        }
+      : undefined,
+  };
 }
 </script>
 
@@ -51,7 +41,7 @@ async function filter() {
   >
     <CountryFilter
       id="country"
-      v-model="country"
+      v-model="filtersStore.country"
       :countries="COUNTRIES"
       label="Select country to filter"
       label-for="country"
@@ -62,12 +52,15 @@ async function filter() {
       Select start month
     </label>
     <DatePicker
-      v-model="beginDate"
+      v-model="filtersStore.begin"
       month-picker
       mode-height="240"
       auto-apply
       placeholder="Select month"
-      :year-range="[new Date().getFullYear() - 1, new Date().getFullYear() + 5]"
+      :year-range="[
+        new Date().getFullYear() - 1,
+        new Date().getFullYear() + 15,
+      ]"
       alt-position
       :dark="isDark"
     />
@@ -77,22 +70,22 @@ async function filter() {
       Select end month
     </label>
     <DatePicker
-      v-model="endDate"
+      v-model="filtersStore.end"
       month-picker
       mode-height="240"
       auto-apply
       placeholder="Select month"
-      :year-range="[new Date().getFullYear(), new Date().getFullYear() + 3]"
+      :year-range="[new Date().getFullYear(), new Date().getFullYear() + 15]"
       alt-position
       :dark="isDark"
     />
 
     <BaseActionButton
       class="w-full mt-auto"
-      :loading="ogtFiltering"
+      :loading="filtering"
       @click="filter"
     >
-      {{ ogtFiltering ? "Filtering..." : "Filter" }}
+      {{ filtering ? "Filtering..." : "Filter" }}
     </BaseActionButton>
   </aside>
 </template>

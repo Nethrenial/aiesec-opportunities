@@ -1,5 +1,5 @@
 import type { Timestamp } from "firebase/firestore";
-import type { CATEGORY_OPTIONS, COUNTRIES, FUNCTION_OPTIONS } from "@/utils";
+import type { COUNTRIES, CATEGORY_OPTIONS, FUNCTION_OPTIONS } from "@/utils";
 
 export interface CreateOpportunityDTO {
   title: string;
@@ -72,7 +72,7 @@ export interface TimeslotResponse {
 
 export type OGXFunction = "OGV" | "OGT";
 
-export type OGXFunctionOrMultiple = "all" | "OGV" | "OGT";
+export type OGXFunctionOrMultiple = "all" | OGXFunction;
 
 export type OGVCategory =
   | "Youth 4 Impact"
@@ -108,4 +108,11 @@ export interface OpportunityFilters {
       }
     | undefined;
   category?: OGVCategory;
+}
+
+export type QueryCountry = typeof COUNTRIES[number] | "";
+
+export interface QueryPeriod {
+  year: number;
+  month: number;
 }

@@ -50,6 +50,7 @@ declare module '@vue/runtime-core' {
     PasswordInput: typeof import('./components/utils/PasswordInput.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SidePanel: typeof import('./components/layout/SidePanel.vue')['default']
     SkeletonOpportunityCard: typeof import('./components/utils/SkeletonOpportunityCard.vue')['default']
     TimeSlotInputGroup: typeof import('./components/page/dashboard/TimeSlotInputGroup.vue')['default']
   }

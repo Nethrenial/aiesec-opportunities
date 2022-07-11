@@ -3,7 +3,8 @@ import { getOpportunities, getOpportunityById } from "@/api";
 import type {
   OGXFunctionOrMultiple,
   Opportunity,
-  OpportunityFilters,
+  QueryCountry,
+  QueryPeriod,
 } from "@/types";
 
 interface OpportunitiesState {
@@ -27,11 +28,13 @@ export const useOpportunitiesStore = defineStore("opportunities", {
 
       return result;
     },
-    async getOpportunities(
-      ogxFunction: OGXFunctionOrMultiple,
-      filters?: OpportunityFilters
-    ) {
-      this.opportunities = await getOpportunities(ogxFunction, filters);
+    async getOpportunities(queryObject: {
+      type: OGXFunctionOrMultiple;
+      country: QueryCountry;
+      begin: QueryPeriod | undefined;
+      end: QueryPeriod | undefined;
+    }) {
+      this.opportunities = await getOpportunities(queryObject);
     },
   },
 });
