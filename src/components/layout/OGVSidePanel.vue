@@ -82,7 +82,7 @@ async function filter() {
       mode-height="240"
       auto-apply
       placeholder="Select month"
-      :year-range="[new Date().getFullYear(), new Date().getFullYear() + 3]"
+      :year-range="[new Date().getFullYear() - 1, new Date().getFullYear() + 5]"
       alt-position
       :dark="isDark"
     />

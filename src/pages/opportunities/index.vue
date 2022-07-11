@@ -1,6 +1,31 @@
 <script lang="ts" setup>
 import { storeToRefs } from "pinia";
-import { useOpportunitiesStore } from "@/stores/opportunities.store";
+import { useOpportunitiesStore, useFiltersStore } from "@/stores";
+import type { COUNTRIES } from "@/utils";
+
+const query = useRoute().query;
+const initialQuery = {
+  country: query.country || "",
+  begin: {
+    year: query.begin_year ? Number(query.begin_year) : undefined,
+    month: query.begin_month ? Number(query.begin_month) : undefined,
+  },
+  end: {
+    year: query.end_year ? Number(query.end_year) : undefined,
+    month: query.end_month ? Number(query.end_month) : undefined,
+  },
+};
+
+const filtersStore = useFiltersStore();
+filtersStore.allCountry = initialQuery.country as "" | typeof COUNTRIES[number];
+filtersStore.allBegin = {
+  year: initialQuery.begin.year,
+  month: initialQuery.begin.month,
+};
+filtersStore.allEnd = {
+  year: initialQuery.end.year,
+  month: initialQuery.end.month,
+};
 
 const opportunityStore = useOpportunitiesStore();
 const { opportunities } = storeToRefs(opportunityStore);

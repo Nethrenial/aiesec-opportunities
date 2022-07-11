@@ -1,9 +1,40 @@
 <script lang="ts" setup>
 import { storeToRefs } from "pinia";
-import { useOpportunitiesStore } from "@/stores/opportunities.store";
+import {
+  useOpportunitiesStore,
+  useLoadingStore,
+  useFiltersStore,
+} from "@/stores";
+import type { COUNTRIES } from "@/utils";
+
+const query = useRoute().query;
+const initialQuery = {
+  country: query.country || "",
+  begin: {
+    year: query.begin_year ? Number(query.begin_year) : undefined,
+    month: query.begin_month ? Number(query.begin_month) : undefined,
+  },
+  end: {
+    year: query.end_year ? Number(query.end_year) : undefined,
+    month: query.end_month ? Number(query.end_month) : undefined,
+  },
+};
+
+const filtersStore = useFiltersStore();
+filtersStore.ogvCountry = initialQuery.country as "" | typeof COUNTRIES[number];
+filtersStore.ogvBegin = {
+  year: initialQuery.begin.year,
+  month: initialQuery.begin.month,
+};
+filtersStore.ogvEnd = {
+  year: initialQuery.end.year,
+  month: initialQuery.end.month,
+};
 
 const opportunityStore = useOpportunitiesStore();
 const { opportunities } = storeToRefs(opportunityStore);
+const loadingStore = useLoadingStore();
+const { ogvFiltering } = storeToRefs(loadingStore);
 
 let isLoading = $ref(false);
 
@@ -14,11 +45,11 @@ onMounted(async () => {
 });
 
 useHead({
-  title: "Volunteering opportunities | AIESEC",
+  title: "Internship opportunities | AIESEC",
   meta: [
     {
       name: "description",
-      content: "Currently available volunteering opportunities in AIESEC CC",
+      content: "Currently available internship opportunities in AIESEC CC",
     },
   ],
 });
@@ -27,12 +58,12 @@ useHead({
 <template>
   <div class="opportunity-portal-container">
     <h2
-      v-if="!isLoading"
+      v-if="!isLoading && !ogvFiltering"
       class="show-count text-sm mt-4 font-bold text-[var(--clr-text-secondary)]"
     >
-      Showing volunteering opportunities
+      Showing Internship opportunities
     </h2>
-    <div v-if="!isLoading" class="job-cards">
+    <div v-if="!isLoading && !ogvFiltering" class="job-cards">
       <OpportunityCard
         v-for="o in opportunities"
         :key="o.id"
@@ -40,12 +71,12 @@ useHead({
       />
     </div>
     <h2
-      v-if="isLoading"
+      v-if="isLoading || ogvFiltering"
       class="show-count text-sm mt-4 font-bold text-[var(--clr-text-secondary)]"
     >
-      Loading volunteering opportunities
+      Loading Internship opportunities
     </h2>
-    <div v-if="isLoading" class="job-cards">
+    <div v-if="isLoading || ogvFiltering" class="job-cards">
       <SkeletonOpportunityCard v-for="index in 20" :key="index" />
     </div>
   </div>
@@ -101,13 +132,6 @@ useHead({
     gap: 1rem;
     padding: 1rem 5rem;
   }
-
-  &__item {
-    aspect-ratio: 1;
-    background-color: var(--clr-foreground);
-    border-radius: 0.5rem;
-    // box-shadow: 2px 2px 5px 2px rgba($color: #000, $alpha: 0.2);
-  }
 }
 
 .show-count {
@@ -131,5 +155,5 @@ useHead({
 
 <route lang="yaml">
 meta:
-  layout: ogv
+  layout: ogt
 </route>
