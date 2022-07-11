@@ -1,10 +1,17 @@
 <script lang="ts" setup>
 import DatePicker from "@vuepic/vue-datepicker";
-import { useOpportunitiesStore, useLoadingStore } from "@/stores";
+import {
+  useOpportunitiesStore,
+  useLoadingStore,
+  useFiltersStore,
+} from "@/stores";
 import { COUNTRIES } from "@/utils";
 import { isDark } from "@/composables";
 import { storeToRefs } from "pinia";
 
+const filtersStore = useFiltersStore();
+const { allCountry, allBegin, allEnd } = storeToRefs(filtersStore);
+console.log(allCountry.value, allBegin.value, allEnd.value);
 const country = $ref("");
 const beginDate = ref<{ year: number; month: number }>();
 const endDate = ref<{ year: number; month: number }>();
