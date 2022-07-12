@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { format } from "date-fns";
-import { useOpportunitiesStore } from "@/stores/opportunities.store";
+import { useOpportunitiesStore } from "@/stores";
 import type { Opportunity } from "@/types";
 const props = defineProps<{
   id: string;
@@ -34,12 +34,12 @@ onMounted(async () => {
     <div v-if="opportunity" class="opportunity-container">
       <header class="opportunity-header">
         <div class="opportunity-header__container">
-          <RouterLink
-            to="/opportunities/ogv"
-            class="flex items-center justify-center w-[36px] h-[36px] rounded-full bg-[var(--clr-background)] text-[var(--clr-primary)]"
+          <a
+            @click.prevent="$router.back()"
+            class="cursor-pointer flex items-center justify-center w-[36px] h-[36px] rounded-full bg-[var(--clr-background)] text-[var(--clr-primary)]"
           >
             <i-ep-back />
-          </RouterLink>
+          </a>
           <h2>Opportunity Details</h2>
         </div>
       </header>

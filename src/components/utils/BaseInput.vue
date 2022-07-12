@@ -26,7 +26,9 @@ function onClickLabel(event: MouseEvent) {
       v-bind="$attrs"
       ref="input"
       :value="modelValue"
-      @change="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+      @change="
+        emit('update:modelValue', ($event.target as HTMLInputElement).value)
+      "
     />
     <label
       :for="labelFor"

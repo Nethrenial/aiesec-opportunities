@@ -6,6 +6,7 @@
     "dev": "vite",
     "build": "run-p type-check build-only",
     "preview": "vite preview --port 4173",
+    "deploy": "firebase deploy",
     "test:unit": "vitest --environment jsdom",
     "test:e2e": "start-server-and-test preview http://127.0.0.1:4173/ 'cypress open --e2e'",
     "test:e2e:ci": "start-server-and-test preview http://127.0.0.1:4173/ 'cypress run --e2e'",
@@ -14,11 +15,13 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@algolia/autocomplete-js": "^1.7.1",
     "@vuepic/vue-datepicker": "^3.2.2",
     "@vueuse/core": "^8.6.0",
     "@vueuse/head": "^0.7.6",
+    "algoliasearch": "^4.13.1",
     "date-fns": "^2.28.0",
-    "firebase": "^9.8.2",
+    "firebase": "^9.9.0",
     "mosha-vue-toastify": "^1.0.23",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.14",

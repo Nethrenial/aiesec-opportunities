@@ -17,15 +17,7 @@ const props = defineProps<{
     </div>
     <span
       class="link-background"
-      @click="
-        $router.push(
-          `/opportunities/${
-            props.opportunity.function === 'OGT'
-              ? `ogt/${props.opportunity.id}`
-              : `ogv/${props.opportunity.id}`
-          }`
-        )
-      "
+      @click="$router.push(`/opportunities/${props.opportunity.id}`)"
     >
       <p>Learn More</p>
       <RouterLink :to="`/opportunities/${props.opportunity.id}`">
