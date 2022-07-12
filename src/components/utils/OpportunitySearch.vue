@@ -1,26 +1,28 @@
 <script setup lang="ts">
 import algoliasearch from "algoliasearch/lite";
+import { useFiltersStore } from "@/stores";
 import type { SearchHit } from "@/types";
+
+const filtersStore = useFiltersStore();
+const route = useRoute();
+const query = route.query;
 
 const focusSearch = () => {
   const search = document.querySelector(".search-input") as HTMLInputElement;
+  modalOpen.value = true;
   search.focus();
 };
-
-const searchText = ref("");
-const loading = ref(false);
-const modalOpen = ref(false);
-const searchResults = ref<Array<SearchHit>>([]);
-
-const searchClient = algoliasearch(
-  "5U7Q81A6SV",
-  "e87501d22c22cdcc4f36c58d2b56ed82",
-  {}
-);
 
 const search = useDebounceFn(async () => {
   loading.value = true;
   modalOpen.value = true;
+  if (searchText.value.trim() === "") {
+    loading.value = false;
+    searchResults.value = [];
+    return;
+  }
+  filtersStore.q = searchText.value;
+
   const response = await searchClient.search<SearchHit>(
     [
       {
@@ -33,6 +35,26 @@ const search = useDebounceFn(async () => {
   searchResults.value = response["results"][0]["hits"];
   loading.value = false;
 }, 500);
+
+const searchText = ref((query.q as string) || "");
+if (searchText.value) {
+  search();
+}
+const loading = ref(false);
+const modalOpen = ref(false);
+const searchResults = ref<Array<SearchHit>>([]);
+
+const searchClient = algoliasearch(
+  "5U7Q81A6SV",
+  "e87501d22c22cdcc4f36c58d2b56ed82",
+  {}
+);
+
+function cancelSearch() {
+  searchText.value = "";
+  searchResults.value = [];
+  modalOpen.value = false;
+}
 </script>
 
 <template>
@@ -43,17 +65,46 @@ const search = useDebounceFn(async () => {
       class="search-input"
       placeholder="Search opportunities"
       @input="search"
+      @focus="focusSearch"
     />
-    <i-bi-search class="search-icon" @click="focusSearch" />
-    <div class="search-results" :class="modalOpen ? 'visible' : ''">
-      <RouterLink
-        class="search-results__item"
-        v-for="sr in searchResults"
-        :key="sr.objectID"
-        v-html="sr._highlightResult.title.value"
-        :to="`/${sr.path}`"
-      ></RouterLink>
-    </div>
+    <i-bi-search class="search-icon" @click="focusSearch" v-if="!modalOpen" />
+    <i-carbon-close class="search-icon" @click="cancelSearch" v-else />
+    <transition name="search-results">
+      <div
+        class="search-results flex items-start justify-center p-2"
+        v-if="modalOpen"
+      >
+        <div v-if="loading" class="self-center">
+          <i-eos-icons-loading class="w-[48px] h-[48px]" />
+        </div>
+        <div class="w-100" v-else-if="!loading && searchResults.length > 0">
+          <RouterLink
+            class="search-results__item block p-2"
+            v-for="sr in searchResults"
+            :key="sr.objectID"
+            :to="`/${sr.path}`"
+          >
+            <h3 v-html="sr._highlightResult.title.value"></h3>
+            <small class="text-[var(--clr-text-secondary)] text-xs"
+              >{{ sr.function === "OGT" ? "Work" : "Volunteer" }} in
+              {{ sr.country }}</small
+            >
+          </RouterLink>
+        </div>
+        <div
+          class="self-center h-full w-full flex items-center justify-center"
+          v-else-if="modalOpen && searchText.trim() === ''"
+        >
+          <p>Type something to search ...</p>
+        </div>
+        <div
+          class="self-center h-full w-full flex items-center justify-center"
+          v-else
+        >
+          <p>No results founds</p>
+        </div>
+      </div>
+    </transition>
   </form>
 </template>
 
@@ -108,28 +159,57 @@ const search = useDebounceFn(async () => {
   }
 
   &-results {
+    min-height: 200px;
+    max-height: 200px;
     background-color: var(--clr-background);
+    box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.2);
+    overflow-x: hidden;
+    overflow-y: auto;
     color: var(--clr-text-primary);
     position: absolute;
-    top: 3rem;
+    top: 2.8rem;
     left: 0;
     right: 0;
-    padding: 0.5rem;
     border-radius: 0.5rem;
 
+    &::-webkit-scrollbar {
+      width: 0.5rem;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: var(--clr-foreground);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--clr-primary);
+    }
+
     &__item {
-      padding: 0.5rem;
       border-radius: 0.5rem;
       cursor: pointer;
       transition: all 0.2s;
       &:hover {
-        background-color: var(--clr-background-hover);
+        background-color: var(--clr-primary);
+        color: #fff;
       }
     }
-  }
-}
 
-em {
-  font-style: normal;
+    &-enter-from,
+    &-leave-to {
+      transform: translateY(-20px) scale(0.99);
+      opacity: 0;
+    }
+
+    &-enter-active,
+    &-leave-active {
+      transition: all 0.2s ease-in-out;
+    }
+
+    &-enter-to,
+    &-leave-from {
+      transform: translateY(0px) scale(1);
+      opacity: 1;
+    }
+  }
 }
 </style>

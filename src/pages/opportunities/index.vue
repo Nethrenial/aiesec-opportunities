@@ -20,6 +20,7 @@ function getQueryObjectFromParams(query: LocationQuery) {
     country: QueryCountry;
     begin: QueryPeriod | undefined;
     end: QueryPeriod | undefined;
+    q: string | undefined;
   } = {
     type: (query.type as OGXFunctionOrMultiple) || "all",
     country: (query.country as QueryCountry) || "",
@@ -35,6 +36,7 @@ function getQueryObjectFromParams(query: LocationQuery) {
           month: Number(query.end_month),
         }
       : undefined,
+    q: query.q as string | undefined,
   };
   return queryObject;
 }
@@ -48,7 +50,7 @@ const router = useRouter();
 
 //subscribe to filter state to generate new url with appropriate query params
 filtersStore.$subscribe(async (mutation, state) => {
-  const { begin, country, end, type } = state;
+  const { begin, country, end, type, q } = state;
   let url = "/opportunities";
   if (type) {
     url += `?type=${type}`;
@@ -62,6 +64,10 @@ filtersStore.$subscribe(async (mutation, state) => {
 
   if (end) {
     url += `&end_year=${end.year}&end_month=${end.month}`;
+  }
+
+  if (q) {
+    url += `&q=${q}`;
   }
   console.log("Constructed url = ", url);
   await router.push(url);

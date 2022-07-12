@@ -14,11 +14,10 @@ const head = reactive({
   title: "Opportunity | AIESEC",
   meta: [{ name: "description", content: "Opportunity Description" }],
 });
-
 useHead(head);
 
-onMounted(async () => {
-  opportunity.value = await opportunityStore.getOpportunityById(props.id);
+async function loadOpportunity(id: string) {
+  opportunity.value = await opportunityStore.getOpportunityById(id);
   head.title = `${opportunity.value?.title} in ${opportunity.value?.country} | AIESEC`;
   head.meta = [
     {
@@ -26,6 +25,17 @@ onMounted(async () => {
       content: `${opportunity.value?.description}`,
     },
   ];
+}
+
+onMounted(async () => {
+  await loadOpportunity(props.id);
+});
+
+const route = useRoute();
+
+watch(route, async (newVal) => {
+  if (!newVal.params.id) return;
+  await loadOpportunity(newVal.params.id as string);
 });
 </script>
 

@@ -6,6 +6,7 @@ interface FiltersState {
   country: QueryCountry;
   begin: QueryPeriod | undefined;
   end: QueryPeriod | undefined;
+  q: string | undefined;
 }
 
 export const useFiltersStore = defineStore("filters", {
@@ -15,6 +16,7 @@ export const useFiltersStore = defineStore("filters", {
       country: "",
       begin: undefined,
       end: undefined,
+      q: undefined,
     };
   },
 });

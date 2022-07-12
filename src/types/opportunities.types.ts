@@ -124,6 +124,8 @@ export interface SearchHit {
   path: string;
   poster: string;
   title: string;
+  country: string;
+  function: string;
   _highlightResult: {
     title: {
       fullyHighlighted: boolean;

@@ -15,7 +15,6 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "^1.7.1",
     "@vuepic/vue-datepicker": "^3.2.2",
     "@vueuse/core": "^8.6.0",
     "@vueuse/head": "^0.7.6",
