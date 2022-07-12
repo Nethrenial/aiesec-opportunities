@@ -116,3 +116,27 @@ export interface QueryPeriod {
   year: number;
   month: number;
 }
+
+export interface SearchHit {
+  description: string;
+  lastmodified: number;
+  objectID: string;
+  path: string;
+  poster: string;
+  title: string;
+  _highlightResult: {
+    title: {
+      fullyHighlighted: boolean;
+      matchLevel: string;
+      matchedWords: string[];
+      value: string;
+    };
+  };
+
+  _snippetResult: {
+    title: {
+      matchLevel: string;
+      value: string;
+    };
+  };
+}
