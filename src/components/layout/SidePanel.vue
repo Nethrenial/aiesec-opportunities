@@ -1,37 +1,24 @@
 <script lang="ts" setup>
 import DatePicker from "@vuepic/vue-datepicker";
-import { useLoadingStore, useFiltersStore } from "@/stores";
+import {
+  useLoadingStore,
+  useFiltersStore,
+  useOpportunitiesStore,
+} from "@/stores";
 import type { QueryCountry } from "@/types";
 import { COUNTRIES } from "@/utils";
 import { isDark } from "@/composables";
 import { storeToRefs } from "pinia";
 
-const country = $ref<QueryCountry>("");
-const beginDate = ref<{ year: number; month: number }>();
-const endDate = ref<{ year: number; month: number }>();
-
+//setting up stores
 const loadingStore = useLoadingStore();
+const filtersStore = useFiltersStore();
+const opportunitiesStore = useOpportunitiesStore();
+
 const { filtering } = storeToRefs(loadingStore);
 
-const filtersStore = useFiltersStore();
-
 async function filter() {
-  filtersStore.$state = {
-    type: filtersStore.$state.type,
-    country: country,
-    begin: beginDate.value
-      ? {
-          year: beginDate.value.year,
-          month: beginDate.value.month,
-        }
-      : undefined,
-    end: endDate.value
-      ? {
-          year: endDate.value.year,
-          month: endDate.value.month,
-        }
-      : undefined,
-  };
+  await opportunitiesStore.getOpportunities(filtersStore.$state);
 }
 </script>
 

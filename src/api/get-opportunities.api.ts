@@ -10,10 +10,8 @@ import {
   getDocsFromServer,
 } from "firebase/firestore";
 import type {
-  OGXFunction,
   Opportunity,
   OpportunityResponse,
-  OpportunityFilters,
   OGXFunctionOrMultiple,
   QueryCountry,
   QueryPeriod,
@@ -291,10 +289,15 @@ export async function getOpportunities({
   } else {
     const beginDate = begin
       ? new Date(begin.year, begin.month)
-      : new Date(new Date().getFullYear() - 2);
+      : end
+      ? new Date(end.year - 2, 0)
+      : new Date(Date.now());
     const endDate = end
       ? new Date(end.year, end.month)
-      : new Date(new Date().getFullYear() + 2);
+      : begin
+      ? new Date(begin.year + 2, 0)
+      : new Date(Date.now() + 1000 * 60 * 60 * 24 * 31 * 12 * 2);
+
     opportunities.push(
       ...(await filterByTimeSlots(snapshot, {
         begin: beginDate,

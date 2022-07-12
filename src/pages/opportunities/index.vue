@@ -7,7 +7,6 @@ import {
 } from "@/stores";
 import type { OGXFunctionOrMultiple, QueryCountry, QueryPeriod } from "@/types";
 import type { LocationQuery } from "vue-router";
-import { COUNTRIES } from "@/utils";
 
 //setting up stores
 const filtersStore = useFiltersStore();
@@ -83,23 +82,39 @@ onMounted(async () => {
 <template>
   <div class="opportunity-portal-container">
     <h2
-      v-if="!isLoading && !filtering"
+      v-if="!isLoading && !filtering && opportunities.length > 0"
       class="show-count text-sm mt-4 font-bold text-[var(--clr-text-secondary)]"
     >
-      Showing 20 out of 100 opportunities
+      Found {{ opportunities.length }} opportunit{{
+        opportunities.length === 1 ? "y" : "ies"
+      }}
     </h2>
-    <div v-if="!isLoading && !filtering" class="job-cards">
+    <div
+      v-if="!isLoading && !filtering && opportunities.length > 0"
+      class="job-cards"
+    >
       <OpportunityCard
         v-for="o in opportunities"
         :key="o.id"
         :opportunity="o"
       />
     </div>
+    <div
+      v-if="!isLoading && !filtering && opportunities.length == 0"
+      class="h-full flex flex-col items-center justify-center"
+    >
+      <p class="text-6xl text-[var(--clr-text-secondary)] text-center">
+        No results found
+      </p>
+      <small class="mt-4 text-center text-[var(--clr-text-secondary)]">
+        Try changing the country or time period, or maybe check back later.
+      </small>
+    </div>
     <h2
       v-if="isLoading || filtering"
       class="show-count text-sm mt-4 font-bold text-[var(--clr-text-secondary)]"
     >
-      Loading 20 out of 100 opportunities
+      Searching for opportunities...
     </h2>
     <div v-if="isLoading" class="job-cards">
       <SkeletonOpportunityCard v-for="index in 20" :key="index" />
