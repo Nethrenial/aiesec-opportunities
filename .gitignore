@@ -14,6 +14,7 @@ dist-ssr
 coverage
 *.local
 .vite-ssg-temp/*
+.firebase/*
 
 /cypress/videos/
 /cypress/screenshots/
