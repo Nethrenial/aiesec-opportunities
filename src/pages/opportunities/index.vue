@@ -69,13 +69,61 @@ filtersStore.$subscribe(async (mutation, state) => {
   if (q) {
     url += `&q=${q}`;
   }
-  console.log("Constructed url = ", url);
   await router.push(url);
 });
 
 const { opportunities } = storeToRefs(opportunityStore);
 const { filtering } = storeToRefs(loadingStore);
 let isLoading = $ref(false);
+let page = $ref(1);
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+const paginatedOpportunities = computed(() => {
+  return opportunities.value.slice((page - 1) * 12, page * 12);
+});
+
+const pageCount = computed(() => {
+  return Math.ceil(opportunities.value.length / 12);
+});
+
+const showingStart = computed(() => {
+  return (page - 1) * 12 + 1;
+});
+
+const showingEnd = computed(() => {
+  return Math.min(page * 12, opportunities.value.length);
+});
+
+const isPreviousPage = computed(() => {
+  return page > 1;
+});
+const isNextPage = computed(() => {
+  return page < pageCount.value;
+});
+
+function prev() {
+  if (page > 1) {
+    page--;
+    scrollToTop();
+  }
+}
+
+function next() {
+  if (page < pageCount.value) {
+    page++;
+    scrollToTop();
+  }
+}
+
+function goTo(pageNumber: number) {
+  if (pageNumber > 0 && pageNumber <= pageCount.value) {
+    page = pageNumber;
+    scrollToTop();
+  }
+}
 
 //handle initial data fetching
 onMounted(async () => {
@@ -91,19 +139,37 @@ onMounted(async () => {
       v-if="!isLoading && !filtering && opportunities.length > 0"
       class="show-count text-sm mt-4 font-bold text-[var(--clr-text-secondary)]"
     >
-      Found {{ opportunities.length }} opportunit{{
-        opportunities.length === 1 ? "y" : "ies"
-      }}
+      showing {{ showingStart }} - {{ showingEnd }} of
+      {{ opportunities.length }}
     </h2>
     <div
       v-if="!isLoading && !filtering && opportunities.length > 0"
       class="job-cards"
     >
       <OpportunityCard
-        v-for="o in opportunities"
+        v-for="o in paginatedOpportunities"
         :key="o.id"
         :opportunity="o"
       />
+    </div>
+    <div
+      v-if="!isLoading && !filtering && opportunities.length > 0"
+      class="pagination-container"
+    >
+      <button @click="prev" :class="!isPreviousPage ? 'disabled' : ''">
+        <i-ic-round-navigate-before />
+      </button>
+      <button
+        v-for="i in pageCount"
+        :key="i"
+        @click="goTo(i)"
+        :class="page === i ? 'active' : ''"
+      >
+        {{ i }}
+      </button>
+      <button @click="next" :class="!isNextPage ? 'disabled' : ''">
+        <i-ic-round-navigate-next />
+      </button>
     </div>
     <div
       v-if="!isLoading && !filtering && opportunities.length == 0"
@@ -202,6 +268,44 @@ onMounted(async () => {
   }
   @include mq(xxl) {
     padding: 0rem 5rem;
+  }
+}
+
+.pagination-container {
+  margin: 1rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  button {
+    width: 30px;
+    border: 2px solid var(--clr-primary);
+    background-color: transparent;
+    color: var(--clr-primary);
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      background-color: var(--clr-primary);
+      color: #fff;
+    }
+
+    &.active {
+      background-color: var(--clr-primary);
+      color: #fff;
+    }
+
+    &.disabled {
+      border-color: transparent;
+      border: 2px solid var(--clr-text-secondary);
+      background-color: var(--clr-text-secondary);
+      color: #fff;
+      cursor: not-allowed;
+    }
   }
 }
 </style>

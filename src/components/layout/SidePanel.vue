@@ -5,7 +5,6 @@ import {
   useFiltersStore,
   useOpportunitiesStore,
 } from "@/stores";
-import type { QueryCountry } from "@/types";
 import { COUNTRIES } from "@/utils";
 import { isDark } from "@/composables";
 import { storeToRefs } from "pinia";
@@ -19,6 +18,14 @@ const { filtering } = storeToRefs(loadingStore);
 
 async function filter() {
   await opportunitiesStore.getOpportunities(filtersStore.$state);
+}
+
+async function reset() {
+  filtersStore.$state.country = "";
+  filtersStore.$state.begin = undefined;
+  filtersStore.$state.end = undefined;
+  filtersStore.$state.q = undefined;
+  await filter();
 }
 </script>
 
@@ -66,14 +73,19 @@ async function filter() {
       alt-position
       :dark="isDark"
     />
+    <div class="mt-auto">
+      <BaseActionButton class="w-full mt-auto" @click="reset" outline>
+        Reset
+      </BaseActionButton>
 
-    <BaseActionButton
-      class="w-full mt-auto"
-      :loading="filtering"
-      @click="filter"
-    >
-      {{ filtering ? "Filtering..." : "Filter" }}
-    </BaseActionButton>
+      <BaseActionButton
+        class="w-full mt-2"
+        :loading="filtering"
+        @click="filter"
+      >
+        {{ filtering ? "Filtering..." : "Filter" }}
+      </BaseActionButton>
+    </div>
   </aside>
 </template>
 

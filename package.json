@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@vuepic/vue-datepicker": "^3.2.2",
+    "@vueuse/components": "^8.9.3",
     "@vueuse/core": "^8.6.0",
     "@vueuse/head": "^0.7.6",
     "algoliasearch": "^4.13.1",
@@ -27,7 +28,7 @@
     "vite-plugin-webfont-dl": "^2.1.0",
     "vue": "^3.2.36",
     "vue-router": "^4.0.15",
-    "vue-virtual-scroll-grid": "^1.7.0"
+    "vue-virtual-scroll-grid": "^1.7.1"
   },
   "devDependencies": {
     "@iconify/json": "^2.1.56",

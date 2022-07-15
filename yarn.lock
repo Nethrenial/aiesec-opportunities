@@ -1363,7 +1363,16 @@
   dependencies:
     date-fns "^2.28.0"
 
-"@vueuse/core@^8.6.0":
+"@vueuse/components@^8.9.3":
+  version "8.9.3"
+  resolved "https://registry.yarnpkg.com/@vueuse/components/-/components-8.9.3.tgz#495e6ba8cf859631d1d0e3107659a65f273eb203"
+  integrity sha512-7A97cUdJxwAESo1dJvIzxGW7Z8n5LGrLPOrQ9qgNGUKZlwVgBHJNiQ5KMddDDoqSwTVrLGspc1p8q8/+tYpHKA==
+  dependencies:
+    "@vueuse/core" "8.9.3"
+    "@vueuse/shared" "8.9.3"
+    vue-demi "*"
+
+"@vueuse/core@8.9.3", "@vueuse/core@^8.6.0":
   version "8.9.3"
   resolved "https://registry.yarnpkg.com/@vueuse/core/-/core-8.9.3.tgz#209ca814a6bd4cbc45c799069efc8cd140e407f0"
   integrity sha512-q2pr3N7FPG7IBBhEXTYOJU+38VwKMLP5IfD33byzBV4Th7f1JHT4qPKvJrvr17knAefPRzNqgt9et+xFqaRlPQ==
@@ -6812,7 +6821,7 @@ vue-tsc@^0.35.2:
   dependencies:
     "@volar/vue-typescript" "0.35.2"
 
-vue-virtual-scroll-grid@^1.7.0:
+vue-virtual-scroll-grid@^1.7.1:
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/vue-virtual-scroll-grid/-/vue-virtual-scroll-grid-1.7.1.tgz#938a8d66b103c010202dce17af8887b061f0b09a"
   integrity sha512-iRrwPFVdRqSVm89ovVaA8+s/k58plyLeoQFmoAKLMqTgunCjN/K2OzBhcZ+yVyR5LApasankcT79TxObeNLzaQ==
