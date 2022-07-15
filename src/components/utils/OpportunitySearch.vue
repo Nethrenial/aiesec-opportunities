@@ -160,8 +160,8 @@ function cancelSearch() {
   }
 
   &-results {
-    min-height: 200px;
-    max-height: 200px;
+    min-height: 30vh;
+    max-height: 30vh;
     background-color: var(--clr-background);
     box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.2);
     overflow-x: hidden;
@@ -172,6 +172,23 @@ function cancelSearch() {
     left: 0;
     right: 0;
     border-radius: 0.5rem;
+
+    @include mq(md) {
+      min-height: 30vh;
+      max-height: 30vh;
+    }
+    @include mq(md) {
+      min-height: 30vh;
+      max-height: 30vh;
+    }
+    @include mq(md) {
+      min-height: 30vh;
+      max-height: 30vh;
+    }
+    @include mq(md) {
+      min-height: 30vh;
+      max-height: 30vh;
+    }
 
     &::-webkit-scrollbar {
       width: 0.5rem;

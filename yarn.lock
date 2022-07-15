@@ -6751,6 +6751,11 @@ vite-plugin-inspect@^0.5.0:
     sirv "^2.0.2"
     ufo "^0.8.4"
 
+vite-plugin-pages-sitemap@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/vite-plugin-pages-sitemap/-/vite-plugin-pages-sitemap-1.2.2.tgz#e0aa37899bd724a23c17725823a1106906c4aeca"
+  integrity sha512-5ZY6ahezIsb0+O0WpRdJ9o6GbBALbPD/ClYX1fna2JgyVbAelvgrl89dnU0NGY76w3+tCDjj02HamjKwhcNU+g==
+
 vite-plugin-pages@^0.23.0:
   version "0.23.0"
   resolved "https://registry.yarnpkg.com/vite-plugin-pages/-/vite-plugin-pages-0.23.0.tgz#845f6e0353cd67836249f4f7b621452bfce4c2ae"

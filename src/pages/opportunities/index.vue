@@ -126,11 +126,37 @@ function goTo(pageNumber: number) {
   }
 }
 
+useHead({
+  title:
+    initialQuery.type === "all"
+      ? "Opportunities - Colombo Central | AIESEC"
+      : (initialQuery.type === "OGT"
+          ? "Paid opportunities"
+          : "Volunteering opportunities") + " - Colombo Central | AIESEC",
+  meta: [
+    {
+      name: "description",
+      content:
+        initialQuery.type === "all"
+          ? "Opportunities"
+          : initialQuery.type === "OGT"
+          ? "Paid opportunities"
+          : "Volunteering opportunities",
+    },
+    {
+      name: "keywords",
+      content: "opportunities, open government, data, government, jobs",
+    },
+  ],
+});
+
 //handle initial data fetching
 onMounted(async () => {
   isLoading = true;
   await opportunityStore.getOpportunities(initialQuery);
   isLoading = false;
+
+  //creating head
 });
 </script>
 
