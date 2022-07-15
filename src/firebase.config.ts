@@ -1,9 +1,5 @@
 import { initializeApp } from "firebase/app";
-import {
-  getAuth,
-  initializeAuth,
-  browserLocalPersistence,
-} from "firebase/auth";
+import { initializeAuth, browserLocalPersistence } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 import type { CollectionReference, DocumentData } from "firebase/firestore";
 import { collection, getFirestore } from "firebase/firestore";

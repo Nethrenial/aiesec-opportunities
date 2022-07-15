@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { createToast } from "mosha-vue-toastify";
+import { createToast } from "@/components/createToast";
 import { useAdminStore } from "@/stores/admin.store";
 const adminStore = useAdminStore();
 const router = useRouter();

@@ -16,19 +16,16 @@
   },
   "dependencies": {
     "@vuepic/vue-datepicker": "^3.2.2",
-    "@vueuse/components": "^8.9.3",
     "@vueuse/core": "^8.6.0",
     "@vueuse/head": "^0.7.6",
     "algoliasearch": "^4.13.1",
     "date-fns": "^2.28.0",
     "firebase": "^9.9.0",
-    "mosha-vue-toastify": "^1.0.23",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.14",
     "vite-plugin-webfont-dl": "^2.1.0",
     "vue": "^3.2.36",
-    "vue-router": "^4.0.15",
-    "vue-virtual-scroll-grid": "^1.7.1"
+    "vue-router": "^4.0.15"
   },
   "devDependencies": {
     "@iconify/json": "^2.1.56",

@@ -15,7 +15,7 @@ const emit = defineEmits<{
 const { label, labelFor, modelValue } = toRefs(props);
 const input = ref<HTMLInputElement>();
 
-function onClickLabel(event: MouseEvent) {
+function onClickLabel() {
   input.value?.focus();
 }
 </script>

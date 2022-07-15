@@ -1,0 +1,61 @@
+.mosha {
+    &__fadeOutRight-leave-active {
+      -webkit-animation: fadeOutRight .5s;
+              animation: fadeOutRight .5s;
+    }
+    &__fadeOutLeft-leave-active {
+      -webkit-animation: fadeOutLeft .5s;
+              animation: fadeOutLeft .5s;
+    }
+  }
+  
+  @-webkit-keyframes fadeOutLeft {
+    from {
+      opacity: 1;
+    }
+  
+    to {
+      opacity: 0;
+      -webkit-transform: translate3d(-100%, 0, 0);
+              transform: translate3d(-100%, 0, 0);
+    }
+  }
+  
+  
+  @keyframes fadeOutLeft {
+    from {
+      opacity: 1;
+    }
+  
+    to {
+      opacity: 0;
+      -webkit-transform: translate3d(-100%, 0, 0);
+              transform: translate3d(-100%, 0, 0);
+    }
+  }
+  
+  
+  @-webkit-keyframes fadeOutRight {
+    from {
+      opacity: 1;
+    }
+  
+    to {
+      opacity: 0;
+      -webkit-transform: translate3d(100%, 0, 0);
+              transform: translate3d(100%, 0, 0);
+    }
+  }
+  
+  
+  @keyframes fadeOutRight {
+    from {
+      opacity: 1;
+    }
+  
+    to {
+      opacity: 0;
+      -webkit-transform: translate3d(100%, 0, 0);
+              transform: translate3d(100%, 0, 0);
+    }
+  }

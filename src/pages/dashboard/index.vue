@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // #region Importing library code
-import { createToast } from "mosha-vue-toastify";
+import { createToast } from "@/components/createToast";
 // #endregion
 // #region Importing custom code
 import { createOpportunity } from "@/api";
