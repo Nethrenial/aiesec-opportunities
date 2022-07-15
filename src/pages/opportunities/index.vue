@@ -189,7 +189,7 @@ onMounted(async () => {
       Searching for opportunities...
     </h2>
     <div v-if="isLoading" class="job-cards">
-      <SkeletonOpportunityCard v-for="index in 20" :key="index" />
+      <SkeletonOpportunityCard v-for="index in 12" :key="index" />
     </div>
   </div>
 </template>
@@ -300,8 +300,8 @@ onMounted(async () => {
     }
 
     &.disabled {
-      border-color: transparent;
-      border: 2px solid var(--clr-text-secondary);
+      border: none;
+      // width: 34px;
       background-color: var(--clr-text-secondary);
       color: #fff;
       cursor: not-allowed;

@@ -95,13 +95,13 @@ function cancelSearch() {
           class="self-center h-full w-full flex items-center justify-center"
           v-else-if="modalOpen && searchText.trim() === ''"
         >
-          <p>Type something to search ...</p>
+          <p class="text-center">Type something to search ...</p>
         </div>
         <div
           class="self-center h-full w-full flex items-center justify-center"
           v-else
         >
-          <p>No results founds</p>
+          <p class="text-center">No results found</p>
         </div>
       </div>
     </transition>
@@ -114,12 +114,13 @@ function cancelSearch() {
   justify-content: center;
   align-items: center;
   height: 40px;
-  width: 400px;
+  // min-width: 200px;
+  flex: 1;
+  max-width: 576px;
   position: relative;
-  display: none;
 
   @include mq(md) {
-    display: block;
+    max-width: 400px;
   }
 
   &-input {

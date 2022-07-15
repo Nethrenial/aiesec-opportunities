@@ -30,7 +30,7 @@ html.dark .admin-header {
 }
 
 .admin-header {
-  height: 50px;
+  height: 120px;
   background-color: var(--clr-foreground);
   position: fixed;
   top: 0;
@@ -42,6 +42,7 @@ html.dark .admin-header {
   padding-right: 1rem;
 
   @include mq(sm) {
+    height: 60px;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
