@@ -36,7 +36,8 @@ export default defineConfig({
     // https://github.com/hannoeru/vite-plugin-pages
     Pages({
       extensions: ["vue"],
-      onRoutesGenerated: (routes) => generateSitemap({ routes }),
+      onRoutesGenerated: (routes) =>
+        generateSitemap({ routes, dest: "public" }),
     }),
 
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
