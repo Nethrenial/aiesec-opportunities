@@ -76,9 +76,10 @@ const { opportunities } = storeToRefs(opportunityStore);
 const { filtering } = storeToRefs(loadingStore);
 let isLoading = $ref(false);
 let page = $ref(1);
+const jobCards = ref<HTMLDivElement>();
 
 function scrollToTop() {
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  jobCards.value?.scrollIntoView({ behavior: "smooth" });
 }
 
 const paginatedOpportunities = computed(() => {
@@ -145,6 +146,7 @@ onMounted(async () => {
     <div
       v-if="!isLoading && !filtering && opportunities.length > 0"
       class="job-cards"
+      ref="jobCards"
     >
       <OpportunityCard
         v-for="o in paginatedOpportunities"

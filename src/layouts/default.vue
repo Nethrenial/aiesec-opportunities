@@ -15,7 +15,7 @@
   width: 100%;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 120px calc(100vh - 60px);
+  grid-template-rows: 100px calc(100vh - 60px);
 
   @include mq(md) {
     grid-template-rows: 60px calc(100vh - 60px);

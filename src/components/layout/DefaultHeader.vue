@@ -1,9 +1,15 @@
 <template>
   <header class="default-header flex">
-    <RouterLink to="/">
-      <img src="../../assets/Logo-Dark.svg" alt="AIESEC Logo" />
-    </RouterLink>
+    <div class="brand flex gap-8">
+      <div class="brand-toggle bg-teal">
+        <DarkModeToggle />
+      </div>
+      <!-- <RouterLink to="/" class="bg-purple-500">
+        <img src="../../assets/Logo-Dark.svg" alt="AIESEC Logo" />
+      </RouterLink> -->
+    </div>
     <div class="sc flex gap-8">
+      <i-icon-park-outline-setting-config class="filter-toggle" />
       <OpportunitySearch class="mx-auto" />
       <div class="toggle items-center justify-between gap-4">
         <DarkModeToggle />
@@ -74,5 +80,16 @@ img {
   @include mq(md) {
     display: flex;
   }
+}
+
+.filter-toggle {
+  @include mq(md) {
+    display: none;
+  }
+}
+
+.brand {
+  display: flex;
+  background-color: red;
 }
 </style>
