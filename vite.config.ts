@@ -21,6 +21,16 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
+
+  build: {
+    minify: "terser",
+    terserOptions: {
+      output: {
+        comments: false,
+      },
+    },
+  },
+
   plugins: [
     vue({ reactivityTransform: true }),
     // https://github.com/hannoeru/vite-plugin-pages

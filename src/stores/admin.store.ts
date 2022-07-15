@@ -1,6 +1,6 @@
 import type { User } from "firebase/auth";
 import { acceptHMRUpdate, defineStore } from "pinia";
-import { createToast } from "@/components/createToast";
+import { createToast } from "mosha-vue-toastify";
 import { loginAdmin, logoutAdmin } from "@/api";
 
 interface AdminState {

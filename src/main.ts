@@ -7,7 +7,7 @@ import "./firebase.config";
 import "@unocss/reset/tailwind.css";
 import "./styles/main.scss";
 import "uno.css";
-import "@/components/index.scss";
+import "mosha-vue-toastify/dist/style.css";
 import type { UserModule } from "@/types";
 
 const routes = setupLayouts(generatedRoutes);
