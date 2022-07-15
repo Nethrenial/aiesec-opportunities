@@ -24,8 +24,8 @@ let open = $ref(false);
 const items = ref<HTMLDivElement>();
 const input = ref<HTMLInputElement>();
 
-onClickOutside(items, (e: PointerEvent) => {
-  const eventTarget = e.target as HTMLElement;
+onClickOutside(items, (e) => {
+  const eventTarget = (e as unknown as PointerEvent).target as HTMLElement;
   if (eventTarget !== input.value) open = false;
 });
 

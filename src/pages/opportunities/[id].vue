@@ -61,7 +61,13 @@ watch(route, async (newVal) => {
           />
         </aside>
         <article class="opportunity-info shadow-md">
-          <a href="#" class="apply-now"> Apply Now </a>
+          <a
+            :href="opportunity.opportunityLink"
+            target="_blank"
+            class="apply-now"
+          >
+            Apply Now
+          </a>
           <h1 class="text-[var(--clr-text-primary)] font-bold">
             {{ opportunity?.title }}
           </h1>

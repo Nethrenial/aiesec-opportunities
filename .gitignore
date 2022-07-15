@@ -15,6 +15,9 @@ coverage
 *.local
 .vite-ssg-temp/*
 .firebase/*
+.firebaserc
+yarn-error.log
+firebaserc.json
 
 /cypress/videos/
 /cypress/screenshots/
