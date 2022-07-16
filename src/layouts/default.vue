@@ -8,7 +8,7 @@ const { direction } = useSwipe(defaultLayout);
 watch(direction, (newDirection) => {
   if (newDirection === "LEFT") {
     layoutStore.sidebarOpen = false;
-  } else {
+  } else if (newDirection === "RIGHT") {
     layoutStore.sidebarOpen = true;
   }
 });
