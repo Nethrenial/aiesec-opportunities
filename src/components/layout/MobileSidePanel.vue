@@ -59,7 +59,7 @@ watch(direction, (newDirection) => {
           for="sidebar-dark-toggle"
           class="inline-block ml-1 mb-2 bg-transparent text-[var(--clr-text-primary)] font-bold"
         >
-          {{ isDark ? "Switch to Dark mode" : "Switch to Light mode" }}
+          {{ isDark ? "Switch to Light mode" : "Switch to Dark mode" }}
         </label>
         <DarkModeToggle id="sidebar-dark-toggle" name="sidebar-dark-toggle" />
         <CountryFilter
