@@ -33,14 +33,16 @@ async function reset() {
 
 const sidePanel = ref<HTMLDivElement>();
 
-onClickOutside(sidePanel, (e) => {
-  const event = e as unknown as PointerEvent;
-  if ((event.target as HTMLElement).classList.contains("filter-toggle")) {
-    console.log("true");
-    return;
-  }
-
+onClickOutside(sidePanel, () => {
   layoutStore.sidebarOpen = false;
+});
+
+const { direction } = useSwipe(sidePanel);
+
+watch(direction, (newDirection) => {
+  if (newDirection === "LEFT") {
+    layoutStore.sidebarOpen = false;
+  }
 });
 </script>
 
@@ -129,11 +131,14 @@ onClickOutside(sidePanel, (e) => {
   flex-direction: column;
   grid-column: 1 / 2;
   grid-row: 2 / 3;
+  z-index: 9999;
+  box-shadow: 5rem 5rem 10rem rgba(0, 0, 0, 1);
 
   position: absolute;
-  top: 100px;
+  top: 0;
   left: 0;
   bottom: 0;
+  right: 10%;
 
   @include mq(md) {
     display: none;

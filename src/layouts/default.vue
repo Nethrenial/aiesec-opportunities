@@ -1,5 +1,21 @@
+<script setup lang="ts">
+import { useLayoutStore } from "../stores/layout.store";
+
+const layoutStore = useLayoutStore();
+const defaultLayout = ref<HTMLElement>();
+const { direction } = useSwipe(defaultLayout);
+
+watch(direction, (newDirection) => {
+  if (newDirection === "LEFT") {
+    layoutStore.sidebarOpen = false;
+  } else {
+    layoutStore.sidebarOpen = true;
+  }
+});
+</script>
+
 <template>
-  <main class="default">
+  <main class="default" ref="defaultLayout">
     <DefaultHeader />
     <SidePanel />
     <MobileSidePanel />
@@ -17,6 +33,7 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 100px calc(100vh - 60px);
+  overflow: hidden;
 
   @include mq(md) {
     grid-template-rows: 60px calc(100vh - 60px);

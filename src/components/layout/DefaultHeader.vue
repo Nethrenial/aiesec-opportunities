@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { useLayoutStore } from "@/stores";
+import { storeToRefs } from "pinia";
 
 const layoutStore = useLayoutStore();
+const { sidebarOpen } = storeToRefs(layoutStore);
 </script>
 
 <template>
@@ -13,6 +15,7 @@ const layoutStore = useLayoutStore();
       <i-icon-park-outline-setting-config
         class="filter-toggle w-[28px] h-[28px]"
         @click="layoutStore.sidebarOpen = !layoutStore.sidebarOpen"
+        v-if="!sidebarOpen"
       />
     </div>
     <div class="sc flex gap-8">

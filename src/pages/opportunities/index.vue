@@ -180,7 +180,7 @@ const resultsCountIndicator = computed(() => {
   <div class="opportunity-portal-container">
     <h2
       v-if="!isLoading && !filtering && opportunities.length > 0"
-      class="show-count text-sm mt-4 font-bold text-[var(--clr-text-secondary)]"
+      class="show-count text-sm font-bold text-[var(--clr-text-secondary)]"
       ref="showCount"
     >
       {{ resultsCountIndicator }}
@@ -266,26 +266,32 @@ const resultsCountIndicator = computed(() => {
   display: grid;
   grid-template-columns: 1fr;
   padding: 1rem;
+  padding-bottom: 5rem;
+  padding-top: 2rem;
   gap: 1rem;
 
   @include mq(sm) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 2rem;
     padding: 1rem 2rem;
+    padding-bottom: 5rem;
   }
   @include mq(md) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     padding: 1rem 3rem;
+    padding-bottom: 5rem;
   }
   @include mq(lg) {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1.5rem;
     padding: 1rem 4rem;
+    padding-bottom: 5rem;
   }
   @include mq(xxl) {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 1rem;
     padding: 1rem 5rem;
+    padding-bottom: 5rem;
   }
 
   &__item {
@@ -299,6 +305,7 @@ const resultsCountIndicator = computed(() => {
 .show-count {
   padding-left: 1rem;
   padding-right: 1rem;
+  transform: translateY(1rem);
 
   @include mq(sm) {
     padding: 0rem 2rem;
@@ -320,6 +327,7 @@ const resultsCountIndicator = computed(() => {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  transform: translateY(-50px);
 
   button {
     width: 30px;
