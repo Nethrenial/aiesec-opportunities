@@ -2,6 +2,7 @@
 import algoliasearch from "algoliasearch/lite";
 import { useFiltersStore } from "@/stores";
 import type { SearchHit } from "@/types";
+import type { ComponentPublicInstance } from "vue";
 
 const filtersStore = useFiltersStore();
 const route = useRoute();
@@ -19,6 +20,7 @@ const search = useDebounceFn(async () => {
   if (searchText.value.trim() === "") {
     loading.value = false;
     searchResults.value = [];
+    filtersStore.q = undefined;
     return;
   }
   filtersStore.q = searchText.value;
@@ -54,7 +56,17 @@ function cancelSearch() {
   searchText.value = "";
   searchResults.value = [];
   modalOpen.value = false;
+  filtersStore.q = undefined;
 }
+
+const resultBox = ref<HTMLDivElement>();
+const closeIcon = ref<ComponentPublicInstance>();
+
+onClickOutside(resultBox, (e) => {
+  if (closeIcon.value?.$el !== (e as unknown as PointerEvent).target) {
+    modalOpen.value = false;
+  }
+});
 </script>
 
 <template>
@@ -68,11 +80,17 @@ function cancelSearch() {
       @focus="focusSearch"
     />
     <i-bi-search class="search-icon" @click="focusSearch" v-if="!modalOpen" />
-    <i-carbon-close class="search-icon" @click="cancelSearch" v-else />
+    <i-carbon-close
+      class="search-icon"
+      @click="cancelSearch"
+      ref="closeIcon"
+      v-else
+    />
     <transition name="search-results">
       <div
         class="search-results flex items-start justify-center p-2"
         v-if="modalOpen"
+        ref="resultBox"
       >
         <div v-if="loading" class="self-center">
           <i-eos-icons-loading class="w-[48px] h-[48px]" />

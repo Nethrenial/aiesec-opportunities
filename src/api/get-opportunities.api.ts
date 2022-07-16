@@ -47,7 +47,7 @@ export async function getOpportunities({
   const conditions: QueryConstraint[] = [];
   let snapshot: QuerySnapshot<OpportunityResponse>;
   if (type !== "all") {
-    conditions.push(where("function", "==", type));
+    conditions.push(where("function", "==", type.toUpperCase()));
   }
   if (country !== "") {
     conditions.push(where("country", "==", country));

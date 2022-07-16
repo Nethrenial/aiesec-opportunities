@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import { useLayoutStore } from "@/stores";
+
+const layoutStore = useLayoutStore();
+</script>
+
 <template>
   <header class="default-header flex">
     <div class="brand flex items-center justify-between">
@@ -6,6 +12,7 @@
       </RouterLink>
       <i-icon-park-outline-setting-config
         class="filter-toggle w-[28px] h-[28px]"
+        @click="layoutStore.sidebarOpen = !layoutStore.sidebarOpen"
       />
     </div>
     <div class="sc flex gap-8">
@@ -28,14 +35,14 @@
   left: 0;
   right: 0;
   z-index: 1;
-  // border: 1px solid rgba($color: #000, $alpha: 0.2);
-  // box-shadow: 2px 2px 10px 2px rgba($color: #000, $alpha: 0.1);
+  box-shadow: 2px 2px 10px 2px rgba($color: #000, $alpha: 0.1);
   padding-left: 1rem;
   padding-right: 1rem;
   padding-block: 0.5rem;
   flex-direction: column;
 
   @include mq(sm) {
+    box-shadow: none;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }

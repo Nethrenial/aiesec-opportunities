@@ -46,6 +46,7 @@ declare module '@vue/runtime-core' {
     ITwemojiOfficeWorker: typeof import('~icons/twemoji/office-worker')['default']
     ITwemojiSun: typeof import('~icons/twemoji/sun')['default']
     ITwemojiWorldMap: typeof import('~icons/twemoji/world-map')['default']
+    MobileSidePanel: typeof import('./components/layout/MobileSidePanel.vue')['default']
     OpportunityCard: typeof import('./components/utils/OpportunityCard.vue')['default']
     OpportunitySearch: typeof import('./components/utils/OpportunitySearch.vue')['default']
     PasswordInput: typeof import('./components/utils/PasswordInput.vue')['default']

@@ -70,7 +70,7 @@ export interface TimeslotResponse {
   end: Timestamp;
 }
 
-export type OGXFunction = "OGV" | "OGT";
+export type OGXFunction = "OGV" | "OGT" | "ogv" | "ogt";
 
 export type OGXFunctionOrMultiple = "all" | OGXFunction;
 

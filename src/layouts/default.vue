@@ -2,6 +2,7 @@
   <main class="default">
     <DefaultHeader />
     <SidePanel />
+    <MobileSidePanel />
     <router-view v-slot="{ Component }">
       <keep-alive>
         <component :is="Component" />

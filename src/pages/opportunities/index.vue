@@ -12,8 +12,10 @@ import type { LocationQuery } from "vue-router";
 const filtersStore = useFiltersStore();
 const opportunityStore = useOpportunitiesStore();
 const loadingStore = useLoadingStore();
+const { opportunities } = storeToRefs(opportunityStore);
+const { filtering } = storeToRefs(loadingStore);
 
-//methods
+// #region Query Parameter Handling
 function getQueryObjectFromParams(query: LocationQuery) {
   const queryObject: {
     type: OGXFunctionOrMultiple;
@@ -22,8 +24,8 @@ function getQueryObjectFromParams(query: LocationQuery) {
     end: QueryPeriod | undefined;
     q: string | undefined;
   } = {
-    type: (query.type as OGXFunctionOrMultiple) || "all",
-    country: (query.country as QueryCountry) || "",
+    type: query.type ? (query.type as OGXFunctionOrMultiple) : "all",
+    country: query.country ? (query.country as QueryCountry) : "",
     begin: query.begin_year
       ? {
           year: Number(query.begin_year),
@@ -53,10 +55,10 @@ filtersStore.$subscribe(async (mutation, state) => {
   const { begin, country, end, type, q } = state;
   let url = "/opportunities";
   if (type) {
-    url += `?type=${type}`;
+    url += `?type=${type.toLowerCase()}`;
   }
   if (country) {
-    url += `&country=${country}`;
+    url += `&country=${country.toLowerCase()}`;
   }
   if (begin) {
     url += `&begin_year=${begin.year}&begin_month=${begin.month}`;
@@ -72,14 +74,18 @@ filtersStore.$subscribe(async (mutation, state) => {
   await router.push(url);
 });
 
-const { opportunities } = storeToRefs(opportunityStore);
-const { filtering } = storeToRefs(loadingStore);
-let isLoading = $ref(false);
-let page = $ref(1);
-const jobCards = ref<HTMLDivElement>();
+// #endregion
 
+// #region Common variables
+let isLoading = $ref(false);
+const showCount = ref<HTMLDivElement>();
+
+// #endregion
+
+// #region pagination
+let page = $ref(1);
 function scrollToTop() {
-  jobCards.value?.scrollIntoView({ behavior: "smooth" });
+  showCount.value?.scrollIntoView({ behavior: "smooth" });
 }
 
 const paginatedOpportunities = computed(() => {
@@ -126,6 +132,9 @@ function goTo(pageNumber: number) {
   }
 }
 
+// #endregion
+
+// #region SEO
 useHead({
   title:
     initialQuery.type === "all"
@@ -149,14 +158,21 @@ useHead({
     },
   ],
 });
+// #endregion
 
-//handle initial data fetching
+// #region handle initial data fetching
 onMounted(async () => {
   isLoading = true;
   await opportunityStore.getOpportunities(initialQuery);
   isLoading = false;
 
   //creating head
+});
+// #endregion
+
+const resultsCountIndicator = computed(() => {
+  return `showing ${showingStart.value} - ${showingEnd.value} of
+      ${opportunities.value.length}`;
 });
 </script>
 
@@ -165,14 +181,13 @@ onMounted(async () => {
     <h2
       v-if="!isLoading && !filtering && opportunities.length > 0"
       class="show-count text-sm mt-4 font-bold text-[var(--clr-text-secondary)]"
+      ref="showCount"
     >
-      showing {{ showingStart }} - {{ showingEnd }} of
-      {{ opportunities.length }}
+      {{ resultsCountIndicator }}
     </h2>
     <div
       v-if="!isLoading && !filtering && opportunities.length > 0"
       class="job-cards"
-      ref="jobCards"
     >
       <OpportunityCard
         v-for="o in paginatedOpportunities"
