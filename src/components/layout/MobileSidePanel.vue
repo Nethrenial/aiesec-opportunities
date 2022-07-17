@@ -113,7 +113,7 @@ watch(direction, (newDirection) => {
           alt-position
           :dark="isDark"
         />
-        <div class="mt-auto">
+        <div class="absolute bottom-0 left-0 right-0 mx-4">
           <BaseActionButton class="w-full mt-auto" @click="reset" outline>
             Reset
           </BaseActionButton>
