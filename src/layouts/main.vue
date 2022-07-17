@@ -11,6 +11,8 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 100px 1fr;
+  min-height: -webkit-fill-available;
+  min-height: 100vh;
 
   @include mq(md) {
     grid-template-rows: 60px 1fr;

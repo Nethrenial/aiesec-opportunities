@@ -144,7 +144,9 @@ watch(direction, (newDirection) => {
   position: absolute;
   top: 0;
   left: 0;
-  bottom: 0;
+  // bottom: 0;
+  min-height: -webkit-fill-available;
+  min-height: 100vh;
   right: 10%;
 
   @include mq(md) {
