@@ -19,6 +19,14 @@ const layoutStore = useLayoutStore();
 const { filtering } = storeToRefs(loadingStore);
 const { sidebarOpen } = storeToRefs(layoutStore);
 
+layoutStore.$subscribe((_, state) => {
+  if (state.sidebarOpen) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "auto";
+  }
+});
+
 async function filter() {
   await opportunitiesStore.getOpportunities(filtersStore.$state);
 }
@@ -132,7 +140,6 @@ watch(direction, (newDirection) => {
   grid-column: 1 / 2;
   grid-row: 2 / 3;
   z-index: 9999;
-  box-shadow: 5rem 5rem 10rem rgba(0, 0, 0, 1);
 
   position: absolute;
   top: 0;
