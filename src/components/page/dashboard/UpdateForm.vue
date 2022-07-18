@@ -270,10 +270,15 @@ function cancelEditForm() {
 
 <style lang="scss" scoped>
 .update-form-wrapper {
-  max-height: 95vh;
+  max-height: 85vh;
   max-width: 95vw;
-  height: 95vh;
+  height: 85vh;
   overflow-y: auto;
+
+  @include mq(md) {
+    max-height: 95vh;
+    height: 95vh;
+  }
 }
 .update-form {
   flex-direction: column;
