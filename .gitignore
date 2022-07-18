@@ -11,6 +11,7 @@ node_modules
 .DS_Store
 dist
 dist-ssr
+git-story_media
 coverage
 *.local
 .vite-ssg-temp/*

@@ -49,9 +49,6 @@ async function onSubmit() {
           label-for="email"
           required
         >
-          <template #icon>
-            <i-carbon-at />
-          </template>
         </BaseInput>
         <BaseInput
           id="password"
@@ -65,8 +62,13 @@ async function onSubmit() {
             <i-akar-icons-eye-closed
               v-if="!isPasswordVisible"
               @click="isPasswordVisible = true"
+              class="cursor-pointer"
             />
-            <i-akar-icons-eye v-else @click="isPasswordVisible = false" />
+            <i-akar-icons-eye
+              v-else
+              @click="isPasswordVisible = false"
+              class="cursor-pointer"
+            />
           </template>
         </BaseInput>
         <BaseActionButton type="submit" style="width: 100%" :loading="loading">

@@ -1,7 +1,11 @@
 <script lang="ts" setup>
-import { useAdminStore } from "@/stores/admin.store";
+import { useAdminStore, useLayoutStore } from "@/stores";
 
 const adminStore = useAdminStore();
+const layoutStore = useLayoutStore();
+
+const { adminSidebarOpen } = useLayoutStore();
+
 const router = useRouter();
 
 async function logout() {
@@ -12,10 +16,18 @@ async function logout() {
 
 <template>
   <header class="admin-header flex items-center justify-between">
-    <RouterLink to="/dashboard/manage">
-      <img src="../../assets/Logo-Dark.svg" alt="AIESEC Logo" />
-    </RouterLink>
-    <div class="flex items-center justify-between gap-4">
+    <div class="brand flex items-center justify-between">
+      <RouterLink to="/">
+        <img src="../../assets/Logo-Dark.svg" alt="AIESEC Logo" />
+      </RouterLink>
+      <i-ic-outline-menu
+        class="menu-toggle w-[28px] h-[28px]"
+        @click="layoutStore.adminSidebarOpen = !layoutStore.adminSidebarOpen"
+        v-if="!adminSidebarOpen"
+      />
+    </div>
+
+    <div class="sc flex gap-8">
       <DarkModeToggle />
       <button @click="logout">
         <i-carbon-logout />
@@ -25,24 +37,18 @@ async function logout() {
 </template>
 
 <style lang="scss" scoped>
-html.dark .admin-header {
-  box-shadow: 3px 3px 6px 3px rgba($color: #000, $alpha: 0.3);
-}
-
 .admin-header {
-  height: 120px;
+  height: 60px;
   background-color: var(--clr-foreground);
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1;
-  box-shadow: 3px 3px 6px 3px rgba($color: #000, $alpha: 0.2);
   padding-left: 1rem;
   padding-right: 1rem;
 
   @include mq(sm) {
-    height: 60px;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
@@ -67,5 +73,21 @@ html.dark .admin-header {
 img {
   height: 40px;
   width: 100%;
+}
+
+.sc {
+  display: none;
+
+  @include mq(md) {
+    display: flex;
+  }
+}
+
+.menu-toggle {
+  margin-left: auto;
+
+  @include mq(md) {
+    margin-left: 0;
+  }
 }
 </style>

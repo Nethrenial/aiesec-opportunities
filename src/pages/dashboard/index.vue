@@ -134,7 +134,7 @@ async function seedData() {
       required
     >
       <template #icon>
-        <i-twemoji-office-worker />
+        <i-ic-round-title />
       </template>
     </BaseInput>
 
@@ -146,7 +146,7 @@ async function seedData() {
       label-for="country"
     >
       <template #icon>
-        <i-twemoji-world-map class="pointer-events-none" />
+        <i-gis-search-country class="pointer-events-none" />
       </template>
     </BaseSearchAndSelectInput>
     <BaseInput
@@ -158,7 +158,7 @@ async function seedData() {
       required
     >
       <template #icon>
-        <i-flat-color-icons-link />
+        <i-eva-link-fill />
       </template>
     </BaseInput>
     <BaseRadioInputGroup
@@ -177,12 +177,12 @@ async function seedData() {
       rows="5"
     >
       <template #icon>
-        <i-twemoji-bookmark-tabs />
+        <i-fluent-text-description-24-filled />
       </template>
     </BaseTextarea>
     <BaseImageInput ref="baseImageInput" label="Poster" label-for="poster">
       <template #icon>
-        <i-flat-color-icons-camera />
+        <i-bi-card-image />
       </template>
     </BaseImageInput>
     <BaseInput
@@ -195,7 +195,7 @@ async function seedData() {
       required
     >
       <template #icon>
-        <i-emojione-money-bag />
+        <i-bx-money />
       </template>
     </BaseInput>
     <BaseInput
@@ -208,7 +208,7 @@ async function seedData() {
       required
     >
       <template #icon>
-        <i-emojione-dollar-banknote />
+        <i-bi-currency-exchange />
       </template>
     </BaseInput>
     <BaseSearchAndSelectInput
@@ -218,8 +218,10 @@ async function seedData() {
       :options="CATEGORY_OPTIONS"
       label="Category"
       label-for="category"
-      :is-default-icon="true"
     >
+      <template #icon>
+        <i-bx-category class="pointer-events-none" />
+      </template>
     </BaseSearchAndSelectInput>
     <TimeSlotInputGroup ref="timeslotInputGroup" />
     <BaseActionButton :loading="loading">

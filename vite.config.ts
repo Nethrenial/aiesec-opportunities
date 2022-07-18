@@ -76,7 +76,13 @@ export default defineConfig({
 
     // https://github.com/antfu/unocss
     // see unocss.config.ts for config
-    Unocss(),
+    Unocss({
+      shortcuts: [
+        {
+          "flex-centered": "flex items-center justify-center",
+        },
+      ],
+    }),
 
     // https://github.com/antfu/vite-plugin-inspect
     // Visit http://localhost:3333/__inspect/ to see the inspector

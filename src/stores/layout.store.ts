@@ -4,6 +4,7 @@ export const useLayoutStore = defineStore({
   id: "layout",
   state: () => ({
     sidebarOpen: false,
+    adminSidebarOpen: false,
   }),
 });
 

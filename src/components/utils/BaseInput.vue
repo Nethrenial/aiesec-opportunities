@@ -71,6 +71,8 @@ function onClickLabel() {
     top: 50%;
     transform: translateY(-50%);
     right: 1rem;
+    background-color: var(--clr-background);
+    z-index: 2;
   }
 
   &:nth-child(3) {
@@ -85,7 +87,7 @@ function onClickLabel() {
     border: 1px solid var(--clr-text-disabled);
     width: 100%;
     background-color: var(--clr-background);
-    color: var(--clr-text);
+    color: var(--clr-text-primary);
 
     &:focus {
       outline: 2px solid var(--clr-primary);
@@ -109,6 +111,7 @@ function onClickLabel() {
       outline: 2px solid var(--clr-primary);
       border: 1px solid transparent;
       font-size: 1.2rem;
+      -webkit-text-fill-color: var(--clr-text-primary) !important;
 
       & + label {
         top: 0;

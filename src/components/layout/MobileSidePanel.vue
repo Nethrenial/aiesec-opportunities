@@ -19,13 +19,17 @@ const layoutStore = useLayoutStore();
 const { filtering } = storeToRefs(loadingStore);
 const { sidebarOpen } = storeToRefs(layoutStore);
 
-layoutStore.$subscribe((_, state) => {
-  if (state.sidebarOpen) {
-    document.body.style.overflow = "hidden";
-  } else {
-    document.body.style.overflow = "auto";
-  }
-});
+// layoutStore.$subscribe((_, state) => {
+//   if (state.sidebarOpen) {
+//     window.onscroll = () => {
+//       //retaining scroll position when sidebar is open
+//       console.log(window.scrollY);
+//       window.scrollTo(0, window.scrollY);
+//     };
+//   } else {
+//     window.onscroll = null;
+//   }
+// });
 
 async function filter() {
   await opportunitiesStore.getOpportunities(filtersStore.$state);
@@ -113,7 +117,7 @@ watch(direction, (newDirection) => {
           alt-position
           :dark="isDark"
         />
-        <div class="absolute bottom-0 left-0 right-0 mx-4">
+        <div class="mt-auto">
           <BaseActionButton class="w-full mt-auto" @click="reset" outline>
             Reset
           </BaseActionButton>
@@ -144,10 +148,12 @@ watch(direction, (newDirection) => {
   position: absolute;
   top: 0;
   left: 0;
-  // bottom: 0;
-  min-height: -webkit-fill-available;
-  min-height: 100vh;
   right: 10%;
+  bottom: 0;
+  // min-height: -webkit-fill-available;
+  // max-height: 100vh;
+  overflow-y: scroll;
+  // margin-bottom: -100px;
 
   @include mq(md) {
     display: none;
