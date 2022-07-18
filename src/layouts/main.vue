@@ -13,6 +13,8 @@
   grid-template-rows: 100px 1fr;
   min-height: -webkit-fill-available;
   min-height: 100vh;
+  height: 100vh;
+  overflow: auto;
 
   @include mq(md) {
     grid-template-rows: 60px 1fr;

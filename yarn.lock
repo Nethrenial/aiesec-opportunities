@@ -6875,6 +6875,11 @@ vue-tsc@^0.35.2:
   dependencies:
     "@volar/vue-typescript" "0.35.2"
 
+vue-universal-modal@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/vue-universal-modal/-/vue-universal-modal-1.1.4.tgz#f6c2ba7a40d5911b4a5391650856ee1ace4fb3eb"
+  integrity sha512-MCSVz5bS614LfbDzo2/VDu0DWVUAQws00aPourSduGTzhbm0SpvmRJX/mUI/a+2LkJdcchHd2jpH0JK5Mh0rHg==
+
 vue@^3.2.36:
   version "3.2.37"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.2.37.tgz#da220ccb618d78579d25b06c7c21498ca4e5452e"

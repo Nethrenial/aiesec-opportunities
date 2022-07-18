@@ -7,12 +7,15 @@ import App from "./App.vue";
 import generatedRoutes from "~pages";
 import NProgress from "nprogress";
 
+import VueUniversalModal from "vue-universal-modal";
+
 // Import the CSS or use your own!
 import "./firebase.config";
 import "@unocss/reset/tailwind.css";
 import "./styles/main.scss";
 import "uno.css";
 import "mosha-vue-toastify/dist/style.css";
+import "vue-universal-modal/dist/index.css";
 
 const routes = setupLayouts(generatedRoutes);
 
@@ -33,4 +36,7 @@ router.afterEach(() => {
 app.use(createHead());
 app.use(router);
 app.use(createPinia());
+app.use(VueUniversalModal, {
+  teleportTarget: "#modals",
+});
 app.mount("#app");

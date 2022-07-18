@@ -26,7 +26,8 @@
     "pinia": "^2.0.14",
     "vite-plugin-webfont-dl": "^2.1.0",
     "vue": "^3.2.36",
-    "vue-router": "^4.0.15"
+    "vue-router": "^4.0.15",
+    "vue-universal-modal": "^1.1.4"
   },
   "devDependencies": {
     "@iconify/json": "^2.1.56",

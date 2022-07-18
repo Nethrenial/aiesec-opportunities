@@ -47,3 +47,28 @@ $screen-sizes: (
     max-width: 1392px;
   }
 }
+
+
+@mixin padding-container {
+  padding: 3rem 1rem;
+
+  @include mq(sm) {
+    padding: 3rem 1rem;
+  }
+
+  @include mq(md) {
+    padding: 3rem 1.5rem;
+  }
+
+  @include mq(lg) {
+    padding: 3rem 3rem;
+  }
+
+  @include mq(xl) {
+    padding: 3rem 5rem;
+  }
+
+  @include mq(xxl) {
+    padding: 3rem 7rem;
+  }
+}

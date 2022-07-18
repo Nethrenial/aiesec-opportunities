@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import { storeToRefs } from "pinia";
-import { useAdminStore } from "@/stores/admin.store";
+import { useAdminStore, useLayoutStore } from "@/stores";
 
 const { admin } = storeToRefs(useAdminStore());
+const layoutStore = useLayoutStore();
 
 onMounted(async () => {
   if (!admin.value) {
@@ -18,29 +19,11 @@ useHead({
 
 <template>
   <div class="dashboard-container">
-    <div class="tab-header flex items-center gap-4">
-      <RouterLink
-        class="tab-heading flex items-center justify-evenly h-full"
-        to="/dashboard"
-      >
-        <i-flat-color-icons-add-database />
-        Add
-      </RouterLink>
-      <RouterLink
-        class="tab-heading flex items-center justify-evenly h-full"
-        to="/dashboard/manage"
-      >
-        <i-flat-color-icons-manager />
-        Manage
-      </RouterLink>
-      <RouterLink
-        class="tab-heading flex items-center justify-evenly h-full"
-        to="/dashboard/analytics"
-      >
-        <i-flat-color-icons-bearish />
-        Analytics
-      </RouterLink>
-    </div>
+    <i-carbon-menu
+      class="menu-toggle w-[32px] h-[32px]"
+      @click="layoutStore.adminSidebarOpen = true"
+    />
+    <dark-mode-toggle class="toggle" :inverted="true" />
     <div class="tab-content">
       <router-view v-slot="{ Component }">
         <keep-alive>
@@ -48,51 +31,39 @@ useHead({
         </keep-alive>
       </router-view>
     </div>
+    <!-- <p class="text-center absolute bottom-4 translate-x-[-50%] left-[50%]">
+      Created with ❤️ by Nethsara Sandeepa Elvitigala for <br />
+      <strong>AIESEC Colombo CC </strong>
+    </p> -->
   </div>
 </template>
 
 <style lang="scss" scoped>
 .dashboard-container {
-  @include container;
-  padding: 1rem;
-  margin-top: 50px;
-  overflow-y: hidden;
+  @include padding-container;
+  grid-column: 1 / -1;
+  overflow-y: auto;
+  min-height: 100vh;
+  height: 100vh;
+  position: relative;
+
+  @include mq(md) {
+    grid-column: 2 / -1;
+  }
 }
 
-.tab {
-  &-header {
-    height: 40px;
-    display: grid;
-    grid-template-columns: repeat(3, 150px);
-    overflow-y: auto;
-  }
+.toggle {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+}
+.menu-toggle {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
 
-  &-heading {
-    width: 150px;
-    position: relative;
-
-    &::after {
-      content: "";
-      position: absolute;
-      width: 0%;
-      height: 2px;
-      background-color: var(--clr-primary);
-      bottom: 0;
-      left: 0;
-      transition: all 0.3s ease-in-out;
-    }
-
-    &:hover {
-      &::after {
-        width: 100%;
-      }
-    }
-
-    &.router-link-exact-active {
-      &::after {
-        width: 100%;
-      }
-    }
+  @include mq(md) {
+    display: none;
   }
 }
 </style>

@@ -2,8 +2,8 @@
 import { useLayoutStore } from "../stores/layout.store";
 
 const layoutStore = useLayoutStore();
-const defaultLayout = ref<HTMLElement>();
-const { direction } = useSwipe(defaultLayout);
+const adminLayout = ref<HTMLElement>();
+const { direction } = useSwipe(adminLayout);
 
 watch(direction, (newDirection) => {
   if (newDirection === "LEFT") {
@@ -15,15 +15,28 @@ watch(direction, (newDirection) => {
 </script>
 
 <template>
-  <main class="admin">
-    <AdminHeader />
+  <main class="admin" ref="adminLayout">
     <AdminSidePanel />
-    <RouterView />
+    <MobileAdminSidePanel />
+    <router-view v-slot="{ Component }">
+      <keep-alive>
+        <component :is="Component" />
+      </keep-alive>
+    </router-view>
   </main>
 </template>
 
 <style lang="scss" scoped>
 .admin {
   width: 100%;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  position: relative;
+  overflow: hidden;
+
+  @include mq(md) {
+    grid-template-columns: min-content 1fr;
+  }
 }
 </style>

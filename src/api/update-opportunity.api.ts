@@ -4,10 +4,13 @@ import { firestore } from "@/firebase.config";
 import type { UpdateOpportunityDTO } from "@/types";
 
 /**
- *  Create a new opportunity in the firestore database
- * @param opportunityData Data to create a new opportunity
+ *  Update an existing opportunity in the firestore database
+ * @param opportunityData Data to update in the opportunity
  */
-export async function updateOpportunity(opportunityData: UpdateOpportunityDTO) {
+export async function updateOpportunity(
+  opportunityData: UpdateOpportunityDTO,
+  originalPoster?: string
+) {
   try {
     const docRef = doc(firestore, "opportunities", opportunityData.id);
     let url: string;
@@ -21,6 +24,7 @@ export async function updateOpportunity(opportunityData: UpdateOpportunityDTO) {
     }
     await updateDoc(docRef, {
       ...opportunityData,
+      poster: originalPoster,
     });
   } catch (err) {
     console.log(err);

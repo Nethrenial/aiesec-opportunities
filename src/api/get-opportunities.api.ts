@@ -2,12 +2,11 @@ import {
   doc,
   getDoc,
   query,
-  onSnapshot,
   QueryConstraint,
   QuerySnapshot,
   where,
-  getDocsFromCache,
-  getDocsFromServer,
+  getDocs,
+  orderBy,
 } from "firebase/firestore";
 import type {
   Opportunity,
@@ -26,12 +25,6 @@ export async function getOpportunityById(id: string) {
   else return undefined;
 }
 
-let dbUpdated = true;
-
-onSnapshot(opportunityCollection, () => {
-  dbUpdated = true;
-});
-
 export async function getOpportunities({
   type,
   country,
@@ -44,8 +37,7 @@ export async function getOpportunities({
   end: QueryPeriod | undefined;
 }) {
   const opportunities: Opportunity[] = [];
-  const conditions: QueryConstraint[] = [];
-  let snapshot: QuerySnapshot<OpportunityResponse>;
+  const conditions: QueryConstraint[] = [orderBy("createdAt", "desc")];
   if (type !== "all") {
     conditions.push(where("function", "==", type.toUpperCase()));
   }
@@ -53,19 +45,7 @@ export async function getOpportunities({
     conditions.push(where("country", "==", country));
   }
   const q = query(opportunityCollection, ...conditions);
-  if (!dbUpdated) {
-    try {
-      snapshot = await getDocsFromCache(q);
-      console.log("Got from cache");
-    } catch {
-      snapshot = await getDocsFromServer(q);
-      console.log("Got from server");
-    }
-  } else {
-    snapshot = await getDocsFromServer(q);
-    console.log("Got from server");
-  }
-
+  const snapshot = await getDocs(q);
   if (!end && !begin) {
     snapshot.docs.forEach((doc) => {
       const id = doc.id;
@@ -94,7 +74,6 @@ export async function getOpportunities({
       }))
     );
   }
-  dbUpdated = false;
   return opportunities;
 }
 

@@ -1,16 +1,50 @@
 import type { User } from "firebase/auth";
 import { acceptHMRUpdate, defineStore } from "pinia";
 import { createToast } from "mosha-vue-toastify";
-import { loginAdmin, logoutAdmin } from "@/api";
+import {
+  deleteOpportunityById,
+  getOpportunities,
+  getOpportunityById,
+  loginAdmin,
+  logoutAdmin,
+  updateOpportunity,
+} from "@/api";
+import type {
+  OGXFunctionOrMultiple,
+  Opportunity,
+  QueryCountry,
+  QueryPeriod,
+  UpdateOpportunityDTO,
+} from "@/types";
 
 interface AdminState {
   admin: User | null;
+  opportunities: Opportunity[];
+  filters: {
+    type: OGXFunctionOrMultiple;
+    country: QueryCountry;
+    begin: QueryPeriod | undefined;
+    end: QueryPeriod | undefined;
+    q: string | undefined;
+  };
+
+  filtering: boolean;
 }
 
 export const useAdminStore = defineStore("admin", {
   state: (): AdminState => {
     return {
       admin: null,
+      opportunities: [],
+      filters: {
+        type: "all",
+        country: "",
+        begin: undefined,
+        end: undefined,
+        q: undefined,
+      },
+
+      filtering: false,
     };
   },
 
@@ -29,6 +63,37 @@ export const useAdminStore = defineStore("admin", {
           type: "danger",
         });
       }
+    },
+
+    async getOpportunityById(id: string) {
+      let result = this.opportunities.find((o) => o.id === id);
+      if (!result) {
+        result = await getOpportunityById(id);
+        return result;
+      }
+
+      return result;
+    },
+    async getOpportunities(queryObject: {
+      type: OGXFunctionOrMultiple;
+      country: QueryCountry;
+      begin: QueryPeriod | undefined;
+      end: QueryPeriod | undefined;
+    }) {
+      this.opportunities = await getOpportunities(queryObject);
+    },
+
+    async deleteOpportunity(id: string) {
+      await deleteOpportunityById(id);
+      await this.getOpportunities(this.filters);
+    },
+
+    async updateOpportunityById(
+      payload: UpdateOpportunityDTO,
+      originalPoster?: string
+    ) {
+      await updateOpportunity(payload, originalPoster);
+      await this.getOpportunities(this.filters);
     },
   },
 });

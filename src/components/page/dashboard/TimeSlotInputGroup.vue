@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { format } from "date-fns";
 
-const timeslots = ref<Array<{ begin: Date; end: Date }>>([]);
+const props = defineProps<{
+  slots: { begin: Date; end: Date }[];
+}>();
+
+const timeslots = ref<Array<{ begin: Date; end: Date }>>(props.slots);
 
 const isEnteringNewSlot = ref(false);
 const beginTime = ref("");

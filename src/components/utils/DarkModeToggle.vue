@@ -1,10 +1,20 @@
 <script setup lang="ts">
 import { isDark, toggleDark } from "@/composables";
+const props = defineProps<{
+  inverted?: boolean;
+}>();
 </script>
 
 <template>
-  <div class="toggle" :class="isDark ? 'dark' : ''" @click="toggleDark()">
-    <div class="toggle-nob grid-centered" :class="isDark ? 'dark' : ''">
+  <div
+    class="toggle"
+    :class="[isDark ? 'dark' : '', props.inverted ? 'inverted' : '']"
+    @click="toggleDark()"
+  >
+    <div
+      class="toggle-nob grid-centered"
+      :class="[isDark ? 'dark' : '', props.inverted ? 'inverted' : '']"
+    >
       <i-emojione-crescent-moon v-if="isDark" />
       <i-twemoji-sun v-else />
     </div>
@@ -21,6 +31,10 @@ import { isDark, toggleDark } from "@/composables";
   background-color: var(--clr-background);
   cursor: pointer;
 
+  &.inverted {
+    background-color: var(--clr-foreground);
+  }
+
   &-nob {
     height: 24px;
     width: 24px;
@@ -31,6 +45,10 @@ import { isDark, toggleDark } from "@/composables";
 
     &.dark {
       transform: translateX(30px);
+    }
+
+    &.inverted {
+      background-color: var(--clr-background);
     }
   }
 }

@@ -16,7 +16,7 @@ async function onSubmit() {
       email: email.value,
       password: password.value,
     });
-    await router.push("/dashboard");
+    await router.push("/dashboard/add-new");
   } catch (error) {
     createToast((error as Error).message, {
       type: "danger",

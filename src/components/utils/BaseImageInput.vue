@@ -5,6 +5,10 @@ const props = defineProps<{
   labelFor: string;
 }>();
 
+const emit = defineEmits<{
+  (event: "imageSelected", payload: string): void;
+}>();
+
 const imageInput = ref<HTMLInputElement>();
 
 const selectedImageFile = ref<File | null>(null);
@@ -20,6 +24,7 @@ function setImage($event: Event) {
   if (files) {
     selectedImageFile.value = files[0];
     selectedImageString.value = URL.createObjectURL(files[0]);
+    emit("imageSelected", selectedImageString.value);
   }
 }
 </script>

@@ -19,18 +19,6 @@ const layoutStore = useLayoutStore();
 const { filtering } = storeToRefs(loadingStore);
 const { sidebarOpen } = storeToRefs(layoutStore);
 
-// layoutStore.$subscribe((_, state) => {
-//   if (state.sidebarOpen) {
-//     window.onscroll = () => {
-//       //retaining scroll position when sidebar is open
-//       console.log(window.scrollY);
-//       window.scrollTo(0, window.scrollY);
-//     };
-//   } else {
-//     window.onscroll = null;
-//   }
-// });
-
 async function filter() {
   await opportunitiesStore.getOpportunities(filtersStore.$state);
 }

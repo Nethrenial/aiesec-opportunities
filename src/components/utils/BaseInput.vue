@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // Props
 const props = defineProps<{
-  modelValue: string | number;
+  modelValue: string | number | undefined;
   label: string;
   labelFor: string;
   fixedLabel?: boolean;
