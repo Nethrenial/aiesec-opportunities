@@ -9,5 +9,6 @@
   width: 100%;
   display: grid;
   place-items: center;
+  overflow-x: hidden;
 }
 </style>
