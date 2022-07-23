@@ -31,10 +31,6 @@ useHead({
         </keep-alive>
       </router-view>
     </div>
-    <!-- <p class="text-center absolute bottom-4 translate-x-[-50%] left-[50%]">
-      Created with ❤️ by Nethsara Sandeepa Elvitigala for <br />
-      <strong>AIESEC Colombo CC </strong>
-    </p> -->
   </div>
 </template>
 

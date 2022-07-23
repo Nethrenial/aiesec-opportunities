@@ -3,72 +3,15 @@ import DatePicker from "@vuepic/vue-datepicker";
 import { storeToRefs } from "pinia";
 import { useAdminStore } from "@/stores";
 import { COUNTRIES } from "@/utils";
-import type { OGXFunctionOrMultiple, QueryCountry, QueryPeriod } from "@/types";
-import type { LocationQuery } from "vue-router";
 import { isDark } from "@/composables";
 
 //setting up stores
 const adminStore = useAdminStore();
 const { opportunities, filtering } = storeToRefs(adminStore);
 
-// #region Query Parameter Handling
-function getQueryObjectFromParams(query: LocationQuery) {
-  const queryObject: {
-    type: OGXFunctionOrMultiple;
-    country: QueryCountry;
-    begin: QueryPeriod | undefined;
-    end: QueryPeriod | undefined;
-    q: string | undefined;
-  } = {
-    type: query.type ? (query.type as OGXFunctionOrMultiple) : "all",
-    country: query.country ? (query.country as QueryCountry) : "",
-    begin: query.begin_year
-      ? {
-          year: Number(query.begin_year),
-          month: Number(query.begin_month),
-        }
-      : undefined,
-    end: query.end_year
-      ? {
-          year: Number(query.end_year),
-          month: Number(query.end_month),
-        }
-      : undefined,
-    q: query.q as string | undefined,
-  };
-  return queryObject;
-}
-
-// handle initial parsing of url to generate query object
-const route = useRoute();
-const query = route.query;
-const initialQuery = getQueryObjectFromParams(query);
-adminStore.$state.filters = initialQuery;
-const router = useRouter();
-
 //subscribe to filter state to generate new url with appropriate query params
-adminStore.$subscribe(async (mutation, state) => {
-  const { begin, country, end, type, q } = state.filters;
-  let url = "/dashboard/manage";
-  if (type) {
-    url += `?type=${type.toLowerCase()}`;
-  }
-  if (country) {
-    url += `&country=${country.toLowerCase()}`;
-  }
-  if (begin) {
-    url += `&begin_year=${begin.year}&begin_month=${begin.month}`;
-  }
-
-  if (end) {
-    url += `&end_year=${end.year}&end_month=${end.month}`;
-  }
-
-  if (q) {
-    url += `&q=${q}`;
-  }
-  await router.push(url);
-  await adminStore.getOpportunities(adminStore.$state.filters);
+adminStore.$subscribe(async (_mutation, state) => {
+  await adminStore.getOpportunities(state.filters);
 });
 
 // #endregion
@@ -132,39 +75,11 @@ function goTo(pageNumber: number) {
 
 // #endregion
 
-// #region SEO
-useHead({
-  title:
-    initialQuery.type === "all"
-      ? "Opportunities - Colombo Central | AIESEC"
-      : (initialQuery.type === "OGT"
-          ? "Paid opportunities"
-          : "Volunteering opportunities") + " - Colombo Central | AIESEC",
-  meta: [
-    {
-      name: "description",
-      content:
-        initialQuery.type === "all"
-          ? "Opportunities"
-          : initialQuery.type === "OGT"
-          ? "Paid opportunities"
-          : "Volunteering opportunities",
-    },
-    {
-      name: "keywords",
-      content: "opportunities, open government, data, government, jobs",
-    },
-  ],
-});
-// #endregion
-
 // #region handle initial data fetching
 onMounted(async () => {
   isLoading = true;
-  await adminStore.getOpportunities(initialQuery);
+  await adminStore.getOpportunities(adminStore.filters);
   isLoading = false;
-
-  //creating head
 });
 // #endregion
 
