@@ -39,6 +39,7 @@ async function reset() {
       :countries="COUNTRIES"
       label="Select country to filter"
       label-for="country"
+      :high="false"
     />
     <label
       class="inline-block ml-1 mb-2 bg-transparent text-[var(--clr-text-primary)] font-bold"

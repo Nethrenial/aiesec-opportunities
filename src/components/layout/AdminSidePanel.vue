@@ -23,10 +23,7 @@ async function logout() {
       class="admin-side-panel flex flex-col items-center"
       :class="[expanded ? 'expanded' : '']"
     >
-      <RouterLink to="/dashboard" class="home-link">
-        <img src="../../assets/favicon-white.png" class="w-[36px] h-[36px]" />
-        <p>Home</p>
-      </RouterLink>
+      <div class="logo"></div>
       <div class="dashboard-links">
         <RouterLink
           :to="link.path"
@@ -87,6 +84,14 @@ async function logout() {
   &:hover .home-link p {
     font-size: 1rem;
     opacity: 1;
+  }
+
+  .logo {
+    background-image: url("../../assets/favicon-white.png");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    aspect-ratio: 1;
   }
 }
 

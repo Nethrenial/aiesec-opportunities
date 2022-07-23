@@ -42,6 +42,7 @@ export async function getOpportunities({
     conditions.push(where("function", "==", type.toUpperCase()));
   }
   if (country !== "") {
+    // const countryUppercase = country.charAt(0).toUpperCase() + country.slice(1);
     conditions.push(where("country", "==", country));
   }
   const q = query(opportunityCollection, ...conditions);
@@ -57,14 +58,14 @@ export async function getOpportunities({
     });
   } else {
     const beginDate = begin
-      ? new Date(begin.year, begin.month)
+      ? new Date(begin.year, begin.month, 1)
       : end
-      ? new Date(end.year - 2, 0)
+      ? new Date(end.year - 2, 1, 0)
       : new Date(Date.now());
     const endDate = end
-      ? new Date(end.year, end.month)
+      ? new Date(end.year, end.month + 1, 0)
       : begin
-      ? new Date(begin.year + 2, 0)
+      ? new Date(begin.year + 2, 1, 0)
       : new Date(Date.now() + 1000 * 60 * 60 * 24 * 31 * 12 * 2);
 
     opportunities.push(

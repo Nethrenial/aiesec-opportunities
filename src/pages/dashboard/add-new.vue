@@ -4,7 +4,7 @@ import { createToast } from "mosha-vue-toastify";
 // #endregion
 // #region Importing custom code
 import { createOpportunity } from "@/api";
-import { seedInFirebase } from "@/api/seed.api";
+// import { seedInFirebase } from "@/api/seed.api";
 import type TimeSlotInputGroup from "@/components/page/dashboard/TimeSlotInputGroup.vue";
 import type BaseImageInput from "@/components/utils/BaseImageInput.vue";
 import type { OGVCategory, OGXFunction, Timeslot } from "@/types";
@@ -101,21 +101,21 @@ async function onSubmit() {
   }
 }
 
-async function seedData() {
-  loading.value = true;
-  try {
-    await seedInFirebase(100);
-    createToast("Successfully seeded", {
-      type: "success",
-    });
-  } catch (error) {
-    createToast((error as Error).message, {
-      type: "danger",
-    });
-  } finally {
-    loading.value = false;
-  }
-}
+// async function seedData() {
+//   loading.value = true;
+//   try {
+//     await seedInFirebase(100);
+//     createToast("Successfully seeded", {
+//       type: "success",
+//     });
+//   } catch (error) {
+//     createToast((error as Error).message, {
+//       type: "danger",
+//     });
+//   } finally {
+//     loading.value = false;
+//   }
+// }
 </script>
 
 <template>
@@ -227,9 +227,9 @@ async function seedData() {
     <BaseActionButton :loading="loading">
       {{ loading ? "Creating" : "Create" }}
     </BaseActionButton>
-    <BaseActionButton :loading="loading" type="button" @click="seedData">
+    <!-- <BaseActionButton :loading="loading" type="button" @click="seedData">
       {{ loading ? "Seeding" : "seed" }}
-    </BaseActionButton>
+    </BaseActionButton> -->
   </form>
 </template>
 

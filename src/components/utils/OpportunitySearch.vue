@@ -132,7 +132,6 @@ onClickOutside(resultBox, (e) => {
   justify-content: center;
   align-items: center;
   height: 40px;
-  // min-width: 200px;
   flex: 1;
   max-width: 576px;
   position: relative;

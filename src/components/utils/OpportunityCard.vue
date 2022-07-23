@@ -6,7 +6,10 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div class="opportunity-card">
+  <div
+    class="opportunity-card"
+    @click="$router.push(`/opportunities/${props.opportunity.id}`)"
+  >
     <div
       class="opportunity-card__image"
       :style="{ backgroundImage: `url(${props.opportunity.poster})` }"

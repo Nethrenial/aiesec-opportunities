@@ -4,10 +4,11 @@ import type { COUNTRIES } from "@/utils";
 const props = defineProps<{
   countries: typeof COUNTRIES;
   tabindex?: number;
-  label: string;
-  labelFor: string;
+  label?: string;
+  labelFor?: string;
   modelValue: string;
   isDefaultIcon?: boolean;
+  high?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -44,13 +45,14 @@ function onClickLabel() {
 </script>
 
 <template>
-  <div class="country-filter mb-2" :tabindex="tabindex" @blur="open = false">
+  <div class="country-filter" :tabindex="tabindex" @blur="open = false">
     <div class="input-wrapper">
       <label
         :id="`${props.labelFor}-label`"
         :for="props.labelFor"
         class="inline-block ml-1 mb-2 bg-transparent text-[var(--clr-text-primary)] font-bold"
         @click="onClickLabel"
+        v-if="props.label"
       >
         {{ props.label }}
       </label>
@@ -61,6 +63,7 @@ function onClickLabel() {
         role="button"
         @input="($event) => onInput(($event.target as HTMLInputElement).value)"
         @focus="open = true"
+        placeholder="Filter by country"
       />
 
       <div
@@ -78,6 +81,7 @@ function onClickLabel() {
         ref="items"
         class="items"
         :aria-labelledby="`${props.labelFor}-label`"
+        :class="props.high ? 'high' : 'low'"
       >
         <div
           v-for="(option, i) of filteredCountries"
@@ -99,7 +103,7 @@ function onClickLabel() {
 <style lang="scss" scoped>
 .country-filter {
   position: relative;
-  width: 100%;
+  // width: 100%;
   text-align: left;
   outline: none;
 }
@@ -166,6 +170,10 @@ function onClickLabel() {
   box-shadow: 1px 1px 10px 1px rgba($color: #000000, $alpha: 0.3);
   max-height: 180px;
   background-color: var(--clr-background);
+
+  &.high {
+    top: 45px;
+  }
 
   &::-webkit-scrollbar {
     width: 5px;

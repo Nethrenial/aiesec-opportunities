@@ -2,8 +2,8 @@
 const props = defineProps<{
   options: string[];
   tabindex?: number;
-  label: string;
-  labelFor: string;
+  label?: string;
+  labelFor?: string;
   modelValue: string;
   isDefaultIcon?: boolean;
 }>();
@@ -57,6 +57,7 @@ function onClickLabel() {
         :for="props.labelFor"
         :class="props.modelValue.trim() !== '' ? 'focused' : ''"
         @click="onClickLabel"
+        v-if="props.label"
       >
         {{ props.label }}
       </label>
@@ -249,6 +250,10 @@ function onClickLabel() {
     width: 100%;
     background-color: var(--clr-background);
     color: var(--clr-text);
+
+    &::placeholder {
+      color: pink;
+    }
 
     &:focus {
       outline: 2px solid var(--clr-primary);

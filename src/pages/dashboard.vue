@@ -24,7 +24,7 @@ useHead({
       @click="layoutStore.adminSidebarOpen = true"
     />
     <dark-mode-toggle class="toggle" :inverted="true" />
-    <div class="tab-content">
+    <div class="tab-content relative">
       <router-view v-slot="{ Component }">
         <keep-alive>
           <component :is="Component" />

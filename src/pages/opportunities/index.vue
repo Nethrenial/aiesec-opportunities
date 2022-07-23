@@ -25,7 +25,10 @@ function getQueryObjectFromParams(query: LocationQuery) {
     q: string | undefined;
   } = {
     type: query.type ? (query.type as OGXFunctionOrMultiple) : "all",
-    country: query.country ? (query.country as QueryCountry) : "",
+    country: query.country
+      ? (((query.country as string).charAt(0).toUpperCase() +
+          query.country.slice(1)) as QueryCountry)
+      : "",
     begin: query.begin_year
       ? {
           year: Number(query.begin_year),

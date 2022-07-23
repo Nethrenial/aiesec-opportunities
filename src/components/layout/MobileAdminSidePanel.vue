@@ -45,18 +45,14 @@ async function gotToLink(path: string) {
         v-if="adminSidebarOpen"
         ref="sidePanel"
       >
-        <div class="flex">
+        <div class="w-full flex items-center p-4 gap-4">
           <img
             src="../../assets/favicon-white.png"
             alt="AIESEC Logo"
-            class="w-1/4"
+            class="w-1/4 rounded-md"
           />
-          <div class="p-4">
-            <p class="text-white font-bold text-xl">Opportunity Portal</p>
-            <p class="text-white text-lg font-light">AIESEC CC</p>
-          </div>
+          <p class="text-xl text-white">Opportunity Portal</p>
         </div>
-
         <div class="dashboard-links">
           <RouterLink
             :to="link.path"
@@ -99,7 +95,7 @@ async function gotToLink(path: string) {
   background-color: var(--clr-primary);
   grid-column: 1 / 2;
   grid-row: 1 / -1;
-  z-index: 9999px;
+  z-index: 9999;
 
   position: absolute;
   top: 0;

@@ -86,7 +86,7 @@ function cancelEditForm() {
       closeClickDimmed: false,
     }"
   >
-    <div class="delete-modal bg-[var(--clr-background)] p-4 rounded-xl">
+    <div class="delete-modal bg-[var(--clr-background)] p-4 rounded-xl z-40">
       <h3 class="text-xl font-bold">
         Do you really want to delete this opportunity?
       </h3>
@@ -119,6 +119,7 @@ function cancelEditForm() {
     <UpdateForm
       @cancel-update="cancelEditForm"
       :opportunity="props.opportunity"
+      class="z-40"
     />
   </Modal>
 </template>

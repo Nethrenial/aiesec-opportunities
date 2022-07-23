@@ -80,6 +80,7 @@ export default defineConfig({
       shortcuts: [
         {
           "flex-centered": "flex items-center justify-center",
+          "grid-centered": "grid items-center justify-center",
         },
       ],
     }),

@@ -50,36 +50,35 @@ watch(direction, (newDirection) => {
   <teleport to="body">
     <transition name="sidebar">
       <aside
-        class="mobile-side-panel shadow-light-900 dark:shadow-dark-900 shadow-md"
+        class="mobile-side-panel shadow-light-900 dark:shadow-dark-900 shadow-md gap-4"
         v-if="sidebarOpen"
         ref="sidePanel"
       >
-        <label
+        <!-- <label
           id="sidebar-dark-toggle-label"
           for="sidebar-dark-toggle"
           class="inline-block ml-1 mb-2 bg-transparent text-[var(--clr-text-primary)] font-bold"
         >
           {{ isDark ? "Switch to Light mode" : "Switch to Dark mode" }}
-        </label>
+        </label> -->
         <DarkModeToggle id="sidebar-dark-toggle" name="sidebar-dark-toggle" />
         <CountryFilter
           id="country"
           v-model="filtersStore.country"
           :countries="COUNTRIES"
-          label="Select country to filter"
-          label-for="country"
+          :high="true"
         />
-        <label
+        <!-- <label
           class="inline-block ml-1 mb-2 bg-transparent text-[var(--clr-text-primary)] font-bold"
         >
           Select start month
-        </label>
+        </label> -->
         <DatePicker
           v-model="filtersStore.begin"
           month-picker
           mode-height="240"
           auto-apply
-          placeholder="Select month"
+          placeholder="Starts from"
           :year-range="[
             new Date().getFullYear() - 1,
             new Date().getFullYear() + 15,
@@ -87,17 +86,17 @@ watch(direction, (newDirection) => {
           alt-position
           :dark="isDark"
         />
-        <label
+        <!-- <label
           class="inline-block ml-1 mb-2 bg-transparent text-[var(--clr-text-primary)] font-bold"
         >
           Select end month
-        </label>
+        </label> -->
         <DatePicker
           v-model="filtersStore.end"
           month-picker
           mode-height="240"
           auto-apply
-          placeholder="Select month"
+          placeholder="Ends in"
           :year-range="[
             new Date().getFullYear(),
             new Date().getFullYear() + 15,

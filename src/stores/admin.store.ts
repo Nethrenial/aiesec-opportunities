@@ -79,8 +79,22 @@ export const useAdminStore = defineStore("admin", {
       country: QueryCountry;
       begin: QueryPeriod | undefined;
       end: QueryPeriod | undefined;
+      q: string | undefined;
     }) {
-      this.opportunities = await getOpportunities(queryObject);
+      // console.log(queryObject.q);
+      const tempOpportunities = await getOpportunities(queryObject);
+      this.opportunities = tempOpportunities.filter((o) => {
+        if (
+          o.title
+            .toLowerCase()
+            .includes(queryObject.q ? queryObject.q.toLowerCase() : "")
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      // console.log(temp);
     },
 
     async deleteOpportunity(id: string) {

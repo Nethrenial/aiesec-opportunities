@@ -1,9 +1,12 @@
 <template>
-  <footer class="footer"></footer>
+  <footer class="footer grid place-items-center">
+    Made with 💜 by Nethsara Sandeepa for AIESEC CC
+  </footer>
 </template>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 .footer {
-  background-color: teal;
+  grid-column: 1 / -1;
+  grid-row: 3 / -1;
 }
 </style>

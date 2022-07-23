@@ -16,7 +16,12 @@
         }"
       >
         <div class="portal-links__item--info">
-          <img src="../assets/ogtv-logo.png" alt="OGV Logo" />
+          <img
+            width="400"
+            height="111"
+            src="../assets/ogtv-logo.webp"
+            alt="OGV Logo"
+          />
           <p class="text-center mt-6">
             Ambitious enough to believe you can make a positive impact in our
             world? We believe you can, through volunteering abroad towards the
@@ -36,7 +41,9 @@
               Volunteer
             </li>
           </ul>
-          <RouterLink to="/opportunities" class="ogv">Discover</RouterLink>
+          <RouterLink to="/opportunities?type=ogv" class="ogv"
+            >Discover</RouterLink
+          >
         </div>
       </div>
       <div
@@ -46,7 +53,12 @@
         }"
       >
         <div class="portal-links__item--info">
-          <img src="../assets/ogte-logo.png" alt="OGV Logo" />
+          <img
+            width="391"
+            height="120"
+            src="../assets/ogte-logo.webp"
+            alt="OGV Logo"
+          />
           <p class="text-center mt-6">
             Does a professional teaching experience in abroad excites you?
             Differentiate yourself through an international teaching internship!
@@ -77,7 +89,12 @@
         }"
       >
         <div class="portal-links__item--info">
-          <img src="../assets/ogta-logo.png" alt="OGV Logo" />
+          <img
+            width="400"
+            height="120"
+            src="../assets/ogta-logo.webp"
+            alt="OGV Logo"
+          />
           <p class="text-center mt-6">
             Searching for a dynamic, professional internship opportunity? Start
             an internship program abroad to level up yourself!
@@ -96,7 +113,7 @@
               Intern
             </li>
           </ul>
-          <RouterLink to="/opportunities?type=ogv" class="ogta"
+          <RouterLink to="/opportunities?type=ogt" class="ogta"
             >Discover</RouterLink
           >
         </div>
@@ -154,10 +171,6 @@ meta:
     border-radius: 1rem;
     position: relative;
 
-    img {
-      width: 75%;
-    }
-
     &::after {
       position: absolute;
       content: "";
@@ -194,6 +207,10 @@ meta:
       flex-direction: column;
       align-items: center;
       padding: 1rem;
+
+      img {
+        width: 200px;
+      }
     }
 
     ul {

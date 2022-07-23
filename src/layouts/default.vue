@@ -32,7 +32,7 @@ watch(direction, (newDirection) => {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 100px calc(100vh - 60px);
+  grid-template-rows: 100px calc(100vh - 100px);
   overflow: hidden;
 
   @include mq(md) {

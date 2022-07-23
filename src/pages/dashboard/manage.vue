@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import DatePicker from "@vuepic/vue-datepicker";
 import { storeToRefs } from "pinia";
 import { useAdminStore } from "@/stores";
+import { COUNTRIES } from "@/utils";
 import type { OGXFunctionOrMultiple, QueryCountry, QueryPeriod } from "@/types";
 import type { LocationQuery } from "vue-router";
+import { isDark } from "@/composables";
 
 //setting up stores
 const adminStore = useAdminStore();
@@ -65,6 +68,7 @@ adminStore.$subscribe(async (mutation, state) => {
     url += `&q=${q}`;
   }
   await router.push(url);
+  await adminStore.getOpportunities(adminStore.$state.filters);
 });
 
 // #endregion
@@ -168,11 +172,97 @@ const resultsCountIndicator = computed(() => {
   return `showing ${showingStart.value} - ${showingEnd.value} of
       ${opportunities.value.length}`;
 });
+
+const areFiltersShown = ref(false);
+function toggleFilters() {
+  console.log("Called");
+  areFiltersShown.value = !areFiltersShown.value;
+}
+
+async function filter() {
+  await adminStore.getOpportunities(adminStore.$state.filters);
+}
+
+async function reset() {
+  adminStore.$state.filters.country = "";
+  adminStore.$state.filters.begin = undefined;
+  adminStore.$state.filters.end = undefined;
+  adminStore.$state.filters.q = undefined;
+  await filter();
+}
+
+const filters = ref<HTMLDivElement>();
+const filterToggler = ref<HTMLButtonElement>();
+
+onClickOutside(filters, (e) => {
+  if (filterToggler.value !== (e as unknown as PointerEvent).target) {
+    areFiltersShown.value = false;
+  }
+});
 </script>
 
 <template>
   <h1 class="text-xl my-4" ref="manage">Manage Opportunities</h1>
-  <div class="filters"></div>
+  <button
+    class="toggle-filters flex items-center justify-between w-full p-2 bg-[var(--clr-foreground)]"
+    :class="areFiltersShown ? 'active' : ''"
+    @click="toggleFilters"
+    ref="filterToggler"
+  >
+    Show filters
+    <i-ic-outline-navigate-next
+      :class="areFiltersShown ? 'active' : ''"
+      class="pointer-events-none"
+    />
+  </button>
+  <transition name="filters">
+    <div
+      class="filters bg-[var(--clr-foreground)] rounded-4 p-2 gap-2"
+      v-if="areFiltersShown"
+      ref="filters"
+    >
+      <AdminOpportunitySearch />
+      <CountryFilter
+        id="country"
+        v-model="adminStore.filters.country"
+        :countries="COUNTRIES"
+        class="manage-country-filter"
+        :high="true"
+      />
+
+      <DatePicker
+        v-model="adminStore.filters.begin"
+        month-picker
+        mode-height="240"
+        auto-apply
+        placeholder="Starts from"
+        :year-range="[
+          new Date().getFullYear() - 1,
+          new Date().getFullYear() + 15,
+        ]"
+        alt-position
+        :dark="isDark"
+      />
+
+      <DatePicker
+        v-model="adminStore.filters.end"
+        month-picker
+        mode-height="240"
+        auto-apply
+        placeholder="Ends in"
+        :year-range="[new Date().getFullYear(), new Date().getFullYear() + 15]"
+        alt-position
+        :dark="isDark"
+      />
+      <BaseActionButton :outline="true" @click="reset"
+        ><i-carbon-reset
+      /></BaseActionButton>
+      <BaseActionButton @click="filter"
+        ><i-carbon-search-locate
+      /></BaseActionButton>
+    </div>
+  </transition>
+
   <h2
     v-if="!isLoading && !filtering && opportunities.length > 0"
     class="show-count text-sm font-bold text-[var(--clr-text-secondary)] my-4"
@@ -185,6 +275,17 @@ const resultsCountIndicator = computed(() => {
       :key="o.id"
       :opportunity="o"
     />
+  </div>
+  <div
+    v-if="!filtering && opportunities.length == 0"
+    class="h-full flex flex-col items-center justify-center mt-[200px]"
+  >
+    <p class="text-6xl text-[var(--clr-text-secondary)] text-center">
+      No results found
+    </p>
+    <small class="mt-4 text-center text-[var(--clr-text-secondary)]">
+      Try changing the country or time period, or maybe check back later.
+    </small>
   </div>
   <div
     v-if="!isLoading && !filtering && opportunities.length > 0"
@@ -205,9 +306,23 @@ const resultsCountIndicator = computed(() => {
       <i-ic-round-navigate-next />
     </button>
   </div>
+  <div v-if="isLoading" class="opportunities">
+    <SkeletonOpportunityItem v-for="index in 12" :key="index" />
+  </div>
 </template>
 
 <style lang="scss" scoped>
+html {
+  .filters {
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+  }
+}
+html.dark {
+  .filters {
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.4);
+  }
+}
+
 .opportunities {
   display: flex;
   flex-direction: column;
@@ -249,6 +364,58 @@ const resultsCountIndicator = computed(() => {
       color: #fff;
       cursor: not-allowed;
     }
+  }
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 6rem;
+  background-color: var(--clr-foreground);
+  z-index: 1;
+
+  @include mq(lg) {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  &-enter-from,
+  &-leave-to {
+    transform: translateY(-20px) scale(0.99);
+    opacity: 0;
+  }
+
+  &-enter-active,
+  &-leave-active {
+    transition: all 0.2s ease-in-out;
+  }
+
+  &-enter-to,
+  &-leave-from {
+    transform: translateY(0px) scale(1);
+    opacity: 1;
+  }
+}
+
+.toggle-filters {
+  border-radius: 1rem;
+
+  svg {
+    transition: all 0.3s ease-in-out;
+    &.active {
+      transform: rotate(90deg);
+    }
+  }
+}
+
+.manage-country-filter {
+  max-width: 100%;
+
+  @include mq(lg) {
+    max-width: 20%;
   }
 }
 </style>
