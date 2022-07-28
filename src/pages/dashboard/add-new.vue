@@ -227,9 +227,9 @@ async function seedData() {
     <BaseActionButton :loading="loading">
       {{ loading ? "Creating" : "Create" }}
     </BaseActionButton>
-    <BaseActionButton :loading="loading" type="button" @click="seedData">
+    <!-- <BaseActionButton :loading="loading" type="button" @click="seedData">
       {{ loading ? "Seeding" : "seed" }}
-    </BaseActionButton>
+    </BaseActionButton> -->
   </form>
 </template>
 
