@@ -6,19 +6,12 @@ import { collection, getFirestore } from "firebase/firestore";
 import type { OpportunityResponse } from "./types";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC5BLRv5JkTysrW2xKpgttJ1p4RX1fKoXY",
-
-  authDomain: "aiesec-opportunities.firebaseapp.com",
-
-  projectId: "aiesec-opportunities",
-
-  storageBucket: "aiesec-opportunities.appspot.com",
-
-  messagingSenderId: "178194258107",
-
-  appId: "1:178194258107:web:25167f0d3d38bc9405719e",
-
-  measurementId: "G-1QP461L60P",
+  apiKey: "AIzaSyBq9KLVB5okQVZkMlQ8ONEV6iw3CaUT-2k",
+  authDomain: "ogx-opportunity-portal.firebaseapp.com",
+  projectId: "ogx-opportunity-portal",
+  storageBucket: "ogx-opportunity-portal.appspot.com",
+  messagingSenderId: "330246889461",
+  appId: "1:330246889461:web:9de2b47483a8b226be0abc",
 };
 
 // Initialize Firebase

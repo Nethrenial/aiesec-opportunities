@@ -40,7 +40,12 @@ function cancelEditForm() {
 <template>
   <div class="opportunity-item">
     <div class="opportunity-item--image">
-      <img :src="props.opportunity.poster" alt="o.title" class="img" />
+      <img
+        :src="props.opportunity.poster"
+        alt="o.title"
+        class="img"
+        loading="lazy"
+      />
     </div>
 
     <h3 class="opportunity-item--title px-2 font-bold text-lg">

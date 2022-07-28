@@ -58,6 +58,7 @@ watch(route, async (newVal) => {
           <img
             :src="opportunity?.poster"
             :alt="`Poster for ${opportunity?.title}`"
+            loading="lazy"
           />
         </aside>
         <article class="opportunity-info shadow-md">
@@ -78,6 +79,7 @@ watch(route, async (newVal) => {
           <img
             :src="opportunity?.poster"
             :alt="`Poster for ${opportunity?.title}`"
+            loading="lazy"
           />
           <div class="flex items-center gap-4">
             <div

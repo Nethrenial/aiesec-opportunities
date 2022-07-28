@@ -28,7 +28,7 @@ const search = useDebounceFn(async () => {
   const response = await searchClient.search<SearchHit>(
     [
       {
-        indexName: "opportunity_details",
+        indexName: "Opportunity Details",
         query: searchText.value,
       },
     ],
@@ -47,8 +47,8 @@ const modalOpen = ref(false);
 const searchResults = ref<Array<SearchHit>>([]);
 
 const searchClient = algoliasearch(
-  "5U7Q81A6SV",
-  "e87501d22c22cdcc4f36c58d2b56ed82",
+  "1VJAR3UE8F",
+  "482c35e971541cdb1468638774b51879",
   {}
 );
 

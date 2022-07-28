@@ -231,7 +231,7 @@ function cancelEditForm() {
         />
       </div>
       <div class="update-form__image">
-        <img :src="poster" :alt="props.opportunity.title" />
+        <img :src="poster" :alt="props.opportunity.title" loading="lazy" />
         <BaseImageInput
           ref="baseImageInput"
           label="Change the current poster"

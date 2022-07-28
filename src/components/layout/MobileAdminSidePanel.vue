@@ -50,6 +50,7 @@ async function gotToLink(path: string) {
             src="../../assets/favicon-white.png"
             alt="AIESEC Logo"
             class="w-1/4 rounded-md"
+            loading="lazy"
           />
           <p class="text-xl text-white">Opportunity Portal</p>
         </div>

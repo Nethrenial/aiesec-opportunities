@@ -21,6 +21,7 @@
             height="111"
             src="../assets/ogtv-logo.webp"
             alt="OGV Logo"
+            loading="lazy"
           />
           <p class="text-center mt-6">
             Ambitious enough to believe you can make a positive impact in our
@@ -58,6 +59,7 @@
             height="120"
             src="../assets/ogte-logo.webp"
             alt="OGV Logo"
+            loading="lazy"
           />
           <p class="text-center mt-6">
             Does a professional teaching experience in abroad excites you?
@@ -94,6 +96,7 @@
             height="120"
             src="../assets/ogta-logo.webp"
             alt="OGV Logo"
+            loading="lazy"
           />
           <p class="text-center mt-6">
             Searching for a dynamic, professional internship opportunity? Start

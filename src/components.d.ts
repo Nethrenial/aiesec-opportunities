@@ -50,7 +50,6 @@ declare module '@vue/runtime-core' {
     IIcRoundTitle: typeof import('~icons/ic/round-title')['default']
     IMdiLightLogout: typeof import('~icons/mdi-light/logout')['default']
     IMdiTriangleSmallUp: typeof import('~icons/mdi/triangle-small-up')['default']
-    INotoConstruction: typeof import('~icons/noto/construction')['default']
     ISystemUiconsCreate: typeof import('~icons/system-uicons/create')['default']
     ITwemojiSun: typeof import('~icons/twemoji/sun')['default']
     ITypcnTick: typeof import('~icons/typcn/tick')['default']

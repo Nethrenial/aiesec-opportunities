@@ -10,7 +10,11 @@ const { sidebarOpen } = storeToRefs(layoutStore);
   <header class="default-header flex">
     <div class="brand flex items-center justify-between">
       <RouterLink to="/">
-        <img src="../../assets/Logo-Dark.svg" alt="AIESEC Logo" />
+        <img
+          src="../../assets/Logo-Dark.svg"
+          alt="AIESEC Logo"
+          loading="lazy"
+        />
       </RouterLink>
       <i-icon-park-outline-setting-config
         class="filter-toggle w-[28px] h-[28px]"
