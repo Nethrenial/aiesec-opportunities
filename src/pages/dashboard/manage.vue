@@ -90,7 +90,7 @@ const resultsCountIndicator = computed(() => {
 
 const areFiltersShown = ref(false);
 function toggleFilters() {
-  console.log("Called");
+  
   areFiltersShown.value = !areFiltersShown.value;
 }
 

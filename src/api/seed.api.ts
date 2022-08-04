@@ -56,7 +56,7 @@ export async function seedInFirebase(count: number) {
         salary,
         opportunityLink,
       } as unknown as Opportunity);
-      console.log("created", docRef.id);
+      
     } else if (ogxFunction === "OGV") {
       const docRef = await addDoc(collection(firestore, "opportunities"), {
         country,
@@ -69,7 +69,7 @@ export async function seedInFirebase(count: number) {
         category,
         opportunityLink,
       } as unknown as Opportunity);
-      console.log("created", docRef.id);
+      
     }
   });
 }
